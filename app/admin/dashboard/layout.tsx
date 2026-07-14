@@ -81,7 +81,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
           <div>
             <h1 className="font-extrabold text-blue-900 dark:text-yellow-400 text-sm uppercase tracking-wider leading-none">CASA Administration</h1>
-            <p className="text-[10px] text-green-600 font-bold mt-1 uppercase">Milimani Nakuru</p>
+            <p className="text-[10px] text-green-600 font-bold mt-1 uppercase">Ngata Nakuru</p>
           </div>
         </div>
 

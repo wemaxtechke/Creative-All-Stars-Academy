@@ -127,7 +127,7 @@ function CareerDetailsContent() {
               </span>
               <h3 className="text-2xl font-black text-blue-950">Submit Your Application</h3>
               <p className="text-gray-500 text-xs leading-relaxed">
-                Complete this rapid digital form to apply into our Milimani faculty block. Our recruitment officer will assess details and call shortlisted candidates.
+                Complete this rapid digital form to apply into our Ngata faculty block. Our recruitment officer will assess details and call shortlisted candidates.
               </p>
             </div>
 

@@ -39,7 +39,7 @@ const schoolSettings = {
   tagline: 'Empowering Every Child to Shine',
   email: 'info@creativeallstars.ac.ke',
   phone: '+254 712 345 678',
-  address: 'Milimani Area, Nakuru City, Kenya',
+  address: 'Ngata Area, Nakuru City, Kenya',
   officeHours: 'Monday - Friday: 7:30 AM - 5:00 PM | Saturday: 8:00 AM - 12:00 PM',
   facebook: 'https://facebook.com',
   twitter: 'https://twitter.com',

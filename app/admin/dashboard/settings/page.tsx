@@ -37,7 +37,7 @@ export default function AdminSettings() {
     <div className="space-y-6 max-w-4xl text-left">
       <div>
         <h1 className="text-2xl font-black text-blue-950">Global School Settings</h1>
-        <p className="text-gray-500 text-xs">Configure the school logo text, motto tagline, physical Milimani address, and email visible to public users.</p>
+        <p className="text-gray-500 text-xs">Configure the school logo text, motto tagline, physical Ngata address, and email visible to public users.</p>
       </div>
 
       <form onSubmit={handleSave} className="bg-white rounded-3xl p-6 sm:p-10 border border-gray-100 shadow-sm space-y-6 text-xs font-semibold text-gray-700">

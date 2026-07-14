@@ -15,7 +15,7 @@ export default function About() {
     {
       year: '2016',
       title: 'Academy Foundation',
-      description: 'Creative All Stars Academy co-founded in Milimani, Nakuru, starting with just 2 preschool blocks, 12 playgroup children, and 3 teachers under Mrs. Bevalyne.'
+      description: 'Creative All Stars Academy co-founded in Ngata, Nakuru, starting with just 2 preschool blocks, 12 playgroup children, and 3 teachers under Mrs. Bevalyne.'
     },
     {
       year: '2018',
@@ -118,7 +118,7 @@ export default function About() {
             </div>
           </div>
           <p className="text-gray-600 text-sm leading-relaxed italic">
-            &ldquo;At Creative All Stars Academy, we believe that education is not about filling a bucket, but about lighting a fire. Every child walking through our Milimani campus is treated as a unique star with distinct capabilities. We provide the labs, the playing fields, the heated pool, and the musical instruments to make sure they shine brightly in academics, technology, and life. We welcome you to our growing family.&rdquo;
+            &ldquo;At Creative All Stars Academy, we believe that education is not about filling a bucket, but about lighting a fire. Every child walking through our Ngata campus is treated as a unique star with distinct capabilities. We provide the labs, the playing fields, the heated pool, and the musical instruments to make sure they shine brightly in academics, technology, and life. We welcome you to our growing family.&rdquo;
           </p>
         </div>
       </section>
