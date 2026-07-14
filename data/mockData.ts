@@ -29,10 +29,10 @@ export const schoolStats: SchoolStats = {
 export const leadership: Leadership[] = [
   {
     id: 'l1',
-    name: 'Mrs. Serah Wangari',
-    role: 'School Director & Principal',
+    name: 'Mrs. Bevalyne',
+    role: 'Director',
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop',
-    bio: 'With over 20 years of experience in early childhood and primary education, Mrs. Wangari co-founded Creative All Stars Academy to deliver high-quality, creative-focused educational programs that empower every child to shine. She holds a Master’s Degree in Educational Leadership from Mount Kenya University.'
+    bio: 'With over 20 years of experience in early childhood and primary education, Mrs. Bevalyne co-founded Creative All Stars Academy to deliver high-quality, creative-focused educational programs that empower every child to shine. She holds a Master’s Degree in Educational Leadership from Mount Kenya University.'
   },
   {
     id: 'l2',
@@ -376,8 +376,8 @@ export const blogPosts: BlogPost[] = [
     featuredImage: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop',
     category: 'Learning',
     date: '2025-05-10',
-    author: 'Mrs. Serah Wangari',
-    authorRole: 'School Director & Principal',
+    author: 'Mrs. Bevalyne',
+    authorRole: 'Director',
     readTime: '5 min read',
     popular: true
   },
@@ -476,8 +476,8 @@ export const blogPosts: BlogPost[] = [
     featuredImage: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=800&auto=format&fit=crop',
     category: 'School Events',
     date: '2025-03-05',
-    author: 'Mrs. Serah Wangari',
-    authorRole: 'School Director & Principal',
+    author: 'Mrs. Bevalyne',
+    authorRole: 'Director',
     readTime: '3 min read',
     popular: false
   },
@@ -515,8 +515,8 @@ export const blogPosts: BlogPost[] = [
     featuredImage: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=800&auto=format&fit=crop',
     category: 'Campus',
     date: '2025-01-05',
-    author: 'Mrs. Serah Wangari',
-    authorRole: 'School Director & Principal',
+    author: 'Mrs. Bevalyne',
+    authorRole: 'Director',
     readTime: '3 min read',
     popular: false
   },
@@ -541,8 +541,8 @@ export const blogPosts: BlogPost[] = [
     featuredImage: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop',
     category: 'Graduation',
     date: '2024-11-28',
-    author: 'Mrs. Serah Wangari',
-    authorRole: 'School Director & Principal',
+    author: 'Mrs. Bevalyne',
+    authorRole: 'Director',
     readTime: '5 min read',
     popular: true
   }
