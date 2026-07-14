@@ -115,7 +115,7 @@ export default function Admissions() {
               <FileText className="w-5 h-5 text-blue-600" /> Printable Documentation (PDFs)
             </h3>
             <p className="text-gray-600 text-xs leading-relaxed">
-              Prefer manual submission? Download our registration bio-data PDFs or print our comprehensive uniform guidelines to bring to our Milimani campus.
+              Prefer manual submission? Download our registration bio-data PDFs or print our comprehensive uniform guidelines to bring to our Ngata campus.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               {downloads.filter(item => item.category === 'Admission' || item.category === 'Uniform').map((item) => (
@@ -316,7 +316,7 @@ export default function Admissions() {
           </div>
 
           <div className="mt-8 text-center bg-yellow-100 text-blue-950 border border-yellow-200 p-4 rounded-2xl max-w-2xl mx-auto text-xs font-semibold">
-            ⭐ <strong>Important Transport notice:</strong> School bus charges are calculated based on Nakuru residence zones (Milimani, Section 58, Kiamunyi, etc.), billed separately termly.
+            ⭐ <strong>Important Transport notice:</strong> School bus charges are calculated based on Nakuru residence zones (Ngata, Section 58, Kiamunyi, etc.), billed separately termly.
           </div>
         </div>
       </section>

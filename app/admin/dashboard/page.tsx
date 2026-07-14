@@ -38,7 +38,7 @@ export default function AdminDashboardMain() {
           </span>
           <h1 className="text-2xl sm:text-3xl font-black">Welcome Back, Mrs. Bevalyne!</h1>
           <p className="text-blue-100 text-xs sm:text-sm leading-relaxed">
-            Manage your Milimani Nakuru campus database blocks. Approve student admission credentials, review teacher candidates, publish press blogs, or respond to parental inboxes dynamically.
+            Manage your Ngata Nakuru campus database blocks. Approve student admission credentials, review teacher candidates, publish press blogs, or respond to parental inboxes dynamically.
           </p>
         </div>
       </div>

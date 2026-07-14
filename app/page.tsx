@@ -32,7 +32,7 @@ export default function Home() {
       icon: '🏊'
     },
     {
-      title: 'Nurturing & Secure Milimani Location',
+      title: 'Nurturing & Secure Ngata Location',
       description: 'Tucked away in the quiet, prestigious suburbs of Nakuru, offering a calm environment for cognitive academic concentration.',
       icon: '🏡'
     },
@@ -90,7 +90,7 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="text-blue-100 text-base sm:text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0"
             >
-              Welcome to <strong className="text-white">{settings.schoolName}</strong> in Milimani, Nakuru.
+              Welcome to <strong className="text-white">{settings.schoolName}</strong> in Ngata, Nakuru.
               We offer a holistic, creative-focused educational pathway under Kenya’s Competency-Based Curriculum.
             </motion.p>
 

@@ -32,7 +32,7 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-gray-300 text-sm mb-6 leading-relaxed">
-              We are a premier early learning and primary school in Milimani, Nakuru. Committed to providing 100% CBC education packed with digital, physical, and artistic training to make every child a star.
+              We are a premier early learning and primary school in Ngata, Nakuru. Committed to providing 100% CBC education packed with digital, physical, and artistic training to make every child a star.
             </p>
             <div className="flex items-center gap-3">
               <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="p-2 bg-blue-900/50 hover:bg-yellow-400 hover:text-blue-900 rounded-full transition-all text-gray-300" aria-label="Facebook">

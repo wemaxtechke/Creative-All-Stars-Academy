@@ -36,7 +36,7 @@ export default function Gallery() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
         <SectionHeader
           title="Nurturing Creative Stars In Action"
-          subtitle="A complete masonry layout of our Milimani Nakuru campus classrooms, sport galas, and children activities."
+          subtitle="A complete masonry layout of our Ngata Nakuru campus classrooms, sport galas, and children activities."
           badge="CAMPUS LIFE SHOTS"
         />
 
@@ -157,7 +157,7 @@ export default function Gallery() {
                     {modalImage.title}
                   </h3>
                   <p className="text-gray-500 text-xs leading-relaxed">
-                    Captured live at our Milimani campus during the {modalImage.category} session. At Creative All Stars, visual representations are kept active to show parents of current stars their progress daily.
+                    Captured live at our Ngata campus during the {modalImage.category} session. At Creative All Stars, visual representations are kept active to show parents of current stars their progress daily.
                   </p>
                   <div className="border-t border-gray-50 pt-3 text-[10px] font-bold text-gray-400">
                     DATE TAKEN: {modalImage.date}

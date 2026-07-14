@@ -18,7 +18,7 @@ export default function BlogDetails() {
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState([
     { name: 'Kiprono Langat', text: 'This was an incredibly well-articulated read! The practical agricultural models explain why my daughter is suddenly eager to help in our garden.', date: '2025-05-12' },
-    { name: 'Grace Njoroge', text: 'Truly stellar, co-founding this academy was a huge blessing for the Milimani residential area.', date: '2025-05-11' }
+    { name: 'Grace Njoroge', text: 'Truly stellar, co-founding this academy was a huge blessing for the Ngata residential area.', date: '2025-05-11' }
   ]);
 
   if (!post) {

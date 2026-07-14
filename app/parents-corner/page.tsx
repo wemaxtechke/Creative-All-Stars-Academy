@@ -88,7 +88,7 @@ export default function ParentsCorner() {
               <ShieldCheck className="w-6 h-6 text-blue-600" /> Non-Negotiable School Rules
             </h3>
             <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
-              To support an elite discipline block at our Milimani campus, parents must guide children on these core code rules daily:
+              To support an elite discipline block at our Ngata campus, parents must guide children on these core code rules daily:
             </p>
             <div className="space-y-4 pt-2">
               {rules.map((rule, idx) => (
