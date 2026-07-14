@@ -36,7 +36,7 @@ export default function AdminDashboardMain() {
           <span className="px-3 py-1 bg-yellow-400 text-blue-950 font-black text-[10px] uppercase tracking-wider rounded-full shadow-md">
             Management Panel
           </span>
-          <h1 className="text-2xl sm:text-3xl font-black">Welcome Back, Mrs. Wangari!</h1>
+          <h1 className="text-2xl sm:text-3xl font-black">Welcome Back, Mrs. Bevalyne!</h1>
           <p className="text-blue-100 text-xs sm:text-sm leading-relaxed">
             Manage your Milimani Nakuru campus database blocks. Approve student admission credentials, review teacher candidates, publish press blogs, or respond to parental inboxes dynamically.
           </p>

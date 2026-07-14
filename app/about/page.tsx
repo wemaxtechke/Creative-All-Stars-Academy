@@ -15,7 +15,7 @@ export default function About() {
     {
       year: '2016',
       title: 'Academy Foundation',
-      description: 'Creative All Stars Academy co-founded in Milimani, Nakuru, starting with just 2 preschool blocks, 12 playgroup children, and 3 teachers under Mrs. Serah Wangari.'
+      description: 'Creative All Stars Academy co-founded in Milimani, Nakuru, starting with just 2 preschool blocks, 12 playgroup children, and 3 teachers under Mrs. Bevalyne.'
     },
     {
       year: '2018',
@@ -108,13 +108,13 @@ export default function About() {
             <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400 flex-shrink-0">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop"
-                alt="Mrs. Serah Wangari"
+                alt="Mrs. Bevalyne"
                 className="w-full h-full object-cover"
               />
             </div>
             <div>
-              <h3 className="font-extrabold text-lg text-blue-950">Mrs. Serah Wangari</h3>
-              <p className="text-xs text-blue-600 font-bold">School Director & Principal</p>
+              <h3 className="font-extrabold text-lg text-blue-950">Mrs. Bevalyne</h3>
+              <p className="text-xs text-blue-600 font-bold">School Director</p>
             </div>
           </div>
           <p className="text-gray-600 text-sm leading-relaxed italic">

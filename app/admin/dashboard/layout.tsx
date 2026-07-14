@@ -245,8 +245,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 AD
               </div>
               <div className="hidden md:block text-left text-xs font-bold leading-tight">
-                <p className="text-blue-950 dark:text-white font-extrabold">Principal Admin</p>
-                <p className="text-gray-400 text-[10px] mt-0.5">Mrs. Serah Wangari</p>
+                <p className="text-blue-950 dark:text-white font-extrabold">Director Admin</p>
+                <p className="text-gray-400 text-[10px] mt-0.5">Mrs. Bevalyne</p>
               </div>
             </div>
           </div>

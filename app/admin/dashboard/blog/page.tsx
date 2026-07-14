@@ -29,8 +29,8 @@ export default function AdminBlog() {
       featuredImage,
       category,
       date: new Date().toISOString().split('T')[0],
-      author: 'Mrs. Serah Wangari',
-      authorRole: 'School Director & Principal',
+      author: 'Mrs. Bevalyne',
+      authorRole: 'Director',
       readTime: '5 min read',
       popular: false
     });
