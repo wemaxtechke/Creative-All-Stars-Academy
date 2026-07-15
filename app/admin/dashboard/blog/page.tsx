@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
-import { Search, Plus, Trash, Edit, Eye } from 'lucide-react';
+import { Search, Plus, Trash, Upload } from 'lucide-react';
 
 export default function AdminBlog() {
-  const { blogPosts, addBlogPost, updateBlogPost, deleteBlogPost } = useApp();
+  const { blogPosts, addBlogPost, deleteBlogPost, uploadMedia } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
   const [addMode, setAddMode] = useState(false);
 
@@ -14,30 +14,31 @@ export default function AdminBlog() {
   const [category, setCategory] = useState('Learning');
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
-  const [featuredImage, setFeaturedImage] = useState('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=800&auto=format&fit=crop');
+  const [featuredImage, setFeaturedImage] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleAddPost = (e: React.FormEvent) => {
+  const handleAddPost = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !summary || !content) {
-      alert('Please fill in all requested fields correctly.');
+    if (!title || !summary || !content || !featuredImage) {
+      setError('Complete the article and choose a featured image.');
       return;
     }
-    addBlogPost({
-      title,
-      summary,
-      content,
-      featuredImage,
-      category,
-      date: new Date().toISOString().split('T')[0],
-      author: 'Mrs. Bevalyne',
-      authorRole: 'Director',
-      readTime: '5 min read',
-      popular: false
-    });
-    setTitle('');
-    setSummary('');
-    setContent('');
-    setAddMode(false);
+    setSaving(true);
+    setError('');
+    let uploadedAssetId = '';
+    try {
+      const asset = await uploadMedia(featuredImage, title);
+      uploadedAssetId = asset.id;
+      await addBlogPost({ title, summary, content, featuredImage: asset.url, mediaId: asset.id, category,
+        date: new Date().toISOString().split('T')[0], author: 'Mrs. Bevalyne', authorRole: 'Director', readTime: '5 min read', popular: false });
+      setTitle(''); setSummary(''); setContent(''); setFeaturedImage(null); setAddMode(false);
+    } catch (saveError) {
+      if (uploadedAssetId) await fetch(`/api/admin/media/${encodeURIComponent(uploadedAssetId)}`, { method: 'DELETE', credentials: 'same-origin' });
+      setError(saveError instanceof Error ? saveError.message : 'The article could not be published.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const filteredPosts = blogPosts.filter(b =>
@@ -63,6 +64,7 @@ export default function AdminBlog() {
 
       {addMode && (
         <form onSubmit={handleAddPost} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm space-y-4 text-xs font-semibold text-gray-700">
+          {error && <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">{error}</p>}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="text-gray-600">Article Title Block *</label>
@@ -88,8 +90,8 @@ export default function AdminBlog() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-gray-600">Featured Image URL (High quality placeholder) *</label>
-            <input type="text" value={featuredImage} onChange={(e) => setFeaturedImage(e.target.value)} className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium" required />
+            <label className="text-gray-600">Featured image *</label>
+            <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{featuredImage ? featuredImage.name : 'Choose an image (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" required onChange={(event) => setFeaturedImage(event.target.files?.[0] ?? null)} /></label>
           </div>
 
           <div className="space-y-1">
@@ -97,7 +99,7 @@ export default function AdminBlog() {
             <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={8} placeholder="<p>Write your detailed multi-paragraph text here...</p>" className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-semibold text-gray-700" required />
           </div>
 
-          <button type="submit" className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-extrabold rounded-xl transition-colors">Publish Article Live</button>
+          <button type="submit" disabled={saving} className="px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-extrabold rounded-xl transition-colors">{saving ? 'Uploadingâ€¦' : 'Publish Article Live'}</button>
         </form>
       )}
 

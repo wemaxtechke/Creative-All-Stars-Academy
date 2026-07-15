@@ -62,11 +62,9 @@ export default function AdminApplications() {
                   <td className="p-4">{app.dateApplied}</td>
                   <td className="p-4">
                     <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        alert('Opening candidate CV / TSC certificate PDF file...');
-                      }}
+                      href={app.resumeUrl}
+                      target="_blank"
+                      rel="noreferrer"
                       className="inline-flex items-center gap-1 text-blue-600 hover:underline"
                     >
                       <FileText className="w-4 h-4 text-blue-500" /> View CV

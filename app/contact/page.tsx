@@ -162,7 +162,6 @@ export default function Contact() {
                 <p className="text-gray-600 text-xs leading-relaxed">
                   Our school team will review your enquiry and get back to you using the contact details provided.
                 </p>
-                <TurnstileWidget onToken={setTurnstileToken} />
                 <button
                   onClick={() => setSubmitted(false)}
                   className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl transition-colors"
@@ -240,9 +239,12 @@ export default function Contact() {
                   />
                 </div>
 
+                <TurnstileWidget onToken={setTurnstileToken} />
+
                 <button
                   type="submit"
-                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md transition-all flex items-center justify-center gap-1.5"
+                  disabled={process.env.NODE_ENV === 'production' && !turnstileToken}
+                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400 text-white font-extrabold text-sm rounded-2xl shadow-md transition-all flex items-center justify-center gap-1.5"
                 >
                   <Send className="w-4 h-4" />
                   Submit Contact Form

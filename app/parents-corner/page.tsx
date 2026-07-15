@@ -56,11 +56,9 @@ export default function ParentsCorner() {
               <div className="border-t border-gray-50 pt-4 mt-6 flex items-center justify-between">
                 <span className="text-[10px] text-gray-400 font-bold uppercase">{item.fileType} • {item.fileSize}</span>
                 <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert(`Starting download for: ${item.title}`);
-                  }}
+                  href={item.url}
+                  target="_blank"
+                  rel="noreferrer"
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl flex items-center gap-1.5 transition-colors"
                 >
                   <Download className="w-3.5 h-3.5" /> Download File

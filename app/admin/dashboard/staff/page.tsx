@@ -2,38 +2,41 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
-import { Plus, Trash, Mail } from 'lucide-react';
+import { Plus, Trash, Mail, Upload } from 'lucide-react';
 
 export default function AdminStaff() {
-  const { teachers, addTeacher, deleteTeacher } = useApp();
+  const { teachers, addTeacher, deleteTeacher, uploadMedia } = useApp();
   const [addMode, setAddMode] = useState(false);
 
   // Form states
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
   const [email, setEmail] = useState('');
-  const [image, setImage] = useState('https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop');
+  const [image, setImage] = useState<File | null>(null);
   const [bio, setBio] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleAddTeacher = (e: React.FormEvent) => {
+  const handleAddTeacher = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !role || !email) {
-      alert('Please fill in required fields.');
+    if (!name || !role || !email || !image) {
+      setError('Complete the required details and choose a staff photo.');
       return;
     }
-    addTeacher({
-      name,
-      role,
-      email,
-      image,
-      bio,
-      subjects: ['CBC Activities']
-    });
-    setName('');
-    setRole('');
-    setEmail('');
-    setBio('');
-    setAddMode(false);
+    setSaving(true);
+    setError('');
+    let uploadedAssetId = '';
+    try {
+      const asset = await uploadMedia(image, name);
+      uploadedAssetId = asset.id;
+      await addTeacher({ name, role, email, image: asset.url, mediaId: asset.id, bio, subjects: ['CBC Activities'] });
+      setName(''); setRole(''); setEmail(''); setImage(null); setBio(''); setAddMode(false);
+    } catch (saveError) {
+      if (uploadedAssetId) await fetch(`/api/admin/media/${encodeURIComponent(uploadedAssetId)}`, { method: 'DELETE', credentials: 'same-origin' });
+      setError(saveError instanceof Error ? saveError.message : 'The staff profile could not be published.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -54,6 +57,7 @@ export default function AdminStaff() {
 
       {addMode && (
         <form onSubmit={handleAddTeacher} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm space-y-4 text-xs font-semibold text-gray-700">
+          {error && <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">{error}</p>}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="space-y-1">
               <label className="text-gray-600">Full Name *</label>
@@ -70,8 +74,8 @@ export default function AdminStaff() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-gray-600">Faculty Avatar URL *</label>
-            <input type="text" value={image} onChange={(e) => setImage(e.target.value)} className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium" required />
+            <label className="text-gray-600">Staff photograph *</label>
+            <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{image ? image.name : 'Choose an image (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" required onChange={(event) => setImage(event.target.files?.[0] ?? null)} /></label>
           </div>
 
           <div className="space-y-1">
@@ -79,7 +83,7 @@ export default function AdminStaff() {
             <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} placeholder="Specialized qualifications, certifications, or pediatric school experiences..." className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-semibold text-gray-700" />
           </div>
 
-          <button type="submit" className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-extrabold rounded-xl transition-colors">Onboard Faculty Member</button>
+          <button type="submit" disabled={saving} className="px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-extrabold rounded-xl transition-colors">{saving ? 'Uploadingâ€¦' : 'Publish Faculty Member'}</button>
         </form>
       )}
 

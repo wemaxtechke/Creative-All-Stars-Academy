@@ -16,7 +16,7 @@ export default async function AdminLogin({ searchParams }: { searchParams: Promi
         <ShieldCheck className="h-4 w-4" /> Protected website workspace
       </div>
       <h1 className="mt-5 text-3xl font-black tracking-tight text-blue-950">Website CMS access</h1>
-      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600">The dashboard is protected by Creative All Stars Academy's approved staff email list and Cloudflare Access.</p>
+      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600">The dashboard is protected by Creative All Stars Academy&apos;s approved staff email list and Cloudflare Access.</p>
       {unauthorized && <p className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">Your account is not authorized for this website workspace. Ask the school administrator to add your email.</p>}
       <Link href="/admin/dashboard" className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0739a6] px-5 py-4 text-sm font-extrabold text-white transition hover:bg-blue-800">
         <LockKeyhole className="h-4 w-4" /> Continue securely <ArrowRight className="h-4 w-4" />

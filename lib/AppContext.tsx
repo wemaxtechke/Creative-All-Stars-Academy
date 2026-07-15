@@ -1,21 +1,30 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import type {
-  Student, Teacher, BlogPost, SchoolEvent, GalleryImage, Job, JobApplication,
+  Teacher, BlogPost, SchoolEvent, GalleryImage, Job, JobApplication,
   Testimonial, DownloadItem, FAQ, AdmissionApplication, ContactMessage, SchoolClass,
 } from '@/types';
+import { schoolClasses as initialSchoolClasses, faqs as initialFaqs } from '@/data/mockData';
 import {
-  mockStudents,
-  schoolClasses as initialSchoolClasses,
-  faqs as initialFaqs,
-} from '@/data/mockData';
-import { defaultPublicContent, defaultSettings, type ContentCollection } from '@/lib/site-content';
+  defaultPublicContent,
+  type ContentCollection,
+  type PublicContent,
+  type SchoolSettings,
+} from '@/lib/site-content';
 
-type SchoolSettings = typeof defaultSettings;
+export type UploadedMedia = {
+  id: string;
+  key: string;
+  url: string;
+  filename: string;
+  contentType: string;
+  sizeBytes: number;
+  altText: string;
+};
 
 interface AppContextType {
-  students: Student[];
   teachers: Teacher[];
   blogPosts: BlogPost[];
   schoolEvents: SchoolEvent[];
@@ -29,9 +38,6 @@ interface AppContextType {
   classes: SchoolClass[];
   faqs: FAQ[];
   settings: SchoolSettings;
-  addStudent: (value: Omit<Student, 'id'>) => void;
-  updateStudent: (id: string, value: Partial<Student>) => void;
-  deleteStudent: (id: string) => void;
   addTeacher: (value: Omit<Teacher, 'id'>) => Promise<void>;
   updateTeacher: (id: string, value: Partial<Teacher>) => Promise<void>;
   deleteTeacher: (id: string) => Promise<void>;
@@ -46,7 +52,7 @@ interface AppContextType {
   addJob: (value: Omit<Job, 'id'>) => Promise<void>;
   updateJob: (id: string, value: Partial<Job>) => Promise<void>;
   deleteJob: (id: string) => Promise<void>;
-  addJobApplication: (value: Omit<JobApplication, 'id' | 'status' | 'dateApplied'> & { turnstileToken?: string }) => Promise<void>;
+  addJobApplication: (value: Omit<JobApplication, 'id' | 'status' | 'dateApplied' | 'resumeUrl'> & { turnstileToken?: string; resumeFile: File }) => Promise<void>;
   updateJobApplicationStatus: (id: string, status: JobApplication['status']) => Promise<void>;
   addTestimonial: (value: Omit<Testimonial, 'id'>) => Promise<void>;
   deleteTestimonial: (id: string) => Promise<void>;
@@ -57,6 +63,7 @@ interface AppContextType {
   addContactMessage: (value: Omit<ContactMessage, 'id' | 'status' | 'dateSubmitted'> & { turnstileToken?: string }) => Promise<void>;
   updateMessageStatus: (id: string, status: ContactMessage['status']) => Promise<void>;
   updateSettings: (value: SchoolSettings) => Promise<void>;
+  uploadMedia: (file: File, altText?: string) => Promise<UploadedMedia>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -68,27 +75,29 @@ async function jsonRequest<T>(url: string, init?: RequestInit): Promise<T> {
   return result;
 }
 
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Student management deliberately remains outside the production website CMS.
-  const [students, setStudents] = useState<Student[]>(mockStudents);
-  const [teachers, setTeachers] = useState<Teacher[]>(defaultPublicContent.teachers);
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(defaultPublicContent.blogPosts);
-  const [schoolEvents, setSchoolEvents] = useState<SchoolEvent[]>(defaultPublicContent.schoolEvents);
-  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(defaultPublicContent.galleryImages);
-  const [jobs, setJobs] = useState<Job[]>(defaultPublicContent.jobs);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(defaultPublicContent.testimonials);
-  const [downloads, setDownloads] = useState<DownloadItem[]>(defaultPublicContent.downloads);
+export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?: PublicContent }> = ({
+  children,
+  initialContent = defaultPublicContent,
+}) => {
+  const pathname = usePathname();
+  const [teachers, setTeachers] = useState<Teacher[]>(initialContent.teachers);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialContent.blogPosts);
+  const [schoolEvents, setSchoolEvents] = useState<SchoolEvent[]>(initialContent.schoolEvents);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(initialContent.galleryImages);
+  const [jobs, setJobs] = useState<Job[]>(initialContent.jobs);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(initialContent.testimonials);
+  const [downloads, setDownloads] = useState<DownloadItem[]>(initialContent.downloads);
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
   const [admissions, setAdmissions] = useState<AdmissionApplication[]>([]);
   const [messages, setMessages] = useState<ContactMessage[]>([]);
-  const [settings, setSettings] = useState<SchoolSettings>(defaultSettings);
+  const [settings, setSettings] = useState<SchoolSettings>(initialContent.settings);
   const [classes] = useState<SchoolClass[]>(initialSchoolClasses);
   const [faqs] = useState<FAQ[]>(initialFaqs);
 
   useEffect(() => {
     let active = true;
-    const admin = window.location.pathname.startsWith('/admin/dashboard');
-    jsonRequest<Record<string, unknown>>(admin ? '/api/admin/state' : '/api/content')
+    if (!pathname.startsWith('/admin/dashboard')) return () => { active = false; };
+    jsonRequest<Record<string, unknown>>('/api/admin/state')
       .then((data) => {
         if (!active) return;
         if (Array.isArray(data.teachers)) setTeachers(data.teachers as Teacher[]);
@@ -105,7 +114,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       })
       .catch((error) => console.error('Unable to load live website content', error));
     return () => { active = false; };
-  }, []);
+  }, [pathname]);
 
   async function createRecord<T extends { id: string }>(collection: ContentCollection, value: Omit<T, 'id'>, setter: React.Dispatch<React.SetStateAction<T[]>>) {
     const { record } = await jsonRequest<{ record: T }>(`/api/admin/content/${collection}`, {
@@ -134,10 +143,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setter((current) => current.map((item) => item.id === id ? { ...item, status } : item));
   }
 
-  const addStudent = (value: Omit<Student, 'id'>) => setStudents((current) => [{ ...value, id: crypto.randomUUID() }, ...current]);
-  const updateStudent = (id: string, value: Partial<Student>) => setStudents((current) => current.map((item) => item.id === id ? { ...item, ...value } : item));
-  const deleteStudent = (id: string) => setStudents((current) => current.filter((item) => item.id !== id));
-
   const addTeacher = (value: Omit<Teacher, 'id'>) => createRecord<Teacher>('teachers', value, setTeachers);
   const updateTeacher = (id: string, value: Partial<Teacher>) => updateRecord('teachers', id, value, setTeachers);
   const deleteTeacher = (id: string) => deleteRecord('teachers', id, setTeachers);
@@ -157,9 +162,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const addDownload = (value: Omit<DownloadItem, 'id'>) => createRecord<DownloadItem>('downloads', value, setDownloads);
   const deleteDownload = (id: string) => deleteRecord('downloads', id, setDownloads);
 
-  const addJobApplication = async (value: Omit<JobApplication, 'id' | 'status' | 'dateApplied'> & { turnstileToken?: string }) => {
+  const addJobApplication = async (value: Omit<JobApplication, 'id' | 'status' | 'dateApplied' | 'resumeUrl'> & { turnstileToken?: string; resumeFile: File }) => {
+    const form = new FormData();
+    form.set('jobId', value.jobId);
+    form.set('jobTitle', value.jobTitle);
+    form.set('applicantName', value.applicantName);
+    form.set('email', value.email);
+    form.set('phone', value.phone);
+    form.set('turnstileToken', value.turnstileToken ?? '');
+    form.set('resume', value.resumeFile);
     const { record } = await jsonRequest<{ record: JobApplication }>('/api/forms/careers', {
-      method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(value),
+      method: 'POST', body: form,
     });
     setJobApplications((current) => [record, ...current]);
   };
@@ -184,15 +197,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
     setSettings(record);
   };
+  const uploadMedia = async (file: File, altText = '') => {
+    const form = new FormData();
+    form.set('file', file);
+    form.set('altText', altText);
+    const { asset } = await jsonRequest<{ asset: UploadedMedia }>('/api/admin/media', {
+      method: 'POST',
+      body: form,
+    });
+    return asset;
+  };
 
   return <AppContext.Provider value={{
-    students, teachers, blogPosts, schoolEvents, galleryImages, jobs, jobApplications,
+    teachers, blogPosts, schoolEvents, galleryImages, jobs, jobApplications,
     testimonials, downloads, admissions, messages, classes, faqs, settings,
-    addStudent, updateStudent, deleteStudent, addTeacher, updateTeacher, deleteTeacher,
+    addTeacher, updateTeacher, deleteTeacher,
     addBlogPost, updateBlogPost, deleteBlogPost, addSchoolEvent, updateSchoolEvent, deleteSchoolEvent,
     addGalleryImage, deleteGalleryImage, addJob, updateJob, deleteJob, addJobApplication,
     updateJobApplicationStatus, addTestimonial, deleteTestimonial, addDownload, deleteDownload,
-    addAdmissionApplication, updateAdmissionStatus, addContactMessage, updateMessageStatus, updateSettings,
+    addAdmissionApplication, updateAdmissionStatus, addContactMessage, updateMessageStatus, updateSettings, uploadMedia,
   }}>{children}</AppContext.Provider>;
 };
 

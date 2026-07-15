@@ -7,6 +7,15 @@ import {
   testimonials,
   downloads,
 } from "@/data/mockData";
+import type {
+  BlogPost,
+  DownloadItem,
+  GalleryImage,
+  Job,
+  SchoolEvent,
+  Teacher,
+  Testimonial,
+} from "@/types";
 
 export const defaultSettings = {
   schoolName: "Creative All Stars Academy",
@@ -23,7 +32,20 @@ export const defaultSettings = {
   theme: "light" as "light" | "dark",
 };
 
-export const defaultPublicContent = {
+export type SchoolSettings = typeof defaultSettings;
+
+export type PublicContent = {
+  teachers: Teacher[];
+  blogPosts: BlogPost[];
+  schoolEvents: SchoolEvent[];
+  galleryImages: GalleryImage[];
+  jobs: Job[];
+  testimonials: Testimonial[];
+  downloads: DownloadItem[];
+  settings: SchoolSettings;
+};
+
+export const defaultPublicContent: PublicContent = {
   teachers,
   blogPosts,
   schoolEvents,

@@ -19,7 +19,10 @@ CREATE TABLE IF NOT EXISTS website_leads (
   id TEXT PRIMARY KEY,
   type TEXT NOT NULL CHECK (type IN ('contact', 'admission', 'job_application')),
   payload TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'new',
+  status TEXT NOT NULL DEFAULT 'Pending' CHECK (status IN (
+    'Unread', 'Read', 'Archived', 'Pending', 'Approved', 'Rejected',
+    'Shortlisted', 'Hired'
+  )),
   submitted_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
   source_ip_hash TEXT,
@@ -28,6 +31,20 @@ CREATE TABLE IF NOT EXISTS website_leads (
 
 CREATE INDEX IF NOT EXISTS idx_leads_inbox
   ON website_leads(type, status, submitted_at DESC);
+
+CREATE TABLE IF NOT EXISTS lead_documents (
+  id TEXT PRIMARY KEY,
+  lead_id TEXT NOT NULL UNIQUE,
+  r2_key TEXT NOT NULL UNIQUE,
+  filename TEXT NOT NULL,
+  content_type TEXT NOT NULL CHECK (content_type = 'application/pdf'),
+  size_bytes INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (lead_id) REFERENCES website_leads(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_lead_documents_lead
+  ON lead_documents(lead_id);
 
 CREATE TABLE IF NOT EXISTS media_assets (
   id TEXT PRIMARY KEY,

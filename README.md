@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Creative All Stars Academy website
 
-## Getting Started
+Production-oriented school website and content administration workspace for Creative All Stars Academy, Nakuru. This is a public-facing website CMS, not a student information or school-management system.
 
-First, run the development server:
+## Architecture
 
-```bash
+- Next.js App Router, React and TypeScript
+- OpenNext deployed as a Cloudflare Worker
+- Cloudflare D1 for public content, enquiries, job applications and audit records
+- Cloudflare R2 for gallery images, public PDFs and private candidate CVs
+- Cloudflare Access for `/admin/dashboard/*` and all administrator APIs
+- Cloudflare Turnstile on public contact, admission and career forms
+
+Public CMS content is loaded during the server render so page HTML, metadata and the sitemap use the same current D1 records. Candidate documents use private R2 keys and are only streamed through an authenticated administrator route.
+
+## Local development
+
+Requires Node.js 22.13 or newer.
+
+```powershell
+npm install
+Copy-Item .dev.vars.example .dev.vars
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The regular Next.js development server uses safe fallback content when Cloudflare bindings are unavailable. To test D1, R2 and the Worker runtime locally:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```powershell
+npm run preview
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Apply local database migrations before testing forms or the admin workspace:
 
-## Learn More
+```powershell
+npx wrangler d1 migrations apply creative-all-stars-cms --local
+```
 
-To learn more about Next.js, take a look at the following resources:
+Local administrator bypass is permitted only outside production and only for the email in `LOCAL_ADMIN_EMAIL`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Required configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Copy `.dev.vars.example` for local work. Never commit `.dev.vars` or production secrets.
 
-## Deploy on Vercel
+- `ADMIN_EMAILS`: comma-separated allowlist of administrator email addresses
+- `LOCAL_ADMIN_EMAIL`: local-only administrator identity
+- `ACCESS_TEAM_DOMAIN`: Cloudflare Access team URL
+- `ACCESS_AUD`: Access application audience tag
+- `TURNSTILE_SECRET`: Turnstile secret, set with `wrangler secret put`
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: public Turnstile widget key
+- `NEXT_PUBLIC_SITE_URL`: canonical website origin
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`NEXT_PUBLIC_*` values are embedded by Next.js at build time. Supply them to the CI/build environment as well as the Worker configuration.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Cloudflare setup
+
+The Wrangler configuration declares separate production and staging D1/R2 resources. Resource IDs are intentionally omitted so Wrangler can provision or resolve them for each account/environment.
+
+1. Create a Turnstile widget for the production and staging hostnames.
+2. Configure a Cloudflare Access self-hosted application protecting `/admin/dashboard/*` and `/api/admin/*`.
+3. Set the Access domain, audience and administrator allowlist.
+4. Set the Turnstile secret for each environment.
+5. Apply D1 migrations remotely.
+6. Build and deploy.
+
+```powershell
+npx wrangler secret put TURNSTILE_SECRET
+npx wrangler d1 migrations apply creative-all-stars-cms --remote
+npm run deploy
+```
+
+For staging, add `--env staging` to Wrangler commands and supply the staging public URL and Turnstile key during the build.
+
+## Quality checks
+
+```powershell
+npm run check
+```
+
+This runs linting, TypeScript checks, architecture tests and the portable Next.js production build. Use `npm run cf:typegen` after changing Wrangler bindings.
+
+Run the final Cloudflare Worker packaging step in Linux, CI or WSL because OpenNext requires filesystem symlinks that standard Windows sessions may reject:
+
+```powershell
+npm run check:cloudflare
+```
+
+## Operational boundaries
+
+The dashboard manages website stories, events, staff profiles, gallery media, downloads, vacancies and incoming enquiries. It deliberately does not manage learners, attendance, grades, fees, payroll or academic records.

@@ -2,34 +2,44 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
-import { Plus, Trash, Search, PlusCircle, Paperclip } from 'lucide-react';
+import { Trash, Search, PlusCircle, Paperclip } from 'lucide-react';
 import type { GalleryImage } from '@/types';
 
 export default function AdminGallery() {
-  const { galleryImages, addGalleryImage, deleteGalleryImage } = useApp();
+  const { galleryImages, addGalleryImage, deleteGalleryImage, uploadMedia } = useApp();
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   // Form states
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<'School Events' | 'Sports' | 'Graduation' | 'Trips' | 'Learning' | 'Campus'>('Learning');
-  const [url, setUrl] = useState('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=600&auto=format&fit=crop');
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   const [addMode, setAddMode] = useState(false);
 
-  const handleUpload = (e: React.FormEvent) => {
+  const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !url) {
-      alert('Please complete photo details correctly.');
+    if (!title || !photo) {
+      setError('Add a title and choose an image to upload.');
       return;
     }
-    addGalleryImage({
-      title,
-      category,
-      url,
-      date: new Date().toISOString().split('T')[0]
-    });
-    setTitle('');
-    setAddMode(false);
+    setSaving(true);
+    setError('');
+    let uploadedAssetId = '';
+    try {
+      const asset = await uploadMedia(photo, title);
+      uploadedAssetId = asset.id;
+      await addGalleryImage({ title, category, url: asset.url, mediaId: asset.id, date: new Date().toISOString().split('T')[0] });
+      setTitle('');
+      setPhoto(null);
+      setAddMode(false);
+    } catch (uploadError) {
+      if (uploadedAssetId) await fetch(`/api/admin/media/${encodeURIComponent(uploadedAssetId)}`, { method: 'DELETE', credentials: 'same-origin' });
+      setError(uploadError instanceof Error ? uploadError.message : 'The photo could not be uploaded.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const categories = ['All', 'School Events', 'Sports', 'Graduation', 'Trips', 'Learning', 'Campus'];
@@ -56,6 +66,7 @@ export default function AdminGallery() {
 
       {addMode && (
         <form onSubmit={handleUpload} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold text-gray-700">
+          {error && <p className="sm:col-span-2 rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">{error}</p>}
           <div className="space-y-1">
             <label className="text-gray-600">Media Photo Title *</label>
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Science congress chemistry setup" className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium" required />
@@ -77,11 +88,15 @@ export default function AdminGallery() {
             </select>
           </div>
           <div className="space-y-1 sm:col-span-2">
-            <label className="text-gray-600">High Resolution Image URL *</label>
-            <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium" required />
+            <label className="text-gray-600">High resolution image *</label>
+            <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4">
+              <Paperclip className="h-5 w-5 text-gray-400" />
+              <span>{photo ? photo.name : 'Choose JPG, PNG, WebP or AVIF (max 8MB)'}</span>
+              <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" required onChange={(event) => setPhoto(event.target.files?.[0] ?? null)} />
+            </label>
           </div>
           <div className="sm:col-span-2 pt-4">
-            <button type="submit" className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-extrabold rounded-xl transition-colors">Publish Media Asset</button>
+            <button type="submit" disabled={saving} className="px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-extrabold rounded-xl transition-colors">{saving ? 'Uploadingâ€¦' : 'Publish Media Asset'}</button>
           </div>
         </form>
       )}

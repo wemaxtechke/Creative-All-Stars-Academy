@@ -4,6 +4,8 @@ import './globals.css';
 import { AppProvider } from '@/lib/AppContext';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { getPublicContent } from '@/lib/db/content';
+import { defaultPublicContent } from '@/lib/site-content';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-heading', display: 'swap' });
@@ -44,10 +46,16 @@ const schoolSchema = {
   email: 'info@creativeallstars.ac.ke', telephone: '+254712345678',
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export const dynamic = 'force-dynamic';
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const initialContent = await getPublicContent().catch((error) => {
+    console.error('Unable to load website content during server rendering', error);
+    return defaultPublicContent;
+  });
   return <html lang="en-KE">
     <body className={`${inter.variable} ${manrope.variable} antialiased bg-slate-50 text-slate-900`}>
-      <AppProvider><div className="flex min-h-screen flex-col"><Navbar/><main className="flex-grow">{children}</main><Footer/></div></AppProvider>
+      <AppProvider initialContent={initialContent}><div className="flex min-h-screen flex-col"><Navbar/><main className="flex-grow">{children}</main><Footer/></div></AppProvider>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolSchema) }} />
     </body>
   </html>;

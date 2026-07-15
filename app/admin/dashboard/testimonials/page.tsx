@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
-import { Plus, Trash, Star } from 'lucide-react';
+import { Plus, Trash, Star, Upload } from 'lucide-react';
 
 export default function AdminTestimonials() {
-  const { testimonials, addTestimonial, deleteTestimonial } = useApp();
+  const { testimonials, addTestimonial, deleteTestimonial, uploadMedia } = useApp();
   const [addMode, setAddMode] = useState(false);
 
   // Form states
@@ -13,23 +13,30 @@ export default function AdminTestimonials() {
   const [role, setRole] = useState<'Parent' | 'Alumni' | 'Student'>('Parent');
   const [content, setContent] = useState('');
   const [rating, setRating] = useState(5);
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleAddTestimonial = (e: React.FormEvent) => {
+  const handleAddTestimonial = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !content) {
-      alert('Please fill in required fields correctly.');
+    if (!name || !content || !avatar) {
+      setError('Complete the review and choose a profile photograph.');
       return;
     }
-    addTestimonial({
-      name,
-      role,
-      content,
-      rating,
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop'
-    });
-    setName('');
-    setContent('');
-    setAddMode(false);
+    setSaving(true);
+    setError('');
+    let uploadedAssetId = '';
+    try {
+      const asset = await uploadMedia(avatar, name);
+      uploadedAssetId = asset.id;
+      await addTestimonial({ name, role, content, rating, avatar: asset.url, mediaId: asset.id });
+      setName(''); setContent(''); setAvatar(null); setAddMode(false);
+    } catch (saveError) {
+      if (uploadedAssetId) await fetch(`/api/admin/media/${encodeURIComponent(uploadedAssetId)}`, { method: 'DELETE', credentials: 'same-origin' });
+      setError(saveError instanceof Error ? saveError.message : 'The testimonial could not be published.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -50,6 +57,7 @@ export default function AdminTestimonials() {
 
       {addMode && (
         <form onSubmit={handleAddTestimonial} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm space-y-4 text-xs font-semibold text-gray-700">
+          {error && <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">{error}</p>}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="space-y-1">
               <label className="text-gray-600">Author Full Name *</label>
@@ -78,7 +86,9 @@ export default function AdminTestimonials() {
             <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={3} placeholder="The academic support swimming and computer labs have been stellar..." className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-semibold text-gray-700" required />
           </div>
 
-          <button type="submit" className="px-6 py-3.5 bg-green-600 hover:bg-green-700 text-white font-extrabold rounded-xl transition-colors">Complete Publishing</button>
+          <div className="space-y-1"><label className="text-gray-600">Profile photograph *</label><label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{avatar ? avatar.name : 'Choose an image (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" required onChange={(event) => setAvatar(event.target.files?.[0] ?? null)} /></label></div>
+
+          <button type="submit" disabled={saving} className="px-6 py-3.5 bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-extrabold rounded-xl transition-colors">{saving ? 'Uploadingâ€¦' : 'Complete Publishing'}</button>
         </form>
       )}
 

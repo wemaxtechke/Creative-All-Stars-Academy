@@ -10,6 +10,7 @@ export interface Student {
 
 export interface Teacher {
   id: string;
+  mediaId?: string;
   name: string;
   role: string;
   image: string;
@@ -20,6 +21,7 @@ export interface Teacher {
 
 export interface BlogPost {
   id: string;
+  mediaId?: string;
   title: string;
   summary: string;
   content: string;
@@ -45,6 +47,7 @@ export interface SchoolEvent {
 
 export interface GalleryImage {
   id: string;
+  mediaId?: string;
   url: string;
   title: string;
   category: 'School Events' | 'Sports' | 'Graduation' | 'Trips' | 'Learning' | 'Campus';
@@ -76,6 +79,7 @@ export interface JobApplication {
 
 export interface Testimonial {
   id: string;
+  mediaId?: string;
   name: string;
   role: 'Parent' | 'Alumni' | 'Student';
   content: string;
@@ -85,6 +89,7 @@ export interface Testimonial {
 
 export interface DownloadItem {
   id: string;
+  mediaId?: string;
   title: string;
   category: 'Admission' | 'Calendar' | 'Assignment' | 'Policy' | 'Uniform';
   fileSize: string;

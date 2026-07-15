@@ -1,7 +1,7 @@
 'use client';
 
 import Script from 'next/script';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 declare global {
   interface Window {
@@ -30,6 +30,14 @@ export function TurnstileWidget({ onToken }: { onToken: (token: string) => void 
     });
   }, [onToken, siteKey]);
 
+  useEffect(() => {
+    renderWidget();
+    return () => {
+      if (widgetId.current && window.turnstile) window.turnstile.remove(widgetId.current);
+      widgetId.current = null;
+    };
+  }, [renderWidget]);
+
   if (!siteKey) {
     return process.env.NODE_ENV === 'development'
       ? <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs font-semibold text-amber-800">Security check is bypassed in local development.</p>
@@ -37,7 +45,7 @@ export function TurnstileWidget({ onToken }: { onToken: (token: string) => void 
   }
 
   return <>
-    <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onLoad={() => { setLoaded(true); renderWidget(); }} />
+    <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onReady={() => { setLoaded(true); renderWidget(); }} />
     <div ref={container} data-action="turnstile-spin-v2" aria-label="Security verification" />
     {loaded && <span className="sr-only">Security verification loaded</span>}
   </>;

@@ -1,7 +1,12 @@
 import type { MetadataRoute } from 'next';
-import { blogPosts, jobs, schoolClasses } from '@/data/mockData';
+import { schoolClasses } from '@/data/mockData';
+import { getPublicContent } from '@/lib/db/content';
+import { defaultPublicContent } from '@/lib/site-content';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = 'force-dynamic';
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { blogPosts, jobs } = await getPublicContent().catch(() => defaultPublicContent);
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstars.ac.ke';
   const routes = ['', '/about', '/academics', '/classes', '/co-curricular', '/admissions', '/gallery', '/blog', '/parents-corner', '/careers', '/contact'];
   const staticRoutes: MetadataRoute.Sitemap = routes.map((route, index) => ({ url: `${base}${route}`, lastModified: new Date(), changeFrequency: index === 0 ? 'weekly' : 'monthly', priority: index === 0 ? 1 : route === '/admissions' ? .9 : .7 }));

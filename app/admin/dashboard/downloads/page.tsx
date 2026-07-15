@@ -2,33 +2,45 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
-import { Plus, Trash, Download } from 'lucide-react';
+import { Plus, Trash, FileUp } from 'lucide-react';
 import type { DownloadItem } from '@/types';
 
 export default function AdminDownloads() {
-  const { downloads, addDownload, deleteDownload } = useApp();
+  const { downloads, addDownload, deleteDownload, uploadMedia } = useApp();
   const [addMode, setAddMode] = useState(false);
 
   // Form states
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState<'Admission' | 'Calendar' | 'Assignment' | 'Policy' | 'Uniform'>('Assignment');
-  const [fileSize, setFileSize] = useState('1.5 MB');
+  const [document, setDocument] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleAddDownload = (e: React.FormEvent) => {
+  const handleAddDownload = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title) {
-      alert('Please fill in title');
+    if (!title || !document) {
+      setError('Add a title and choose a PDF document.');
       return;
     }
-    addDownload({
-      title,
-      category,
-      fileSize,
-      fileType: 'PDF',
-      url: '#'
-    });
-    setTitle('');
-    setAddMode(false);
+    setSaving(true);
+    setError('');
+    let uploadedAssetId = '';
+    try {
+      const asset = await uploadMedia(document, title);
+      uploadedAssetId = asset.id;
+      const fileSize = asset.sizeBytes >= 1_048_576
+        ? `${(asset.sizeBytes / 1_048_576).toFixed(1)} MB`
+        : `${Math.ceil(asset.sizeBytes / 1024)} KB`;
+      await addDownload({ title, category, fileSize, fileType: 'PDF', url: asset.url, mediaId: asset.id });
+      setTitle('');
+      setDocument(null);
+      setAddMode(false);
+    } catch (uploadError) {
+      if (uploadedAssetId) await fetch(`/api/admin/media/${encodeURIComponent(uploadedAssetId)}`, { method: 'DELETE', credentials: 'same-origin' });
+      setError(uploadError instanceof Error ? uploadError.message : 'The PDF could not be uploaded.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -49,6 +61,7 @@ export default function AdminDownloads() {
 
       {addMode && (
         <form onSubmit={handleAddDownload} className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-semibold text-gray-700">
+          {error && <p className="sm:col-span-3 rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">{error}</p>}
           <div className="space-y-1">
             <label className="text-gray-600">Document Headline Title *</label>
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Holiday Homework Grade 4" className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium" required />
@@ -64,11 +77,15 @@ export default function AdminDownloads() {
             </select>
           </div>
           <div className="space-y-1">
-            <label className="text-gray-600">File Size *</label>
-            <input type="text" value={fileSize} onChange={(e) => setFileSize(e.target.value)} placeholder="e.g. 1.8 MB" className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium" required />
+            <label className="text-gray-600">PDF document *</label>
+            <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-3 text-sm font-medium">
+              <FileUp className="h-4 w-4" />
+              <span className="truncate">{document ? document.name : 'Choose PDF (max 12MB)'}</span>
+              <input type="file" accept="application/pdf,.pdf" className="sr-only" required onChange={(event) => setDocument(event.target.files?.[0] ?? null)} />
+            </label>
           </div>
           <div className="pt-6 sm:col-span-3">
-            <button type="submit" className="px-6 py-3.5 bg-green-600 hover:bg-green-700 text-white font-extrabold rounded-xl transition-colors">Publish Downloadable File</button>
+            <button type="submit" disabled={saving} className="px-6 py-3.5 bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-extrabold rounded-xl transition-colors">{saving ? 'Uploadingâ€¦' : 'Publish Downloadable File'}</button>
           </div>
         </form>
       )}

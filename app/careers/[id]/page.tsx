@@ -21,6 +21,7 @@ function CareerDetailsContent() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
 
   // If searchParam apply=true is present, scroll down to the form
   useEffect(() => {
@@ -36,17 +37,18 @@ function CareerDetailsContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!applicantName || !email || !phone) {
-      setError('Please fill in all requested fields correctly.');
+    if (!applicantName || !email || !phone || !resumeFile) {
+      setError('Please complete all fields and attach your CV as a PDF.');
       return;
     }
 
     try {
-      await addJobApplication({ jobId: job.id, jobTitle: job.title, applicantName, email, phone, resumeUrl: '#', turnstileToken });
+      await addJobApplication({ jobId: job.id, jobTitle: job.title, applicantName, email, phone, resumeFile, turnstileToken });
       setSubmitted(true);
       setApplicantName('');
       setEmail('');
       setPhone('');
+      setResumeFile(null);
       setTurnstileToken('');
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : 'Your application could not be sent.');
@@ -129,7 +131,6 @@ function CareerDetailsContent() {
                 <p className="text-gray-600 text-xs leading-relaxed">
                   Your candidate profile has been logged in our administrative dashboard candidate panel. Thank you for your interest in joining our star team.
                 </p>
-                <TurnstileWidget onToken={setTurnstileToken} />
                 <button
                   onClick={() => setSubmitted(false)}
                   className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl transition-colors"
@@ -177,18 +178,21 @@ function CareerDetailsContent() {
                   />
                 </div>
 
-                {/* File input dummy */}
                 <div className="space-y-1.5">
                   <label className="text-gray-700 font-bold">Upload CV / TSC Credentials *</label>
-                  <div className="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                  <label className="block border-2 border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
                     <Paperclip className="w-5 h-5 text-gray-400 mx-auto mb-1" />
-                    <span className="text-[10px] text-gray-500 font-bold">Click to upload credentials PDF (Max 3MB)</span>
-                  </div>
+                    <span className="text-[10px] text-gray-500 font-bold">{resumeFile ? resumeFile.name : 'Click to upload credentials PDF (Max 3MB)'}</span>
+                    <input type="file" accept="application/pdf,.pdf" className="sr-only" required onChange={(event) => setResumeFile(event.target.files?.[0] ?? null)} />
+                  </label>
                 </div>
+
+                <TurnstileWidget onToken={setTurnstileToken} />
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md transition-all flex items-center justify-center gap-1.5"
+                  disabled={!resumeFile || (process.env.NODE_ENV === 'production' && !turnstileToken)}
+                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400 text-white font-extrabold text-sm rounded-2xl shadow-md transition-all flex items-center justify-center gap-1.5"
                 >
                   <Send className="w-4 h-4" />
                   Apply for {job.title}

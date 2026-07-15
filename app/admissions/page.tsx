@@ -118,10 +118,11 @@ export default function Admissions() {
                     <span className="text-[10px] text-gray-500 font-semibold uppercase">{item.fileType} • {item.fileSize}</span>
                   </div>
                   <a
-                    href="#"
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer"
                     className="p-2.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-xl transition-all flex-shrink-0"
                     title="Download document"
-                    onClick={(e) => e.preventDefault()}
                   >
                     <Download className="w-4 h-4" />
                   </a>
@@ -152,11 +153,6 @@ export default function Admissions() {
                 <p className="text-gray-600 text-xs leading-relaxed">
                   Thank you for enrolling with us. Your application has been logged into our administration system. An officer will call your primary phone shortly.
                 </p>
-                <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs leading-5 text-slate-600">
-                  <input type="checkbox" checked={acceptedPrivacy} onChange={(event) => setAcceptedPrivacy(event.target.checked)} className="mt-0.5" required />
-                  <span>I agree that the school may use these details to respond to this admission enquiry.</span>
-                </label>
-                <TurnstileWidget onToken={setTurnstileToken} />
                 <button
                   onClick={() => setSubmitted(false)}
                   className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl transition-colors"
@@ -277,9 +273,16 @@ export default function Admissions() {
                   />
                 </div>
 
+                <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs leading-5 text-slate-600">
+                  <input type="checkbox" checked={acceptedPrivacy} onChange={(event) => setAcceptedPrivacy(event.target.checked)} className="mt-0.5" required />
+                  <span>I agree that the school may use these details to respond to this admission enquiry.</span>
+                </label>
+                <TurnstileWidget onToken={setTurnstileToken} />
+
                 <button
                   type="submit"
-                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm rounded-2xl shadow-md transition-all flex items-center justify-center gap-1.5"
+                  disabled={!acceptedPrivacy || (process.env.NODE_ENV === 'production' && !turnstileToken)}
+                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400 text-white font-extrabold text-sm rounded-2xl shadow-md transition-all flex items-center justify-center gap-1.5"
                 >
                   <Send className="w-4 h-4" />
                   Submit Application Online

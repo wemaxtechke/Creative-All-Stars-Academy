@@ -5,6 +5,8 @@ import { readRuntimeVariable } from "@/lib/cloudflare";
 
 export type AdminIdentity = { email: string };
 
+const accessJwks = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
+
 function allowedAdminEmails() {
   return readRuntimeVariable("ADMIN_EMAILS")
     .split(",")
@@ -18,7 +20,11 @@ async function verifiedAccessEmail(requestHeaders: Headers) {
   const audience = readRuntimeVariable("ACCESS_AUD");
   if (!token || !teamDomain || !audience) return null;
   try {
-    const jwks = createRemoteJWKSet(new URL(`${teamDomain}/cdn-cgi/access/certs`));
+    let jwks = accessJwks.get(teamDomain);
+    if (!jwks) {
+      jwks = createRemoteJWKSet(new URL(`${teamDomain}/cdn-cgi/access/certs`));
+      accessJwks.set(teamDomain, jwks);
+    }
     const { payload } = await jwtVerify(token, jwks, {
       issuer: teamDomain,
       audience,
