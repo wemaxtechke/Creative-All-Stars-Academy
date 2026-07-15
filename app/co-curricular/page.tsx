@@ -7,19 +7,12 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { Calendar, User, Clock, CheckCircle } from 'lucide-react';
 import { coCurricularActivities } from '@/data/mockData';
 import { motion } from 'framer-motion';
+import { PageHero } from '@/components/PageHero';
 
 export default function CoCurricular() {
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Co-Curricular Clubs</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Supporting standard academic disciplines with heated swimming, coding clubs, drama festivals, and Scouts campsites.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Beyond the classroom" title="Talent grows when children get to try." description="Sport, swimming, music, drama, coding and clubs create space for confidence, teamwork and joyful discovery." image="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=85&w=1200&auto=format&fit=crop" imageAlt="Children participating in school sports" cta={{label:'View school life',href:'/gallery'}}/>
 
       <Breadcrumbs items={[{ name: 'Co-Curricular' }]} />
 

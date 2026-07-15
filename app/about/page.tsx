@@ -1,15 +1,17 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { TeacherCard } from '@/components/TeacherCard';
 import { Timeline } from '@/components/Timeline';
-import { ShieldCheck, Heart, Award, CheckCircle } from 'lucide-react';
+import { PageHero } from '@/components/PageHero';
+import { ShieldCheck, Award, CheckCircle } from 'lucide-react';
 
 export default function About() {
-  const { teachers, settings } = useApp();
+  const { teachers } = useApp();
 
   const historyPoints = [
     {
@@ -57,15 +59,7 @@ export default function About() {
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">About Our Academy</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Get an inside look at our history, core mission, vision, achievements, leadership, and the teachers who shape future stars.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Who we are" title="A school built around every learner." description="Discover the purpose, people and learning philosophy behind an inclusive education centre committed to every learner’s growth." image="https://images.unsplash.com/photo-1577896851231-70ee18881754?q=85&w=1200&auto=format&fit=crop" imageAlt="Teacher supporting learners in a bright classroom" cta={{label:'Meet our learning community',href:'#leadership'}}/>
 
       <Breadcrumbs items={[{ name: 'About Us' }]} />
 
@@ -87,15 +81,15 @@ export default function About() {
                 <ShieldCheck className="w-5 h-5 text-blue-600" /> Vision Statement
               </h4>
               <p className="text-gray-600 text-sm leading-relaxed mt-1">
-                To be the leading academy in Kenya that inspires childhood creativity, nurtures global-ready leaders, and guarantees academic excellence through a competency-based focus.
+                 To be an inclusive Education Centre that develops learners in all aspects of growth.
               </p>
             </div>
             <div className="border-t border-blue-200/50 pt-4">
               <h4 className="text-blue-950 font-extrabold text-lg flex items-center gap-2">
-                <Award className="w-5 h-5 text-green-600" /> Mission Statement
+                <Award className="w-5 h-5 text-[#d50b12]" /> Mission Statement
               </h4>
               <p className="text-gray-600 text-sm leading-relaxed mt-1">
-                To deliver comprehensive, secure, and practical early childhood and primary programs. We leverage technology, visual-performing arts, and active athletics to unlock every child’s potential.
+                To provide holistic development and education to the learner that enable him/her to realize his/her full potential.
               </p>
             </div>
           </div>
@@ -121,6 +115,11 @@ export default function About() {
             &ldquo;At Creative All Stars Academy, we believe that education is not about filling a bucket, but about lighting a fire. Every child walking through our Milimani campus is treated as a unique star with distinct capabilities. We provide the labs, the playing fields, the heated pool, and the musical instruments to make sure they shine brightly in academics, technology, and life. We welcome you to our growing family.&rdquo;
           </p>
         </div>
+      </section>
+
+      <section className="container-shell mt-20 grid items-center gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-5"><p className="eyebrow">Our guiding board</p><h2 className="brand-title mt-4 text-4xl font-extrabold text-[#031f66]">A promise we live every day.</h2><p className="mt-5 text-lg leading-8 text-slate-600">Our motto, mission and vision keep every decision focused on inclusive, holistic learner development.</p><div className="mt-8 rounded-2xl border-l-4 border-[#d50b12] bg-yellow-50 p-6"><p className="text-xs font-black uppercase tracking-[.18em] text-[#d50b12]">School motto</p><p className="mt-2 text-2xl font-extrabold text-[#031f66]">“Endeavour to Succeed”</p></div></div>
+        <div className="lg:col-span-7"><div className="overflow-hidden rounded-3xl border border-blue-100 bg-white p-3 shadow-2xl"><Image src="/brand/creative-all-stars-academy-mission-vision.png" alt="Creative All Stars Academy motto, mission and vision board" width={1024} height={1536} className="h-auto w-full rounded-2xl"/></div></div>
       </section>
 
       {/* Core values section */}
@@ -154,7 +153,7 @@ export default function About() {
       </section>
 
       {/* Leadership & Vetted Teachers Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
+      <section id="leadership" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 scroll-mt-28">
         <SectionHeader
           title="Meet Our Vetted Faculty"
           subtitle="We hire highly certified, TSC registered teachers specialized in Early Learning and Primary Competency-Based Curriculum frameworks."

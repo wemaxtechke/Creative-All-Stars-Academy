@@ -1,135 +1,53 @@
 'use client';
 
-import React from 'react';
-import { useApp } from '@/lib/AppContext';
-import { Users, FileText, Image as ImageIcon, Calendar, Briefcase, FileCheck, Star, Inbox } from 'lucide-react';
 import Link from 'next/link';
+import { useApp } from '@/lib/AppContext';
+import { ArrowRight, Calendar, CheckCircle2, Eye, FileCheck, FileText, Image as ImageIcon, Inbox, Plus, Settings, Sparkles } from 'lucide-react';
 
 export default function AdminDashboardMain() {
-  const { students, teachers, blogPosts, schoolEvents, admissions, jobApplications, testimonials, messages } = useApp();
+  const { blogPosts, schoolEvents, galleryImages, admissions, messages } = useApp();
+  const pendingAdmissions = admissions.filter(a => a.status === 'Pending');
+  const unreadMessages = messages.filter(m => m.status === 'Unread');
 
-  const statistics = [
-    { label: 'Active Students', value: students.length + 800, icon: Users, color: 'bg-blue-500', href: '/admin/dashboard/students' },
-    { label: 'TSC Staff Faculty', value: teachers.length, icon: Users, color: 'bg-green-500', href: '/admin/dashboard/staff' },
-    { label: 'Pending Admissions', value: admissions.filter(a => a.status === 'Pending').length, icon: FileCheck, color: 'bg-yellow-500', href: '/admin/dashboard/admissions' },
-    { label: 'Recent Messages', value: messages.filter(m => m.status === 'Unread').length, icon: Inbox, color: 'bg-purple-500', href: '/admin/dashboard/messages' },
-    { label: 'Blog Posts', value: blogPosts.length, icon: FileText, color: 'bg-teal-500', href: '/admin/dashboard/blog' },
-    { label: 'Event Planners', value: schoolEvents.length, icon: Calendar, color: 'bg-indigo-500', href: '/admin/dashboard/events' },
-    { label: 'Job Applications', value: jobApplications.filter(j => j.status === 'Pending').length, icon: Briefcase, color: 'bg-rose-500', href: '/admin/dashboard/applications' },
-    { label: 'Testimonials', value: testimonials.length, icon: Star, color: 'bg-amber-500', href: '/admin/dashboard/testimonials' }
+  const metrics = [
+    { label:'New admission enquiries', value:pendingAdmissions.length, detail:'Waiting for a response', icon:FileCheck, href:'/admin/dashboard/admissions', tone:'bg-amber-50 text-amber-700' },
+    { label:'Unread messages', value:unreadMessages.length, detail:'From website visitors', icon:Inbox, href:'/admin/dashboard/messages', tone:'bg-violet-50 text-violet-700' },
+    { label:'Published stories', value:blogPosts.length, detail:'Visible on the website', icon:FileText, href:'/admin/dashboard/blog', tone:'bg-blue-50 text-blue-700' },
+    { label:'Gallery items', value:galleryImages.length, detail:'Showing school life', icon:ImageIcon, href:'/admin/dashboard/gallery', tone:'bg-red-50 text-[#d50b12]' },
   ];
 
-  const recentActivity = [
-    { text: 'Admission application approved for student Clara Muthoni.', time: '2 hours ago', type: 'approved' },
-    { text: 'Job application shortlisted for ICT Teacher candidate Dennis Kipkemboi.', time: '5 hours ago', type: 'shortlisted' },
-    { text: 'Contact message received from parent Wilson Koskei regarding heated pool fees.', time: '1 day ago', type: 'message' },
-    { text: 'New Blog Post published: How the CBC Curriculum Prepares Learners...', time: '2 days ago', type: 'blog' }
+  const actions = [
+    { label:'Publish a news story', icon:FileText, href:'/admin/dashboard/blog' },
+    { label:'Create an event', icon:Calendar, href:'/admin/dashboard/events' },
+    { label:'Upload gallery photos', icon:ImageIcon, href:'/admin/dashboard/gallery' },
+    { label:'Update school details', icon:Settings, href:'/admin/dashboard/settings' },
   ];
 
-  return (
-    <div className="space-y-10">
-
-      {/* Welcome Block */}
-      <div className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white p-6 sm:p-10 rounded-3xl shadow-md border-b-4 border-yellow-400 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full" />
-        <div className="max-w-2xl text-left space-y-2">
-          <span className="px-3 py-1 bg-yellow-400 text-blue-950 font-black text-[10px] uppercase tracking-wider rounded-full shadow-md">
-            Management Panel
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-black">Welcome Back, Mrs. Bevalyne!</h1>
-          <p className="text-blue-100 text-xs sm:text-sm leading-relaxed">
-            Manage your Milimani Nakuru campus database blocks. Approve student admission credentials, review teacher candidates, publish press blogs, or respond to parental inboxes dynamically.
-          </p>
-        </div>
+  return <div className="mx-auto max-w-7xl space-y-8">
+    <section className="brand-gradient brand-grid overflow-hidden rounded-3xl px-7 py-9 text-white shadow-xl md:px-10">
+      <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-center">
+        <div className="max-w-2xl"><div className="mb-4 flex items-center gap-2 text-xs font-extrabold uppercase tracking-[.16em] text-[#ffc400]"><Sparkles className="h-4 w-4"/>Website overview</div><h1 className="font-[var(--font-heading)] text-3xl font-extrabold tracking-tight md:text-4xl">Good morning, Content Team.</h1><p className="mt-3 leading-7 text-blue-100">Review new enquiries, keep families informed, and make sure the public website always reflects the best of Creative All Stars Academy.</p></div>
+        <div className="flex flex-col gap-3 sm:flex-row"><Link href="/" target="_blank" className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-bold hover:bg-white/10"><Eye className="h-4 w-4"/>Preview website</Link><Link href="/admin/dashboard/blog" className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#d50b12] px-5 py-3 text-sm font-extrabold text-white hover:bg-red-600"><Plus className="h-4 w-4"/>Create content</Link></div>
       </div>
+    </section>
 
-      {/* Grid: Stat cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-        {statistics.map((stat, idx) => {
-          const Icon = stat.icon;
-          return (
-            <Link
-              key={idx}
-              href={stat.href}
-              className="bg-white rounded-3xl p-5 border border-gray-100 shadow-xs hover:shadow-md transition-all duration-300 space-y-4 text-left"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-gray-400 text-[10px] uppercase font-bold tracking-wider">{stat.label}</span>
-                <span className={`p-2.5 rounded-2xl ${stat.color} text-white`}>
-                  <Icon className="w-4 h-4" />
-                </span>
-              </div>
-              <div>
-                <h3 className="text-2xl sm:text-3xl font-black text-blue-950">{stat.value}</h3>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
+    <section className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">{metrics.map(({label,value,detail,icon:Icon,href,tone})=><Link href={href} key={label} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"><div className="flex items-start justify-between"><div><p className="text-sm font-bold text-slate-500">{label}</p><p className="mt-3 text-4xl font-extrabold text-[#0b1f3a]">{value}</p></div><span className={`rounded-xl p-3 ${tone}`}><Icon className="h-5 w-5"/></span></div><p className="mt-3 text-xs font-medium text-slate-400">{detail}</p></Link>)}</section>
 
-      {/* Analytics Charts and Activities Block */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-        {/* Custom Visual Charts Placement (Interactive SVG bar chart) */}
-        <div className="lg:col-span-8 bg-white p-6 sm:p-8 border border-gray-100 rounded-3xl shadow-xs space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-black text-blue-950 leading-tight">Student Enrollment Trends</h3>
-              <p className="text-gray-400 text-[10px] uppercase font-bold tracking-wider">Yearly Growth Index (Nakuru Region)</p>
-            </div>
-          </div>
-
-          {/* SVG Bar Chart */}
-          <div className="w-full h-64 bg-gray-50 rounded-2xl border border-gray-100 flex items-end justify-between p-6 relative overflow-hidden">
-            <div className="absolute inset-y-6 left-6 right-6 border-b border-gray-200/50 flex flex-col justify-between pointer-events-none text-[9px] text-gray-400 font-bold uppercase tracking-wider">
-              <div>800 Students</div>
-              <div>500 Students</div>
-              <div>200 Students</div>
-              <div />
-            </div>
-
-            {/* Custom SVG bars */}
-            <div className="flex items-end justify-around w-full relative z-10 pt-8 text-center text-[10px] font-bold text-gray-600">
-              <div className="space-y-2">
-                <div className="w-10 sm:w-16 bg-blue-100 h-20 rounded-t-lg mx-auto" />
-                <span>2019</span>
-              </div>
-              <div className="space-y-2">
-                <div className="w-10 sm:w-16 bg-blue-300 h-32 rounded-t-lg mx-auto" />
-                <span>2021</span>
-              </div>
-              <div className="space-y-2">
-                <div className="w-10 sm:w-16 bg-blue-500 h-44 rounded-t-lg mx-auto" />
-                <span>2023</span>
-              </div>
-              <div className="space-y-2">
-                <div className="w-10 sm:w-16 bg-blue-600 h-[190px] rounded-t-lg mx-auto relative">
-                  <div className="absolute -top-6 left-1/2 -translate-x-1/2 px-1.5 py-0.5 bg-yellow-400 text-blue-950 rounded-md font-black text-[9px]">820</div>
-                </div>
-                <span>2025</span>
-              </div>
-            </div>
-          </div>
+    <div className="grid gap-8 xl:grid-cols-12">
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm xl:col-span-8 md:p-8">
+        <div className="flex items-center justify-between"><div><h2 className="text-xl font-extrabold text-[#0b1f3a]">Needs your attention</h2><p className="mt-1 text-sm text-slate-500">The latest website enquiries requiring follow-up.</p></div><Link href="/admin/dashboard/admissions" className="text-sm font-bold text-blue-700">View all</Link></div>
+        <div className="mt-7 divide-y divide-slate-100">
+          {pendingAdmissions.slice(0,3).map(item=><div key={item.id} className="flex flex-col justify-between gap-4 py-5 sm:flex-row sm:items-center"><div className="flex items-start gap-4"><div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-50 text-sm font-extrabold text-amber-700">{item.studentName.charAt(0)}</div><div><p className="font-extrabold text-slate-800">{item.studentName}</p><p className="mt-1 text-sm text-slate-500">Admission enquiry for {item.gradeApplied} · {item.parentName}</p></div></div><Link href="/admin/dashboard/admissions" className="inline-flex items-center gap-1 text-sm font-bold text-blue-700">Review <ArrowRight className="h-4 w-4"/></Link></div>)}
+          {pendingAdmissions.length===0&&<div className="py-12 text-center"><CheckCircle2 className="mx-auto h-8 w-8 text-emerald-500"/><p className="mt-3 font-bold text-slate-700">You’re all caught up</p><p className="mt-1 text-sm text-slate-500">There are no new admission enquiries.</p></div>}
         </div>
+      </section>
 
-        {/* Recent Activities Panel */}
-        <div className="lg:col-span-4 bg-white p-6 border border-gray-100 rounded-3xl shadow-xs space-y-6">
-          <h3 className="text-lg font-black text-blue-950 border-b border-gray-50 pb-2">Recent Activities Log</h3>
-          <div className="space-y-4">
-            {recentActivity.map((activity, idx) => (
-              <div key={idx} className="flex items-start gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0" />
-                <div className="space-y-0.5 text-xs font-semibold leading-normal">
-                  <p className="text-gray-700 font-medium">{activity.text}</p>
-                  <span className="text-[10px] text-gray-400 font-bold block uppercase">{activity.time}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-      </div>
-
+      <aside className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm xl:col-span-4 md:p-8"><h2 className="text-xl font-extrabold text-[#0b1f3a]">Quick actions</h2><p className="mt-1 text-sm text-slate-500">Common website updates.</p><div className="mt-6 space-y-3">{actions.map(({label,icon:Icon,href})=><Link href={href} key={label} className="flex items-center justify-between rounded-xl border border-slate-200 p-4 transition hover:border-blue-200 hover:bg-blue-50"><span className="flex items-center gap-3 text-sm font-bold text-slate-700"><Icon className="h-4 w-4 text-blue-700"/>{label}</span><ArrowRight className="h-4 w-4 text-slate-400"/></Link>)}</div></aside>
     </div>
-  );
+
+    <section className="grid gap-6 md:grid-cols-2">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6"><div className="flex items-center justify-between"><div><p className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">Content snapshot</p><h3 className="mt-2 text-xl font-extrabold text-[#0b1f3a]">Upcoming events</h3></div><Calendar className="h-6 w-6 text-slate-300"/></div><div className="mt-5 space-y-4">{schoolEvents.slice(0,3).map(e=><div key={e.id} className="flex gap-4 border-t border-slate-100 pt-4 first:border-0 first:pt-0"><div className="min-w-14 text-sm font-extrabold text-blue-700">{e.date}</div><div><p className="font-bold text-slate-800">{e.title}</p><p className="mt-1 text-xs text-slate-500">{e.location}</p></div></div>)}</div></div>
+      <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6"><p className="text-xs font-extrabold uppercase tracking-wider text-blue-700">Demo note</p><h3 className="mt-2 text-xl font-extrabold text-[#0b1f3a]">Frontend website prototype</h3><p className="mt-3 text-sm leading-6 text-slate-600">Changes made here are saved in this browser for demonstration. A production version would connect the same interface to secure authentication, cloud storage and a database.</p></div>
+    </section>
+  </div>;
 }

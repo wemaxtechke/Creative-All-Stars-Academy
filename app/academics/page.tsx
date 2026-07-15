@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { BookOpen, Calendar, HelpCircle, GraduationCap, Laptop, Sparkles, Award } from 'lucide-react';
 import { subjects } from '@/data/mockData';
+import { PageHero } from '@/components/PageHero';
 
 export default function Academics() {
   const academicTerms = [
@@ -16,15 +17,7 @@ export default function Academics() {
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Academic Curriculum</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Providing 100% compliant Competency-Based Curriculum (CBC) that shifts emphasis from rote theory to practical life competencies.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Learning at CASA" title="Knowledge becomes something learners can use." description="Our CBC learning approach turns curiosity into practical skills, confident communication and meaningful progress." image="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=85&w=1200&auto=format&fit=crop" imageAlt="Creative All Stars Academy learners participating in class" cta={{label:'Explore our classes',href:'/classes'}}/>
 
       <Breadcrumbs items={[{ name: 'Academics' }]} />
 

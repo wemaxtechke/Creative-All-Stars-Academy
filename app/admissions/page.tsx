@@ -6,6 +6,8 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { CheckCircle, Download, FileText, Send, Sparkles } from 'lucide-react';
+import { PageHero } from '@/components/PageHero';
+import { TurnstileWidget } from '@/components/TurnstileWidget';
 
 export default function Admissions() {
   const { addAdmissionApplication, downloads, faqs } = useApp();
@@ -22,6 +24,8 @@ export default function Admissions() {
 
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const grades = [
     'Playgroup', 'PP1', 'PP2',
@@ -36,29 +40,26 @@ export default function Admissions() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.studentName || !formData.dateOfBirth || !formData.parentName || !formData.parentEmail || !formData.parentPhone) {
+    if (!formData.studentName || !formData.dateOfBirth || !formData.parentName || !formData.parentEmail || !formData.parentPhone || !acceptedPrivacy) {
       setError('Please fill in all the required fields correctly.');
       return;
     }
     setError('');
-    addAdmissionApplication(formData);
-    setSubmitted(true);
-    setFormData({
-      studentName: '',
-      dateOfBirth: '',
-      gender: 'Male',
-      gradeApplied: 'Grade 1',
-      parentName: '',
-      parentEmail: '',
-      parentPhone: '',
-      address: ''
-    });
+    try {
+      await addAdmissionApplication({ ...formData, acceptedPrivacy, turnstileToken });
+      setSubmitted(true);
+      setFormData({ studentName: '', dateOfBirth: '', gender: 'Male', gradeApplied: 'Grade 1', parentName: '', parentEmail: '', parentPhone: '', address: '' });
+      setAcceptedPrivacy(false);
+      setTurnstileToken('');
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : 'Your admission enquiry could not be sent.');
+    }
   };
 
   const steps = [
-    { title: 'Step 1: Download Form or Apply Online', desc: 'Download the application PDF to fill manually or submit our rapid online portal application form directly.' },
+    { title: 'Step 1: Send an enquiry', desc: 'Share a few details about your child so our admissions team can guide you personally.' },
     { title: 'Step 2: Submit Documents', desc: 'Present copy of child’s Birth Certificate, previous school progress report card (where applicable), and immunization booklet copies.' },
     { title: 'Step 3: Learner Assessment', desc: 'Schedule a friendly interactive placement interview for the child to evaluate literacy and baseline numeracy.' },
     { title: 'Step 4: Admission & Fees payment', desc: 'Upon successful assessment, receive our official acceptance letter and pay term fees to reserve your child’s star placement.' }
@@ -73,15 +74,7 @@ export default function Admissions() {
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Student Admissions</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Discover our friendly admission process, sample terminal fee structures, download documents, or apply online today.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Your journey starts here" title="A warm welcome from the very first enquiry." description="Learn about placement, plan a school visit and let our admissions team guide your family through each next step." image="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=85&w=1200&auto=format&fit=crop" imageAlt="Happy learner beginning a new school journey"/>
 
       <Breadcrumbs items={[{ name: 'Admissions' }]} />
 
@@ -144,11 +137,11 @@ export default function Admissions() {
             <div className="absolute top-0 left-0 w-full h-2 bg-yellow-400" />
             <div className="space-y-2">
               <span className="inline-block px-3 py-1 bg-green-100 text-green-700 font-extrabold text-[10px] uppercase tracking-wider rounded-full">
-                Interactive Portal
+                Admission enquiry
               </span>
               <h3 className="text-2xl font-black text-blue-950">Online Admission Application</h3>
               <p className="text-gray-500 text-xs leading-relaxed">
-                Submit this instant digital application form. Our admissions officer will review details and schedule your child’s interview within 24 working hours.
+                Tell us about your family and the class you are considering. Our admissions team will contact you to explain availability, visits and the next steps.
               </p>
             </div>
 
@@ -159,6 +152,11 @@ export default function Admissions() {
                 <p className="text-gray-600 text-xs leading-relaxed">
                   Thank you for enrolling with us. Your application has been logged into our administration system. An officer will call your primary phone shortly.
                 </p>
+                <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs leading-5 text-slate-600">
+                  <input type="checkbox" checked={acceptedPrivacy} onChange={(event) => setAcceptedPrivacy(event.target.checked)} className="mt-0.5" required />
+                  <span>I agree that the school may use these details to respond to this admission enquiry.</span>
+                </label>
+                <TurnstileWidget onToken={setTurnstileToken} />
                 <button
                   onClick={() => setSubmitted(false)}
                   className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl transition-colors"
@@ -296,9 +294,9 @@ export default function Admissions() {
       <section className="bg-gray-100/50 py-16 border-y border-gray-100 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeader
-            title="Sample Fee Structure (Termly Basis)"
-            subtitle="Providing stellar value for top-tier heated swimming pools, digital tablets, and certified instructors with zero hidden costs."
-            badge="FINANCIAL PLANS"
+            title="Indicative Fee Guide"
+            subtitle="Use this guide for your initial planning. The admissions team will confirm the current fee schedule and what is included."
+            badge="Fees and planning"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -326,7 +324,7 @@ export default function Admissions() {
         <SectionHeader
           title="Admission Frequently Asked Questions"
           subtitle="Explore quick solutions and guide structures to clarify queries about placement assessments and transfers."
-          badge="FAQ ACCORDION"
+          badge="Helpful answers"
         />
         <FAQAccordion items={faqs.filter(f => f.category === 'Admissions' || f.category === 'Fees')} />
       </section>

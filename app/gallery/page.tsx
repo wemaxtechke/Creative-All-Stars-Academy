@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { Search, Grid, Eye, X, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { PageHero } from '@/components/PageHero';
 
 export default function Gallery() {
   const { galleryImages } = useApp();
@@ -20,15 +21,7 @@ export default function Gallery() {
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Media Gallery</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Explore authentic screenshots, athletic tournaments, heated swimming classes, and graduation days at our campus.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Life at CASA" title="Real moments. Growing confidence. Lasting memories." description="Step into the learning, friendships, celebrations and activities that make every school day meaningful." image="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=85&w=1200&auto=format&fit=crop" imageAlt="Creative school celebration and activities"/>
 
       <Breadcrumbs items={[{ name: 'Gallery' }]} />
 

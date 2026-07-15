@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Plus, Trash, Search, PlusCircle, Paperclip } from 'lucide-react';
+import type { GalleryImage } from '@/types';
 
 export default function AdminGallery() {
   const { galleryImages, addGalleryImage, deleteGalleryImage } = useApp();
@@ -63,7 +64,7 @@ export default function AdminGallery() {
             <label className="text-gray-600">Category Tag *</label>
             <select
               value={category}
-              onChange={(e) => setCategory(e.target.value as any)}
+              onChange={(e) => setCategory(e.target.value as GalleryImage['category'])}
               className="w-full p-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-blue-600 text-sm font-medium"
               required
             >

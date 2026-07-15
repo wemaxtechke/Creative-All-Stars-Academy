@@ -1,101 +1,27 @@
-'use client';
-
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
-import { ShieldAlert, ArrowRight, Lock, UserCheck } from 'lucide-react';
+import { ArrowRight, LockKeyhole, ShieldCheck } from 'lucide-react';
 
-export default function AdminLogin() {
-  const router = useRouter();
-  const [username, setUsername] = useState('admin');
-  const [password, setPassword] = useState('admin123');
-  const [error, setError] = useState('');
+export const metadata = {
+  title: 'Website CMS access',
+  robots: { index: false, follow: false },
+};
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (username === 'admin' && password === 'admin123') {
-      // Create session simulation
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('casa_admin_logged', 'true');
-      }
-      router.push('/admin/dashboard');
-    } else {
-      setError('Invalid administrator credentials combination. Try admin / admin123.');
-    }
-  };
-
-  return (
-    <div className="min-h-[80vh] bg-blue-950 flex items-center justify-center px-4 py-16">
-      <div className="max-w-md w-full bg-white rounded-3xl p-8 md:p-10 shadow-2xl relative overflow-hidden border-b-8 border-yellow-400">
-        {/* Visual decoration */}
-        <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full" />
-
-        <div className="text-center space-y-3 mb-8">
-          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto border border-blue-200">
-            <ShieldAlert className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-black text-blue-950 tracking-tight">Admin Portal</h1>
-            <p className="text-gray-500 text-xs">Access the Creative All Stars dynamic administrative console.</p>
-          </div>
-        </div>
-
-        {error && (
-          <div className="bg-red-50 text-red-500 border border-red-200 p-3 rounded-xl text-xs font-semibold text-center mb-4">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleLogin} className="space-y-4 text-xs font-semibold text-gray-700">
-          <div className="space-y-1">
-            <label className="text-gray-600">Username *</label>
-            <div className="relative">
-              <UserCheck className="absolute top-3.5 left-4 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="e.g. admin"
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm font-medium"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-gray-600">Password *</label>
-            <div className="relative">
-              <Lock className="absolute top-3.5 left-4 text-gray-400 w-4 h-4" />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="e.g. admin123"
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 text-sm font-medium"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="bg-yellow-50 text-blue-950 border border-yellow-200 p-3.5 rounded-xl leading-relaxed text-[11px] font-medium">
-            💡 <strong>Prototype Credentials:</strong> Username is <strong>admin</strong> and password is <strong>admin123</strong>.
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-black text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5"
-          >
-            Authenticate Credentials
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </form>
-
-        <div className="text-center mt-6">
-          <Link href="/" className="text-xs text-blue-600 hover:underline">
-            ← Return to public website
-          </Link>
-        </div>
+export default async function AdminLogin({ searchParams }: { searchParams: Promise<{ unauthorized?: string }> }) {
+  const unauthorized = (await searchParams).unauthorized === '1';
+  return <main className="brand-gradient brand-grid min-h-screen px-4 py-16 grid place-items-center">
+    <section className="w-full max-w-lg overflow-hidden rounded-3xl border-b-8 border-yellow-400 bg-white p-8 text-center shadow-2xl md:p-12">
+      <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={104} height={104} priority className="mx-auto h-28 w-28 rounded-full object-contain shadow-lg" />
+      <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-xs font-extrabold uppercase tracking-wider text-blue-800">
+        <ShieldCheck className="h-4 w-4" /> Protected website workspace
       </div>
-    </div>
-  );
+      <h1 className="mt-5 text-3xl font-black tracking-tight text-blue-950">Website CMS access</h1>
+      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600">The dashboard is protected by Creative All Stars Academy's approved staff email list and Cloudflare Access.</p>
+      {unauthorized && <p className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">Your account is not authorized for this website workspace. Ask the school administrator to add your email.</p>}
+      <Link href="/admin/dashboard" className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0739a6] px-5 py-4 text-sm font-extrabold text-white transition hover:bg-blue-800">
+        <LockKeyhole className="h-4 w-4" /> Continue securely <ArrowRight className="h-4 w-4" />
+      </Link>
+      <Link href="/" className="mt-6 inline-block text-xs font-bold text-blue-700 hover:underline">Return to the public website</Link>
+    </section>
+  </main>;
 }

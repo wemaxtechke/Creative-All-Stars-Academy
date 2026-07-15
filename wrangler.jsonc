@@ -1,0 +1,51 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "creative-all-stars-academy",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-07-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "logs": { "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.05 }
+  },
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "creative-all-stars-cms",
+      "database_id": "REPLACE_WITH_PRODUCTION_D1_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "creative-all-stars-media"
+    }
+  ],
+  "vars": {
+    "ADMIN_EMAILS": "",
+    "LOCAL_ADMIN_EMAIL": "",
+    "ACCESS_TEAM_DOMAIN": "",
+    "ACCESS_AUD": "",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "",
+    "NEXT_PUBLIC_SITE_URL": "https://creativeallstars.ac.ke"
+  },
+  "env": {
+    "staging": {
+      "name": "creative-all-stars-academy-staging",
+      "vars": {
+        "ADMIN_EMAILS": "",
+        "LOCAL_ADMIN_EMAIL": "",
+        "ACCESS_TEAM_DOMAIN": "",
+        "ACCESS_AUD": "",
+        "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "",
+        "NEXT_PUBLIC_SITE_URL": "https://staging.creativeallstars.ac.ke"
+      }
+    }
+  }
+}

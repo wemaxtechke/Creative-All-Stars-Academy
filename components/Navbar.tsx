@@ -1,223 +1,43 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { ArrowRight, Mail, Menu, Phone, X } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
-import { Menu, X, ArrowRight, ShieldAlert } from 'lucide-react';
 
-export const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const links = [
+  { name: 'About', href: '/about' },
+  { name: 'Learning', href: '/academics' },
+  { name: 'Classes', href: '/classes' },
+  { name: 'Activities', href: '/co-curricular' },
+  { name: 'School Life', href: '/gallery' },
+  { name: 'Admissions', href: '/admissions' },
+];
+
+export function Navbar() {
   const pathname = usePathname();
   const { settings } = useApp();
+  const [open, setOpen] = useState(false);
+  if (pathname.startsWith('/admin')) return null;
 
-  // If we are on any admin dashboard page, do not render the standard Navbar
-  if (pathname.startsWith('/admin')) {
-    return null;
-  }
-
-  const primaryLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About Us', href: '/about' },
-    { name: 'Academics', href: '/academics' },
-    { name: 'Admissions', href: '/admissions' },
-    { name: 'Classes', href: '/classes' },
-    { name: 'Co-Curricular', href: '/co-curricular' },
-  ];
-
-  const secondaryLinks = [
-    { name: 'Gallery', href: '/gallery' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Careers', href: '/careers' },
-    { name: 'Parents', href: '/parents-corner' },
-    { name: 'Contact', href: '/contact' }
-  ];
-
-  const allLinks = [...primaryLinks, ...secondaryLinks];
-
-  return (
-    <nav className="sticky top-0 z-50 bg-white shadow-sm">
-      {/* 1. TOP BAR (Kabarak style) - Hidden on mobile, shown on desktop (xl:block) */}
-      <div className="hidden xl:block bg-blue-950 text-white text-xs border-b border-blue-900/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between">
-          {/* Social Icons Left */}
-          <div className="flex items-center space-x-4">
-            <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-200 hover:text-white transition-colors flex items-center" title="Facebook">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/>
-              </svg>
-            </a>
-            <a href={settings.twitter} target="_blank" rel="noopener noreferrer" className="text-blue-200 hover:text-white transition-colors flex items-center" title="Twitter">
-              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-            </a>
-            <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="text-blue-200 hover:text-white transition-colors flex items-center" title="Instagram">
-              <svg className="w-4 h-4 stroke-current fill-none stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-              </svg>
-            </a>
-            <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="text-blue-200 hover:text-white transition-colors flex items-center" title="YouTube">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.507 9.388.507 9.388.507s7.517 0 9.388-.507a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-              </svg>
-            </a>
-            <span className="text-blue-400 font-medium border-l border-blue-800 pl-4 leading-none h-4 flex items-center">
-              {settings.tagline}
-            </span>
-          </div>
-
-          {/* Secondary Links Right */}
-          <div className="flex items-center space-x-1 divide-x divide-blue-800/60">
-            {secondaryLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className={`px-3 py-1 font-semibold transition-all duration-200 ${
-                    isActive
-                      ? 'text-yellow-400'
-                      : 'text-blue-100 hover:text-yellow-300'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-            <div className="pl-3">
-              <Link
-                href="/admin/login"
-                className="px-3 py-1 bg-blue-900 hover:bg-blue-800 text-yellow-400 hover:text-yellow-300 border border-blue-800 text-[11px] font-bold rounded-lg flex items-center gap-1 transition-all"
-              >
-                <ShieldAlert className="w-3.5 h-3.5" />
-                Admin Portal
-              </Link>
-            </div>
-          </div>
-        </div>
+  return <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-xl">
+    <div className="hidden bg-[#031f66] text-xs text-blue-100 md:block">
+      <div className="container-shell flex h-9 items-center justify-between">
+        <div className="flex items-center gap-5"><span className="flex items-center gap-2"><Phone className="h-3.5 w-3.5 text-[#ffc400]"/>{settings.phone}</span><span className="flex items-center gap-2"><Mail className="h-3.5 w-3.5 text-[#ffc400]"/>{settings.email}</span></div>
+        <div className="flex items-center gap-5"><Link href="/blog" className="hover:text-white">News & events</Link><Link href="/parents-corner" className="hover:text-white">Parent resources</Link><Link href="/careers" className="hover:text-white">Careers</Link><Link href="/admin/login" className="font-bold text-[#ffc400] hover:text-white">Staff website login</Link></div>
       </div>
-
-      {/* 2. MAIN BAR (White Background) */}
-      <div className="border-b border-gray-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo + Full School Name */}
-            <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-md border-2 border-yellow-400 transition-transform hover:scale-105">
-                  ⭐
-                </div>
-                <div>
-                  <span className="font-extrabold text-lg md:text-xl tracking-tight text-blue-950 block leading-tight">
-                    {settings.schoolName}
-                  </span>
-                  <span className="text-[10px] text-green-600 font-bold block uppercase tracking-wider leading-none mt-0.5">
-                    Nakuru, Kenya
-                  </span>
-                </div>
-              </Link>
-            </div>
-
-            {/* Desktop Navigation links */}
-            <div className="hidden xl:flex items-center space-x-1.5">
-              {primaryLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`px-3.5 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${
-                      isActive
-                        ? 'bg-blue-50 text-blue-700 shadow-xs'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Apply Now button */}
-            <div className="hidden xl:flex items-center">
-              <Link
-                href="/admissions"
-                className="px-5 py-2.5 bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-extrabold text-sm rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-1"
-              >
-                Apply Now
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="xl:hidden flex items-center gap-3">
-              <Link
-                href="/admin/login"
-                className="p-2 text-gray-500 hover:text-blue-600 transition-colors"
-                title="Admin Portal"
-              >
-                <ShieldAlert className="w-5 h-5" />
-              </Link>
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                type="button"
-                className="inline-flex items-center justify-center p-2 rounded-xl text-gray-600 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-colors"
-                aria-controls="mobile-menu"
-                aria-expanded={isOpen}
-              >
-                <span className="sr-only">Open main menu</span>
-                {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. MOBILE MENU */}
-      {isOpen && (
-        <div className="xl:hidden bg-white border-b border-gray-100 shadow-inner" id="mobile-menu">
-          <div className="px-2 pt-2 pb-4 space-y-1 sm:px-3">
-            {allLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`block px-4 py-2.5 rounded-xl text-base font-bold transition-all ${
-                    isActive
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-700 hover:bg-gray-100 hover:text-blue-600'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              );
-            })}
-            <div className="pt-4 pb-2 border-t border-gray-100 px-4 flex flex-col gap-3">
-              <Link
-                href="/admin/login"
-                onClick={() => setIsOpen(false)}
-                className="w-full text-center py-2.5 border border-blue-600 text-blue-600 hover:bg-blue-50 font-bold rounded-xl flex items-center justify-center gap-2 transition-all"
-              >
-                <ShieldAlert className="w-4 h-4" />
-                Admin Portal
-              </Link>
-              <Link
-                href="/admissions"
-                onClick={() => setIsOpen(false)}
-                className="w-full text-center py-2.5 bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-extrabold rounded-xl shadow-md transition-all flex items-center justify-center gap-1"
-              >
-                Apply Now
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-    </nav>
-  );
-};
+    </div>
+    <div className="container-shell flex h-20 items-center justify-between">
+      <Link href="/" className="flex items-center gap-3" onClick={()=>setOpen(false)}>
+        <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={58} height={58} priority className="h-14 w-14 rounded-full object-contain"/>
+        <div><span className="block font-[var(--font-heading)] text-base font-extrabold leading-tight text-[#031f66] sm:text-lg">{settings.schoolName}</span><span className="text-[10px] font-black uppercase tracking-[.16em] text-[#d50b12]">Endeavour to Succeed</span></div>
+      </Link>
+      <nav className="hidden items-center gap-1 xl:flex">{links.map(link=>{const active=pathname===link.href||pathname.startsWith(link.href+'/');return <Link key={link.href} href={link.href} className={`rounded-lg px-3 py-2 text-sm font-bold transition ${active?'bg-blue-50 text-[#0739a6]':'text-slate-600 hover:bg-slate-50 hover:text-[#031f66]'}`}>{link.name}</Link>})}</nav>
+      <div className="hidden items-center gap-3 xl:flex"><Link href="/contact" className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-[#031f66] hover:border-[#0739a6]">Book a visit</Link><Link href="/admissions" className="inline-flex items-center gap-2 rounded-xl bg-[#d50b12] px-4 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-red-900/10 hover:bg-red-700">Enquire now <ArrowRight className="h-4 w-4"/></Link></div>
+      <button className="rounded-lg p-2 text-slate-700 xl:hidden" onClick={()=>setOpen(!open)} aria-label="Toggle navigation">{open?<X/>:<Menu/>}</button>
+    </div>
+    {open && <div className="border-t border-slate-200 bg-white px-4 py-5 xl:hidden"><nav className="container-shell grid gap-1">{[...links,{name:'News & events',href:'/blog'},{name:'Parent resources',href:'/parents-corner'},{name:'Contact',href:'/contact'}].map(link=><Link key={link.href} href={link.href} onClick={()=>setOpen(false)} className="rounded-lg px-3 py-3 font-bold text-slate-700 hover:bg-slate-50">{link.name}</Link>)}<Link href="/admissions" onClick={()=>setOpen(false)} className="mt-3 rounded-xl bg-[#d50b12] px-4 py-3 text-center font-extrabold text-white">Start an admission enquiry</Link></nav></div>}
+  </header>;
+}

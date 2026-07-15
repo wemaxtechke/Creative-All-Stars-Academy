@@ -6,21 +6,14 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { JobCard } from '@/components/JobCard';
 import { Mail, Briefcase, HelpCircle } from 'lucide-react';
+import { PageHero } from '@/components/PageHero';
 
 export default function Careers() {
   const { jobs } = useApp();
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Careers / Jobs</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Join our certified faculty block. We seek motivated, child-friendly professionals eager to teach standard CBC curriculum.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Build meaningful careers" title="Do work that shapes a child’s future." description="Join a caring, creative team committed to professional excellence and inclusive learner development." image="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=85&w=1200&auto=format&fit=crop" imageAlt="Professional educator ready to support learners"/>
 
       <Breadcrumbs items={[{ name: 'Careers' }]} />
 

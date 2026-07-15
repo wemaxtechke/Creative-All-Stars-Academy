@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import { Mail, Phone, MapPin, Heart } from 'lucide-react';
@@ -18,21 +19,19 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-blue-950 text-white pt-16 pb-8 border-t-8 border-yellow-400">
+    <footer className="bg-[#031f66] text-white pt-16 pb-8 border-t-8 border-[#ffc400]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Section 1: About */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-md border-2 border-yellow-400">
-                ⭐
-              </div>
+              <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={54} height={54} className="h-14 w-14 rounded-full bg-white object-contain"/>
               <span className="font-extrabold text-2xl tracking-tight text-white block leading-tight">
                 {settings.schoolName}
               </span>
             </div>
             <p className="text-gray-300 text-sm mb-6 leading-relaxed">
-              We are a premier early learning and primary school in Milimani, Nakuru. Committed to providing 100% CBC education packed with digital, physical, and artistic training to make every child a star.
+              An inclusive education centre in Nakuru providing holistic development and education that enables every learner to realize their full potential.
             </p>
             <div className="flex items-center gap-3">
               <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="p-2 bg-blue-900/50 hover:bg-yellow-400 hover:text-blue-900 rounded-full transition-all text-gray-300" aria-label="Facebook">
@@ -65,32 +64,32 @@ export const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li>
                 <Link href="/about" className="text-gray-300 hover:text-yellow-400 text-sm flex items-center gap-1.5 transition-all">
-                  → About School History & Values
+                  → Our story and values
                 </Link>
               </li>
               <li>
                 <Link href="/academics" className="text-gray-300 hover:text-yellow-400 text-sm flex items-center gap-1.5 transition-all">
-                  → CBC Academic Curriculum
+                  → Learning and curriculum
                 </Link>
               </li>
               <li>
                 <Link href="/admissions" className="text-gray-300 hover:text-yellow-400 text-sm flex items-center gap-1.5 transition-all">
-                  → Admissions Guide & Fee Structure
+                  → Admissions and fees
                 </Link>
               </li>
               <li>
                 <Link href="/classes" className="text-gray-300 hover:text-yellow-400 text-sm flex items-center gap-1.5 transition-all">
-                  → Browse Playgroup to Grade 6
+                  → Classes and age groups
                 </Link>
               </li>
               <li>
                 <Link href="/co-curricular" className="text-gray-300 hover:text-yellow-400 text-sm flex items-center gap-1.5 transition-all">
-                  → Active Clubs & Swimming
+                  → Clubs, sport and activities
                 </Link>
               </li>
               <li>
                 <Link href="/gallery" className="text-gray-300 hover:text-yellow-400 text-sm flex items-center gap-1.5 transition-all">
-                  → Beautiful School Gallery
+                  → Life at our school
                 </Link>
               </li>
             </ul>

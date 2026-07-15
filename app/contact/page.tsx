@@ -5,6 +5,8 @@ import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { Mail, Phone, MapPin, Clock, Send, Globe, MessageSquare } from 'lucide-react';
+import { PageHero } from '@/components/PageHero';
+import { TurnstileWidget } from '@/components/TurnstileWidget';
 
 export default function Contact() {
   const { addContactMessage, settings } = useApp();
@@ -19,6 +21,7 @@ export default function Contact() {
 
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -27,35 +30,26 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.subject || !formData.message) {
       setError('Please fill in all the required input blocks correctly.');
       return;
     }
     setError('');
-    addContactMessage(formData);
-    setSubmitted(true);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
+    try {
+      await addContactMessage({ ...formData, turnstileToken });
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      setTurnstileToken('');
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : 'Your message could not be sent.');
+    }
   };
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Contact Our School</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Get in touch with our admissions or administrative office. Fill out our rapid online inbox or visit Milimani.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Let’s start a conversation" title="Come and experience our school for yourself." description="Ask a question, arrange a school visit or speak with our admissions team in Milimani, Nakuru." image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=85&w=1200&auto=format&fit=crop" imageAlt="Welcoming school community ready to help"/>
 
       <Breadcrumbs items={[{ name: 'Contact' }]} />
 
@@ -153,21 +147,22 @@ export default function Contact() {
 
             <div className="space-y-2">
               <span className="inline-block px-3 py-1 bg-green-100 text-green-700 font-extrabold text-[10px] uppercase rounded-full">
-                Interactive Portal
+                We’re here to help
               </span>
               <h3 className="text-2xl font-black text-blue-950">Send Us an Instant Message</h3>
               <p className="text-gray-500 text-xs leading-relaxed">
-                Fill this online form to drop a message in our administrative portal inbox. Our team responds within 12 working hours.
+                Send us your question and a member of our team will respond during school office hours.
               </p>
             </div>
 
             {submitted ? (
               <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center space-y-3">
                 <span className="text-3xl">🎉</span>
-                <h4 className="font-extrabold text-green-800 text-base">Message Logged!</h4>
+                <h4 className="font-extrabold text-green-800 text-base">Thank you — your message is on its way.</h4>
                 <p className="text-gray-600 text-xs leading-relaxed">
-                  Your contact message has been recorded. It was successfully pushed to our administrator inbox screen. Thank you for reaching out.
+                  Our school team will review your enquiry and get back to you using the contact details provided.
                 </p>
+                <TurnstileWidget onToken={setTurnstileToken} />
                 <button
                   onClick={() => setSubmitted(false)}
                   className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl transition-colors"

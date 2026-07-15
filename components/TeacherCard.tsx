@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Mail, GraduationCap } from 'lucide-react';
 import { Teacher } from '@/types';
 import { motion } from 'framer-motion';
@@ -12,14 +13,16 @@ export const TeacherCard: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
       className="bg-white rounded-3xl overflow-hidden shadow-md border border-gray-100 p-6 flex flex-col items-center text-center transition-all duration-300 h-full"
     >
       <div className="relative w-32 h-32 rounded-full overflow-hidden mb-5 border-4 border-yellow-400 shadow-inner">
-        <img
+        <Image
           src={teacher.image}
           alt={teacher.name}
-          className="w-full h-full object-cover"
+          fill
+          sizes="128px"
+          className="object-cover"
         />
       </div>
 
-      <span className="px-3 py-1 bg-green-100 text-green-700 font-extrabold text-[10px] uppercase tracking-wider rounded-full mb-2">
+      <span className="px-3 py-1 bg-red-50 text-[#d50b12] font-extrabold text-[10px] uppercase tracking-wider rounded-full mb-2">
         TSC Certified
       </span>
 

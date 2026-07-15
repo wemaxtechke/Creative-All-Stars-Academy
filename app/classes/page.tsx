@@ -7,21 +7,14 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { GraduationCap, ArrowRight, UserCheck, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { PageHero } from '@/components/PageHero';
 
 export default function Classes() {
   const { classes } = useApp();
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Our School Classes</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            From playful playgroup blocks to highly-motivated junior secondary levels, explore our custom grade blocks.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Every stage matters" title="The right environment for every age." description="Explore thoughtfully designed learning experiences from playful early years through confident primary and junior school pathways." image="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=85&w=1200&auto=format&fit=crop" imageAlt="Young learners enjoying their classroom environment" cta={{label:'Ask about placement',href:'/admissions'}}/>
 
       <Breadcrumbs items={[{ name: 'Classes' }]} />
 

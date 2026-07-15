@@ -6,6 +6,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { FileText, Download, ShieldCheck, CheckCircle } from 'lucide-react';
+import { PageHero } from '@/components/PageHero';
 
 export default function ParentsCorner() {
   const { downloads, faqs } = useApp();
@@ -27,15 +28,7 @@ export default function ParentsCorner() {
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">Parents Corner</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Get instant access to term assignments, official uniform buy guides, school calendars, rules, and downloadables.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="Families are part of the team" title="Everything parents need, in one welcoming place." description="Find school documents, calendars, uniform guidance and practical information that keeps home and school connected." image="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=85&w=1200&auto=format&fit=crop" imageAlt="Parents and school community working together"/>
 
       <Breadcrumbs items={[{ name: 'Parents Corner' }]} />
 

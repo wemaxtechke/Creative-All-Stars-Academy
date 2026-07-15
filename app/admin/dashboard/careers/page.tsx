@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Plus, Trash, Calendar } from 'lucide-react';
+import type { Job } from '@/types';
 
 export default function AdminCareers() {
   const { jobs, addJob, deleteJob } = useApp();
@@ -70,7 +71,7 @@ export default function AdminCareers() {
           </div>
           <div className="space-y-1">
             <label className="text-gray-600">Contract Model *</label>
-            <select value={type} onChange={(e) => setType(e.target.value as any)} className="w-full p-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-blue-600 text-sm font-medium" required>
+            <select value={type} onChange={(e) => setType(e.target.value as Job['type'])} className="w-full p-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-blue-600 text-sm font-medium" required>
               <option value="Full-time">Full-time</option>
               <option value="Part-time">Part-time</option>
               <option value="Contract">Contract</option>

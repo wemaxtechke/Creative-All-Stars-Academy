@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import { SchoolEvent } from '@/types';
 import { motion } from 'framer-motion';
@@ -13,10 +14,12 @@ export const EventCard: React.FC<{ event: SchoolEvent }> = ({ event }) => {
     >
       {event.image && (
         <div className="relative md:w-1/3 h-48 md:h-auto overflow-hidden bg-gray-100 flex-shrink-0">
-          <img
+          <Image
             src={event.image}
             alt={event.title}
-            className="w-full h-full object-cover"
+            fill
+            sizes="(min-width: 768px) 30vw, 100vw"
+            className="object-cover"
           />
         </div>
       )}
@@ -24,7 +27,7 @@ export const EventCard: React.FC<{ event: SchoolEvent }> = ({ event }) => {
       <div className="p-6 md:p-8 flex flex-col justify-between flex-grow">
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 bg-green-100 text-green-700 font-extrabold text-xs rounded-full uppercase tracking-wider">
+            <span className="px-3 py-1 bg-red-50 text-[#d50b12] font-extrabold text-xs rounded-full uppercase tracking-wider">
               {event.category}
             </span>
           </div>
@@ -48,7 +51,7 @@ export const EventCard: React.FC<{ event: SchoolEvent }> = ({ event }) => {
             {event.time}
           </div>
           <div className="flex items-center gap-1.5 col-span-1 sm:col-span-1 truncate">
-            <MapPin className="w-4 h-4 text-green-500 flex-shrink-0" />
+            <MapPin className="w-4 h-4 text-[#d50b12] flex-shrink-0" />
             <span className="truncate">{event.location}</span>
           </div>
         </div>

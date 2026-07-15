@@ -6,6 +6,7 @@ import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Calendar, Clock, Send, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { PageHero } from '@/components/PageHero';
 
 export default function BlogDetails() {
   const { id } = useParams() as { id: string };
@@ -54,41 +55,8 @@ export default function BlogDetails() {
 
   return (
     <div className="pb-24">
-      {/* Article Header block */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 border-b-4 border-yellow-400">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <span className="px-3 py-1.5 bg-blue-600 text-white font-extrabold text-xs uppercase tracking-widest rounded-lg">
-            {post.category}
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
-            {post.title}
-          </h1>
-
-          <div className="flex flex-wrap items-center gap-6 pt-4 text-xs font-semibold text-blue-200">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-950 font-extrabold flex items-center justify-center border-2 border-yellow-400">
-                {post.author.charAt(0)}
-              </div>
-              <div>
-                <p className="font-extrabold text-white leading-none">{post.author}</p>
-                <p className="text-[10px] text-gray-400 font-bold mt-0.5">{post.authorRole || 'Lead Teacher'}</p>
-              </div>
-            </div>
-
-            <div className="h-6 w-px bg-white/10 hidden sm:block" />
-
-            <div className="flex items-center gap-1">
-              <Calendar className="w-4 h-4 text-green-400" />
-              <span>Published: {post.date}</span>
-            </div>
-
-            <div className="flex items-center gap-1">
-              <Clock className="w-4 h-4 text-green-400" />
-              <span>Time: {post.readTime}</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PageHero eyebrow={post.category} title={post.title} description={post.summary} image={post.featuredImage} imageAlt={post.title}/>
+      <div className="container-shell mt-6 flex flex-wrap items-center gap-6 rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm font-semibold text-slate-500 shadow-sm"><span className="font-extrabold text-[#031f66]">By {post.author}</span><span className="flex items-center gap-2"><Calendar className="h-4 w-4 text-[#d50b12]"/>{post.date}</span><span className="flex items-center gap-2"><Clock className="h-4 w-4 text-[#0739a6]"/>{post.readTime}</span></div>
 
       {/* Dynamic breadcrumbs simulated */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">

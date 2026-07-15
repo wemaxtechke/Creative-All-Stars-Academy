@@ -5,6 +5,8 @@ import { useParams, notFound, useSearchParams } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import { Calendar, MapPin, Send, ArrowLeft, Paperclip } from 'lucide-react';
 import Link from 'next/link';
+import { PageHero } from '@/components/PageHero';
+import { TurnstileWidget } from '@/components/TurnstileWidget';
 
 function CareerDetailsContent() {
   const { id } = useParams() as { id: string };
@@ -18,6 +20,7 @@ function CareerDetailsContent() {
   const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   // If searchParam apply=true is present, scroll down to the form
   useEffect(() => {
@@ -31,40 +34,28 @@ function CareerDetailsContent() {
     notFound();
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!applicantName || !email || !phone) {
       setError('Please fill in all requested fields correctly.');
       return;
     }
 
-    addJobApplication({
-      jobId: job.id,
-      jobTitle: job.title,
-      applicantName,
-      email,
-      phone,
-      resumeUrl: '#'
-    });
-
-    setSubmitted(true);
-    setApplicantName('');
-    setEmail('');
-    setPhone('');
+    try {
+      await addJobApplication({ jobId: job.id, jobTitle: job.title, applicantName, email, phone, resumeUrl: '#', turnstileToken });
+      setSubmitted(true);
+      setApplicantName('');
+      setEmail('');
+      setPhone('');
+      setTurnstileToken('');
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : 'Your application could not be sent.');
+    }
   };
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="px-3 py-1 bg-blue-600 text-white font-extrabold text-xs uppercase tracking-widest rounded-lg">{job.type} • {job.department}</span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mt-3 mb-4">{job.title}</h1>
-          <p className="text-blue-100 text-sm md:text-base max-w-2xl mx-auto">
-            Review requirements and responsibilities, or submit your TSC credentials directly online.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow={`${job.type} · ${job.department}`} title={job.title} description="Bring your expertise, care and creativity to a team committed to helping every learner realize their full potential." image="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=85&w=1200&auto=format&fit=crop" imageAlt={`Career opportunity for ${job.title}`} cta={{label:'Apply for this role',href:'#apply-form-block'}}/>
 
       {/* Breadcrumbs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
@@ -138,6 +129,7 @@ function CareerDetailsContent() {
                 <p className="text-gray-600 text-xs leading-relaxed">
                   Your candidate profile has been logged in our administrative dashboard candidate panel. Thank you for your interest in joining our star team.
                 </p>
+                <TurnstileWidget onToken={setTurnstileToken} />
                 <button
                   onClick={() => setSubmitted(false)}
                   className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl transition-colors"

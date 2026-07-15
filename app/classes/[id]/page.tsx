@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { User, CheckCircle, GraduationCap, Award, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { PageHero } from '@/components/PageHero';
 
 export default function ClassDetails() {
   const { id } = useParams() as { id: string };
@@ -22,16 +23,7 @@ export default function ClassDetails() {
 
   return (
     <div className="pb-24">
-      {/* Dynamic Banner */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-yellow-400 font-extrabold text-sm uppercase tracking-widest">{selectedClass.ageGroup} Age Bracket</span>
-          <h1 className="text-4xl md:text-5xl font-black mt-2 mb-4">{selectedClass.name}</h1>
-          <p className="text-blue-100 text-sm md:text-base max-w-2xl mx-auto">
-            Providing custom child learning setups, specialized teachers, and interactive activities under CBC.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow={`${selectedClass.ageGroup} learning pathway`} title={selectedClass.name} description={selectedClass.description} image={selectedClass.image} imageAlt={`${selectedClass.name} learners at Creative All Stars Academy`} cta={{label:'Enquire about this class',href:'/admissions'}}/>
 
       <Breadcrumbs items={[{ name: 'Classes', href: '/classes' }, { name: selectedClass.name }]} />
 

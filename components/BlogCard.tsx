@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { BlogPost } from '@/types';
 import { motion } from 'framer-motion';
@@ -18,11 +19,12 @@ export const BlogCard: React.FC<{ post: BlogPost }> = ({ post }) => {
           {post.category}
         </span>
         {/* Image */}
-        <img
+        <Image
           src={post.featuredImage}
           alt={post.title}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-          loading="lazy"
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+          className="object-cover transition-transform duration-500 hover:scale-105"
         />
       </div>
 
@@ -30,7 +32,7 @@ export const BlogCard: React.FC<{ post: BlogPost }> = ({ post }) => {
         {/* Meta data */}
         <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 font-semibold mb-3">
           <span className="flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5 text-green-500" />
+            <Calendar className="w-3.5 h-3.5 text-[#d50b12]" />
             {post.date}
           </span>
           <span className="flex items-center gap-1">

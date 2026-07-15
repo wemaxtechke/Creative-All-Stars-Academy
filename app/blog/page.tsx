@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { BlogCard } from '@/components/BlogCard';
 import { Search, ChevronLeft, ChevronRight, FileText, ArrowRight } from 'lucide-react';
+import { PageHero } from '@/components/PageHero';
 
 export default function Blog() {
   const { blogPosts } = useApp();
@@ -40,15 +41,7 @@ export default function Blog() {
 
   return (
     <div className="pb-24">
-      {/* Banner / Hero */}
-      <section className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white py-16 text-center border-b-4 border-yellow-400">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-black mb-4">News & Blogs</h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-            Stay informed with our 12+ premium articles detailing CBC updates, healthy nutrition, athletics trophies, and campus innovations.
-          </p>
-        </div>
-      </section>
+      <PageHero eyebrow="News, ideas and celebrations" title="Stories from a school that never stops growing." description="Follow learner achievements, school events, thoughtful parent guidance and practical insights into CBC learning." image="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=85&w=1200&auto=format&fit=crop" imageAlt="Books and learning resources for school news"/>
 
       <Breadcrumbs items={[{ name: 'News & Blog' }]} />
 

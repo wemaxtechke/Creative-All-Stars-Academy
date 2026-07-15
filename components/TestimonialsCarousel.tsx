@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { useApp } from '@/lib/AppContext';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -22,7 +23,7 @@ export const TestimonialsCarousel: React.FC = () => {
   const current = testimonials[activeIndex];
 
   return (
-    <div className="relative bg-blue-900 rounded-3xl p-8 md:p-12 overflow-hidden shadow-xl text-white max-w-4xl mx-auto border-t-4 border-yellow-400">
+    <div className="relative bg-[#0739a6] rounded-3xl p-8 md:p-12 overflow-hidden shadow-xl text-white max-w-4xl mx-auto border-t-4 border-[#ffc400]">
       {/* Absolute Decorative elements */}
       <div className="absolute right-6 top-6 opacity-10">
         <Quote className="w-40 h-40" />
@@ -39,10 +40,12 @@ export const TestimonialsCarousel: React.FC = () => {
         >
           {/* Avatar */}
           <div className="relative w-20 h-20 rounded-full overflow-hidden border-4 border-yellow-400 shadow-lg">
-            <img
+            <Image
               src={current.avatar}
               alt={current.name}
-              className="w-full h-full object-cover"
+              fill
+              sizes="80px"
+              className="object-cover"
             />
           </div>
 

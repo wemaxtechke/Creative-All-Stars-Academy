@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Plus, Trash, Clock, MapPin } from 'lucide-react';
+import type { SchoolEvent } from '@/types';
 
 export default function AdminEvents() {
   const { schoolEvents, addSchoolEvent, deleteSchoolEvent } = useApp();
@@ -64,7 +65,7 @@ export default function AdminEvents() {
             </div>
             <div className="space-y-1">
               <label className="text-gray-600">Category Tag *</label>
-              <select value={category} onChange={(e) => setCategory(e.target.value as any)} className="w-full p-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-blue-600 text-sm font-medium" required>
+              <select value={category} onChange={(e) => setCategory(e.target.value as SchoolEvent['category'])} className="w-full p-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-blue-600 text-sm font-medium" required>
                 <option value="Academic">Academic</option>
                 <option value="Sports">Sports</option>
                 <option value="Arts">Arts</option>

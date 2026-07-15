@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import {
   Grid,
@@ -16,7 +17,6 @@ import {
   Settings,
   LogOut,
   Bell,
-  Search,
   Menu,
   X,
   Moon,
@@ -29,44 +29,29 @@ import {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { messages, admissions, jobApplications } = useApp();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
-  // Authenticate simulation check
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const logged = localStorage.getItem('casa_admin_logged');
-      if (logged !== 'true' && pathname !== '/admin/login') {
-        router.push('/admin/login');
-      }
-    }
-  }, [pathname, router]);
-
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('casa_admin_logged');
-    }
-    router.push('/admin/login');
+    window.location.assign('/cdn-cgi/access/logout');
   };
 
   const menuItems = [
-    { name: 'Dashboard', href: '/admin/dashboard', icon: Grid },
-    { name: 'Students', href: '/admin/dashboard/students', icon: Users },
-    { name: 'Admissions', href: '/admin/dashboard/admissions', icon: FileCheck, count: admissions.filter(a => a.status === 'Pending').length },
-    { name: 'Blog Posts', href: '/admin/dashboard/blog', icon: FileText },
-    { name: 'Gallery Media', href: '/admin/dashboard/gallery', icon: ImageIcon },
-    { name: 'Events Planner', href: '/admin/dashboard/events', icon: Calendar },
-    { name: 'Staff Faculty', href: '/admin/dashboard/staff', icon: Users },
-    { name: 'Job Positions', href: '/admin/dashboard/careers', icon: Briefcase },
-    { name: 'Applications', href: '/admin/dashboard/applications', icon: Layers, count: jobApplications.filter(j => j.status === 'Pending').length },
-    { name: 'Downloads Center', href: '/admin/dashboard/downloads', icon: Download },
+    { name: 'Overview', href: '/admin/dashboard', icon: Grid },
+    { name: 'Admission enquiries', href: '/admin/dashboard/admissions', icon: FileCheck, count: admissions.filter(a => a.status === 'Pending').length },
+    { name: 'Contact messages', href: '/admin/dashboard/messages', icon: Inbox, count: messages.filter(m => m.status === 'Unread').length },
+    { name: 'News & stories', href: '/admin/dashboard/blog', icon: FileText },
+    { name: 'Events', href: '/admin/dashboard/events', icon: Calendar },
+    { name: 'Gallery', href: '/admin/dashboard/gallery', icon: ImageIcon },
+    { name: 'Staff profiles', href: '/admin/dashboard/staff', icon: Users },
+    { name: 'Careers', href: '/admin/dashboard/careers', icon: Briefcase },
+    { name: 'Job applications', href: '/admin/dashboard/applications', icon: Layers, count: jobApplications.filter(j => j.status === 'Pending').length },
+    { name: 'Parent downloads', href: '/admin/dashboard/downloads', icon: Download },
     { name: 'Testimonials', href: '/admin/dashboard/testimonials', icon: Star },
-    { name: 'Contact Messages', href: '/admin/dashboard/messages', icon: Inbox, count: messages.filter(m => m.status === 'Unread').length },
-    { name: 'Global Settings', href: '/admin/dashboard/settings', icon: Settings }
+    { name: 'Website settings', href: '/admin/dashboard/settings', icon: Settings }
   ];
 
   return (
@@ -76,12 +61,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <aside className={`hidden lg:flex flex-col w-72 border-r flex-shrink-0 transition-colors ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
         {/* Brand Banner */}
         <div className="h-20 flex items-center px-6 border-b border-gray-100/50 gap-2">
-          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold border-2 border-yellow-400 text-sm">
-            ⭐
-          </div>
+          <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={46} height={46} className="h-11 w-11 rounded-full bg-white object-contain"/>
           <div>
-            <h1 className="font-extrabold text-blue-900 dark:text-yellow-400 text-sm uppercase tracking-wider leading-none">CASA Administration</h1>
-            <p className="text-[10px] text-green-600 font-bold mt-1 uppercase">Milimani Nakuru</p>
+            <h1 className="font-extrabold text-blue-900 dark:text-yellow-400 text-sm tracking-tight leading-none">CASA Website CMS</h1>
+            <p className="text-[10px] text-[#d50b12] font-bold mt-1 uppercase tracking-wider">Content & enquiries</p>
           </div>
         </div>
 
@@ -96,7 +79,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 href={item.href}
                 className={`flex items-center justify-between px-4 py-3 rounded-xl text-xs font-bold transition-all ${
                   isActive
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/10'
+                    ? 'bg-[#0739a6] text-white shadow-md shadow-blue-900/10'
                     : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600'
                 }`}
               >
@@ -121,7 +104,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all text-left"
           >
             <LogOut className="w-4 h-4" />
-            Sign Out Portal
+            Sign out
           </button>
         </div>
       </aside>
@@ -133,8 +116,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <aside className={`relative flex flex-col w-72 max-w-xs h-full shadow-2xl transition-colors ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
             <div className="h-20 flex items-center justify-between px-6 border-b border-gray-100/50">
               <div className="flex items-center gap-2">
-                <span className="text-xl">⭐</span>
-                <span className="font-extrabold text-blue-950 dark:text-yellow-400 text-sm">CASA Control Panel</span>
+                <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={34} height={34} className="h-9 w-9 rounded-full object-contain"/>
+                <span className="font-extrabold text-blue-950 dark:text-yellow-400 text-sm">CASA Website CMS</span>
               </div>
               <button onClick={() => setSidebarOpen(false)} className="p-1 rounded-full text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
@@ -151,7 +134,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     href={item.href}
                     onClick={() => setSidebarOpen(false)}
                     className={`flex items-center justify-between px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                      isActive ? 'bg-blue-600 text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    isActive ? 'bg-[#0739a6] text-white' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -172,7 +155,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-red-500 hover:bg-red-50 transition-all text-left"
               >
                 <LogOut className="w-4 h-4" />
-                Sign Out Portal
+                Sign out
               </button>
             </div>
           </aside>
@@ -192,8 +175,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             >
               <Menu className="w-5 h-5" />
             </button>
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-green-100 dark:bg-green-950/20 text-green-700 dark:text-green-400 text-[10px] font-black uppercase tracking-wider rounded-lg border border-green-200/50">
-              <ShieldCheck className="w-4 h-4" /> SECURE ADMIN SESSION ACTIVE
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-950/20 text-[#0739a6] dark:text-blue-300 text-[10px] font-black uppercase tracking-wider rounded-lg border border-blue-200/50">
+              <ShieldCheck className="w-4 h-4" /> Website editor session
             </div>
           </div>
 
@@ -245,8 +228,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 AD
               </div>
               <div className="hidden md:block text-left text-xs font-bold leading-tight">
-                <p className="text-blue-950 dark:text-white font-extrabold">Director Admin</p>
-                <p className="text-gray-400 text-[10px] mt-0.5">Mrs. Bevalyne</p>
+                <p className="text-blue-950 dark:text-white font-extrabold">Website administrator</p>
+                <p className="text-gray-400 text-[10px] mt-0.5">Content team</p>
               </div>
             </div>
           </div>

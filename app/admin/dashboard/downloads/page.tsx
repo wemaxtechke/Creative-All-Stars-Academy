@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Plus, Trash, Download } from 'lucide-react';
+import type { DownloadItem } from '@/types';
 
 export default function AdminDownloads() {
   const { downloads, addDownload, deleteDownload } = useApp();
@@ -54,7 +55,7 @@ export default function AdminDownloads() {
           </div>
           <div className="space-y-1">
             <label className="text-gray-600">Category Folder *</label>
-            <select value={category} onChange={(e) => setCategory(e.target.value as any)} className="w-full p-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-blue-600 text-sm font-medium" required>
+            <select value={category} onChange={(e) => setCategory(e.target.value as DownloadItem['category'])} className="w-full p-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:border-blue-600 text-sm font-medium" required>
               <option value="Assignment">Assignment</option>
               <option value="Admission">Admission</option>
               <option value="Calendar">Calendar</option>
