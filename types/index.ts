@@ -51,8 +51,10 @@ export interface GalleryImage {
   mediaId?: string;
   url: string;
   title: string;
-  category: 'School Events' | 'Sports' | 'Graduation' | 'Trips' | 'Learning' | 'Campus';
+  alt?: string;
+  category: string;
   date: string;
+  order?: number;
 }
 
 export interface Job {

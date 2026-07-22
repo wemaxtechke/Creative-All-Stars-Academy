@@ -52,7 +52,10 @@ export async function getPublicContent(): Promise<PublicContent> {
       case "jobs": content.jobs.push(parsed as PublicContent["jobs"][number]); break;
       case "testimonials": content.testimonials.push(parsed as PublicContent["testimonials"][number]); break;
       case "downloads": content.downloads.push(parsed as PublicContent["downloads"][number]); break;
-      case "settings": content.settings = parsed as PublicContent["settings"]; break;
+      case "settings": content.settings = {
+        ...defaultPublicContent.settings,
+        ...(parsed as Partial<PublicContent["settings"]>),
+      }; break;
     }
   }
   return content;

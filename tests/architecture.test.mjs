@@ -133,4 +133,27 @@ test('teachers and class lead assignments are fully administered through D1 CMS 
   assert.match(classPage, /teachers\.find\(t => t\.id === selectedClass\.teacherId\)/);
   assert.doesNotMatch(context, /schoolClasses as initialSchoolClasses/);
 });
+
+test('School Life gallery media and page presentation are fully controlled by the D1 CMS', async () => {
+  const types = await read('types/index.ts');
+  const defaults = await read('lib/site-content.ts');
+  const content = await read('lib/db/content.ts');
+  const context = await read('lib/AppContext.tsx');
+  const galleryAdmin = await read('app/admin/dashboard/gallery/page.tsx');
+  const galleryPage = await read('app/gallery/page.tsx');
+
+  assert.match(types, /category: string/);
+  assert.match(types, /order\?: number/);
+  assert.match(defaults, /galleryCategories/);
+  assert.match(content, /\.\.\.defaultPublicContent\.settings/);
+  assert.match(context, /updateGalleryImage/);
+  assert.match(galleryAdmin, /Replace image \(optional\)/);
+  assert.match(galleryAdmin, /Display order/);
+  assert.match(galleryAdmin, /updateSettings/);
+  assert.match(galleryAdmin, /removeCategory/);
+  assert.match(galleryPage, /settings\.galleryCategories/);
+  assert.match(galleryPage, /settings\.galleryTitle/);
+  assert.match(galleryPage, /a\.order \?\? 0/);
+  assert.doesNotMatch(galleryPage, /const categories = \['All', 'School Events'/);
+});
 //good code//

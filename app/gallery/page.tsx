@@ -4,40 +4,43 @@ import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
-import { Search, Grid, Eye, X, Calendar } from 'lucide-react';
+import { Eye, X, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PageHero } from '@/components/PageHero';
 
 export default function Gallery() {
-  const { galleryImages } = useApp();
+  const { galleryImages, settings } = useApp();
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [modalImage, setModalImage] = useState<typeof galleryImages[0] | null>(null);
 
-  const categories = ['All', 'School Events', 'Sports', 'Graduation', 'Trips', 'Learning', 'Campus'];
+  const categories = ['All', ...Array.from(new Set(settings.galleryCategories.map((item) => item.trim()).filter(Boolean)))];
+  const orderedImages = [...galleryImages].sort((a, b) =>
+    (a.order ?? 0) - (b.order ?? 0) || b.date.localeCompare(a.date)
+  );
 
   const filteredImages = activeCategory === 'All'
-    ? galleryImages
-    : galleryImages.filter(img => img.category === activeCategory);
+    ? orderedImages
+    : orderedImages.filter(img => img.category === activeCategory);
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Life at CASA" title="Real moments. Growing confidence. Lasting memories." description="Step into the learning, friendships, celebrations and activities that make every school day meaningful." imageSlot="page-gallery"/>
+      <PageHero eyebrow={settings.galleryEyebrow} title={settings.galleryTitle} description={settings.galleryDescription} imageSlot="page-gallery"/>
 
       <Breadcrumbs items={[{ name: 'Gallery' }]} />
 
       {/* Main Grid structure */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
         <SectionHeader
-          title="Nurturing Creative Stars In Action"
-          subtitle="A complete masonry layout of our Ngata, Nakuru campus classrooms, sport galas, and children activities."
-          badge="CAMPUS LIFE SHOTS"
+          title={settings.gallerySectionTitle}
+          subtitle={settings.gallerySectionSubtitle}
+          badge={settings.galleryBadge}
         />
 
         {/* Filter categories tabs */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-10 max-w-3xl mx-auto">
-          {categories.map((cat, idx) => (
+          {categories.map((cat) => (
             <button
-              key={idx}
+              key={cat}
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 text-xs md:text-sm font-extrabold rounded-full transition-all duration-200 ${
                 activeCategory === cat
@@ -53,7 +56,7 @@ export default function Gallery() {
         {/* Masonry-like dynamic Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence mode="popLayout">
-            {filteredImages.map((img, idx) => (
+            {filteredImages.map((img) => (
               <motion.div
                 key={img.id}
                 layout
@@ -68,7 +71,7 @@ export default function Gallery() {
                 <div className="relative h-64 overflow-hidden bg-gray-50">
                   <img
                     src={img.url}
-                    alt={img.title}
+                    alt={img.alt || img.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
 
@@ -136,7 +139,7 @@ export default function Gallery() {
                 <div className="md:col-span-8 bg-gray-100 max-h-[70vh]">
                   <img
                     src={modalImage.url}
-                    alt={modalImage.title}
+                    alt={modalImage.alt || modalImage.title}
                     className="w-full h-full object-contain mx-auto"
                   />
                 </div>
@@ -150,7 +153,7 @@ export default function Gallery() {
                     {modalImage.title}
                   </h3>
                   <p className="text-gray-500 text-xs leading-relaxed">
-                    Captured live at our Ngata campus during the {modalImage.category} session. At Creative All Stars, visual representations are kept active to show parents of current stars their progress daily.
+                    {settings.galleryModalDescription}
                   </p>
                   <div className="border-t border-gray-50 pt-3 text-[10px] font-bold text-gray-400">
                     DATE TAKEN: {modalImage.date}

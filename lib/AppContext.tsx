@@ -58,6 +58,7 @@ interface AppContextType {
   updateSchoolEvent: (id: string, value: Partial<SchoolEvent>) => Promise<void>;
   deleteSchoolEvent: (id: string) => Promise<void>;
   addGalleryImage: (value: Omit<GalleryImage, 'id'>) => Promise<void>;
+  updateGalleryImage: (id: string, value: Partial<GalleryImage>) => Promise<void>;
   deleteGalleryImage: (id: string) => Promise<void>;
   addJob: (value: Omit<Job, 'id'>) => Promise<void>;
   updateJob: (id: string, value: Partial<Job>) => Promise<void>;
@@ -183,6 +184,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   const updateSchoolEvent = (id: string, value: Partial<SchoolEvent>) => updateRecord('schoolEvents', id, value, setSchoolEvents);
   const deleteSchoolEvent = (id: string) => deleteRecord('schoolEvents', id, setSchoolEvents);
   const addGalleryImage = (value: Omit<GalleryImage, 'id'>) => createRecord<GalleryImage>('galleryImages', value, setGalleryImages);
+  const updateGalleryImage = (id: string, value: Partial<GalleryImage>) => updateRecord('galleryImages', id, value, setGalleryImages);
   const deleteGalleryImage = (id: string) => deleteRecord('galleryImages', id, setGalleryImages);
   const addJob = (value: Omit<Job, 'id'>) => createRecord<Job>('jobs', value, setJobs);
   const updateJob = (id: string, value: Partial<Job>) => updateRecord('jobs', id, value, setJobs);
@@ -244,7 +246,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
     getSiteImage, addHeroSlide, updateHeroSlide, deleteHeroSlide, setSiteImage, deleteSiteImage,
     addTeacher, updateTeacher, deleteTeacher, updateSchoolClass,
     addBlogPost, updateBlogPost, deleteBlogPost, addSchoolEvent, updateSchoolEvent, deleteSchoolEvent,
-    addGalleryImage, deleteGalleryImage, addJob, updateJob, deleteJob, addJobApplication,
+    addGalleryImage, updateGalleryImage, deleteGalleryImage, addJob, updateJob, deleteJob, addJobApplication,
     updateJobApplicationStatus, addTestimonial, deleteTestimonial, addDownload, deleteDownload,
     addAdmissionApplication, updateAdmissionStatus, addContactMessage, updateMessageStatus, updateSettings, uploadMedia,
   }}>{children}</AppContext.Provider>;

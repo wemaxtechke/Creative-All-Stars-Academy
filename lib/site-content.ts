@@ -24,6 +24,14 @@ export const defaultSettings = {
   instagram: "https://instagram.com",
   youtube: "https://youtube.com",
   theme: "light" as "light" | "dark",
+  galleryEyebrow: "Life at CASA",
+  galleryTitle: "Real moments. Growing confidence. Lasting memories.",
+  galleryDescription: "Step into the learning, friendships, celebrations and activities that make every school day meaningful.",
+  gallerySectionTitle: "Nurturing Creative Stars In Action",
+  gallerySectionSubtitle: "A complete gallery of our Ngata, Nakuru campus classrooms, sport galas, and children activities.",
+  galleryBadge: "CAMPUS LIFE SHOTS",
+  galleryModalDescription: "Captured at our Ngata campus as part of daily school life at Creative All Stars Academy.",
+  galleryCategories: ["School Events", "Sports", "Graduation", "Trips", "Learning", "Campus"],
 };
 
 export type SchoolSettings = typeof defaultSettings;
