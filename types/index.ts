@@ -60,12 +60,14 @@ export interface GalleryImage {
 export interface Job {
   id: string;
   title: string;
+  description: string;
   department: string;
   type: 'Full-time' | 'Part-time' | 'Contract';
   location: string;
   responsibilities: string[];
   requirements: string[];
   deadline: string;
+  isActive: boolean;
 }
 
 export interface JobApplication {

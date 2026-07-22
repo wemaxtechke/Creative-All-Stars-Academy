@@ -103,6 +103,24 @@ export async function POST(request: Request, { params }: { params: Promise<{ typ
   const validationError = validateSubmission(leadType, payload);
   if (validationError) return NextResponse.json({ error: validationError }, { status: 400 });
 
+  if (leadType === "job_application") {
+    const vacancy = await getCloudflareEnv().DB.prepare(`SELECT payload FROM content_items
+      WHERE collection = 'jobs' AND id = ? AND is_published = 1 LIMIT 1`)
+      .bind(payload.jobId).first<{ payload: string }>();
+    if (!vacancy) return NextResponse.json({ error: "This vacancy is no longer available." }, { status: 409 });
+    let storedJob: { title?: unknown; deadline?: unknown; isActive?: unknown };
+    try {
+      storedJob = JSON.parse(vacancy.payload) as typeof storedJob;
+    } catch {
+      return NextResponse.json({ error: "This vacancy is no longer available." }, { status: 409 });
+    }
+    const deadline = String(storedJob.deadline ?? "");
+    if (storedJob.isActive === false || !deadline || deadline < new Date().toISOString().slice(0, 10)) {
+      return NextResponse.json({ error: "Applications for this vacancy are closed." }, { status: 409 });
+    }
+    payload.jobTitle = clean(storedJob.title, 300);
+  }
+
   if (leadType !== "job_application") {
     const record = await createLead(leadType, payload, request);
     return NextResponse.json({ ok: true, record }, { status: 201 });

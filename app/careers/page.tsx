@@ -7,9 +7,11 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { JobCard } from '@/components/JobCard';
 import { Mail, Briefcase, HelpCircle } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
+import { isJobOpen } from '@/lib/jobs';
 
 export default function Careers() {
   const { jobs } = useApp();
+  const activeJobs = jobs.filter((job) => isJobOpen(job));
 
   return (
     <div className="pb-24">
@@ -26,12 +28,12 @@ export default function Careers() {
         />
 
         <div className="space-y-6">
-          {jobs.map((job) => (
+          {activeJobs.map((job) => (
             <JobCard key={job.id} job={job} />
           ))}
         </div>
 
-        {jobs.length === 0 && (
+        {activeJobs.length === 0 && (
           <div className="text-center py-20 bg-white border border-gray-100 rounded-3xl max-w-xl mx-auto space-y-4">
             <span className="text-4xl">💼</span>
             <h4 className="font-black text-blue-950 text-lg">No openings right now</h4>

@@ -685,7 +685,9 @@ export const jobs: Job[] = [
       'Strong practical understanding of Competency-Based Assessment (CBA) frameworks.',
       'Proficient in using computer tablets, educational apps, and interactive screens.'
     ],
-    deadline: '2025-08-15'
+    deadline: '2025-08-15',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   },
   {
     id: 'j2',
@@ -705,7 +707,9 @@ export const jobs: Job[] = [
       'Minimum of 2 years experience teaching mathematics in senior primary or junior secondary blocks.',
       'Patient, creative, and skilled in utilizing concrete models.'
     ],
-    deadline: '2025-08-20'
+    deadline: '2025-08-20',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   },
   {
     id: 'j3',
@@ -725,7 +729,9 @@ export const jobs: Job[] = [
       'Excellent verbal and written communication in English.',
       'Passion for literature and mentoring youth leaders.'
     ],
-    deadline: '2025-08-22'
+    deadline: '2025-08-22',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   },
   {
     id: 'j4',
@@ -744,7 +750,9 @@ export const jobs: Job[] = [
       'Proficiency in Scratch, Python, Google Workspace, and network troubleshooting.',
       'Energetic, child-friendly teaching approach.'
     ],
-    deadline: '2025-08-25'
+    deadline: '2025-08-25',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   },
   {
     id: 'j5',
@@ -764,7 +772,9 @@ export const jobs: Job[] = [
       'At least 3 years experience in a school environment or busy pediatric clinic.',
       'Empathetic, calm under pressure, and highly structured.'
     ],
-    deadline: '2025-08-30'
+    deadline: '2025-08-30',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   },
   {
     id: 'j6',
@@ -784,7 +794,9 @@ export const jobs: Job[] = [
       'Clean driving record of at least 5 years.',
       'Patient and extremely safety-focused.'
     ],
-    deadline: '2025-08-10'
+    deadline: '2025-08-10',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   },
   {
     id: 'j7',
@@ -804,7 +816,9 @@ export const jobs: Job[] = [
       'Experience cooking large-scale meals in a school, college, or hotel.',
       'Punctual, cooperative, and hygienic.'
     ],
-    deadline: '2025-08-10'
+    deadline: '2025-08-10',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   },
   {
     id: 'j8',
@@ -824,7 +838,9 @@ export const jobs: Job[] = [
       'Proficiency in QuickBooks, Tally, or similar ERP software.',
       'Absolute integrity and excellent analytical skills.'
     ],
-    deadline: '2025-08-20'
+    deadline: '2025-08-20',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   },
   {
     id: 'j9',
@@ -843,7 +859,9 @@ export const jobs: Job[] = [
       'Previous experience cleaning institutions, hotels, or corporate offices.',
       'Polite, hardworking, and able to work with minimum supervision.'
     ],
-    deadline: '2025-08-10'
+    deadline: '2025-08-10',
+    description: 'Archived vacancy fixture.',
+    isActive: false
   }
 ];
 

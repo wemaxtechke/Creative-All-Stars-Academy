@@ -213,4 +213,33 @@ test('contact page embeds the administrator-controlled Google Maps location', as
   assert.doesNotMatch(contact, /Custom SVG Stylized Map|Road lines simulated|CASA NGATA/);
   assert.match(migration, /'\$\.mapUrl'/);
 });
+
+test('vacancies are completely controlled by administrators and closed vacancies reject applications', async () => {
+  const types = await read('types/index.ts');
+  const content = await read('lib/db/content.ts');
+  const context = await read('lib/AppContext.tsx');
+  const admin = await read('app/admin/dashboard/careers/page.tsx');
+  const careers = await read('app/careers/page.tsx');
+  const detail = await read('app/careers/[id]/page.tsx');
+  const formRoute = await read('app/api/forms/[type]/route.ts');
+  const sitemap = await read('app/sitemap.ts');
+  const migration = await read('migrations/0012_complete_vacancy_controls.sql');
+
+  assert.match(types, /description: string/);
+  assert.match(types, /isActive: boolean/);
+  assert.match(content, /Choose whether the vacancy is published/);
+  assert.match(context, /updateJob/);
+  assert.match(admin, /Edit Vacancy/);
+  assert.match(admin, /Responsibilities/);
+  assert.match(admin, /Requirements/);
+  assert.match(admin, /Publish on website/);
+  assert.match(admin, /togglePublished/);
+  assert.match(careers, /activeJobs/);
+  assert.match(detail, /job\.description/);
+  assert.match(formRoute, /Applications for this vacancy are closed/);
+  assert.match(formRoute, /collection = 'jobs'/);
+  assert.match(sitemap, /jobs\.filter\(\(job\) => isJobOpen\(job\)\)/);
+  assert.match(migration, /'\$\.isActive'/);
+  assert.match(migration, /'\$\.description'/);
+});
 //good code//

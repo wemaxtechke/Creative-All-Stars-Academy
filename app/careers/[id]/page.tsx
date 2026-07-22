@@ -7,13 +7,14 @@ import { Calendar, MapPin, Send, ArrowLeft, Paperclip } from 'lucide-react';
 import Link from 'next/link';
 import { PageHero } from '@/components/PageHero';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
+import { isJobOpen } from '@/lib/jobs';
 
 function CareerDetailsContent() {
   const { id } = useParams() as { id: string };
   const searchParams = useSearchParams();
   const { jobs, addJobApplication } = useApp();
 
-  const job = jobs.find((j) => j.id === id);
+  const job = jobs.find((item) => item.id === id && isJobOpen(item));
 
   const [applicantName, setApplicantName] = useState('');
   const [email, setEmail] = useState('');
@@ -57,7 +58,7 @@ function CareerDetailsContent() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow={`${job.type} · ${job.department}`} title={job.title} description="Bring your expertise, care and creativity to a team committed to helping every learner realize their full potential." imageSlot="page-careers" cta={{label:'Apply for this role',href:'#apply-form-block'}}/>
+      <PageHero eyebrow={`${job.type} · ${job.department}`} title={job.title} description={job.description} imageSlot="page-careers" cta={{label:'Apply for this role',href:'#apply-form-block'}}/>
 
       {/* Breadcrumbs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">

@@ -161,7 +161,7 @@ const requiredFields: Record<ContentCollection, string[]> = {
   blogPosts: ["title", "summary", "content", "featuredImage", "category", "date", "author"],
   schoolEvents: ["title", "description", "date", "time", "location", "category"],
   galleryImages: ["title", "url", "category", "date"],
-  jobs: ["title", "department", "type", "location", "deadline"],
+  jobs: ["title", "description", "department", "type", "location", "deadline"],
   testimonials: ["name", "role", "content", "avatar"],
   downloads: ["mediaId", "title", "category", "fileType", "fileSize", "url"],
   settings: ["schoolName", "tagline", "email", "phone", "address", "mapUrl", "mapLatitude", "mapLongitude", "officeHours"],
@@ -172,9 +172,13 @@ export function validateContentInput(collection: ContentCollection, input: Recor
   if (missing) return `The ${missing} field is required.`;
   if (input.id !== undefined && !/^[A-Za-z0-9_-]{1,100}$/.test(String(input.id))) return "Invalid content identifier.";
   if (collection === "jobs") {
-    if (!Array.isArray(input.responsibilities) || !Array.isArray(input.requirements)) {
-      return "Responsibilities and requirements must be lists.";
+    if (!Array.isArray(input.responsibilities) || input.responsibilities.length === 0 ||
+        !Array.isArray(input.requirements) || input.requirements.length === 0) {
+      return "Add at least one responsibility and one requirement.";
     }
+    if (!['Full-time', 'Part-time', 'Contract'].includes(String(input.type))) return "Choose a valid contract type.";
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(input.deadline))) return "Choose a valid application deadline.";
+    if (typeof input.isActive !== "boolean") return "Choose whether the vacancy is published.";
   }
   if (collection === "classes") {
     if (!Array.isArray(input.subjects) || !Array.isArray(input.activities)) {
