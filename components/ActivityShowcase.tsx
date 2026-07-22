@@ -55,17 +55,26 @@ export function HomeHeroSlider() {
   const reduceMotion=useReducedMotion();
   useEffect(()=>{if(paused||heroSlides.length<2)return;const id=setInterval(()=>setActive(value=>(value+1)%heroSlides.length),HERO_SLIDE_DURATION_MS);return()=>clearInterval(id)},[paused,active,heroSlides.length]);
   const move=(step:number)=>setActive(value=>(value+step+heroSlides.length)%heroSlides.length);
-  const story=heroSlides[active%Math.max(heroSlides.length,1)];
+  const assignedStory=heroSlides[active%Math.max(heroSlides.length,1)];
+  const story=assignedStory??{
+    id:'default-hero',
+    image:'',
+    alt:'',
+    kicker:'Welcome to Creative All Stars Academy',
+    title:'A confident start. A future full of possibility.',
+    description:'Inclusive, holistic CBC education that helps every learner discover their strengths and realise their full potential.',
+    primary:'Discover our school',
+    primaryHref:'/about',
+  };
+  const hasAssignedImage=Boolean(assignedStory?.image);
   const entrance=(delay:number)=>({duration:reduceMotion?0:.55,delay:reduceMotion?0:delay,ease:[.22,1,.36,1] as const});
 
-  if(!story)return null;
-
   return <section aria-label="Creative All Stars Academy highlights" className="relative min-h-[640px] overflow-hidden bg-[#031f66] text-white lg:min-h-[540px]" onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)}>
-    <AnimatePresence mode="sync">
+    {hasAssignedImage&&<AnimatePresence mode="sync">
       <motion.div key={story.image} initial={reduceMotion?{opacity:0}:{opacity:0,scale:1.02,x:8}} animate={reduceMotion?{opacity:1}:{opacity:1,scale:1.075,x:-8}} exit={{opacity:0}} transition={reduceMotion?{duration:0}:{opacity:{duration:.75},scale:{duration:HERO_SLIDE_DURATION_MS/1000+.4,ease:'linear'},x:{duration:HERO_SLIDE_DURATION_MS/1000+.4,ease:'linear'}}} className="absolute inset-0">
         <Image src={story.image} alt={story.alt} fill priority={active===0} sizes="100vw" className="object-cover"/>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>}
     <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,20,65,.94)_0%,rgba(3,31,102,.78)_38%,rgba(3,31,102,.2)_72%,rgba(3,31,102,.1)_100%)]"/>
     <div className="absolute inset-0 bg-gradient-to-t from-[#020d2b]/75 via-transparent to-[#020d2b]/20"/>
     <div className="absolute left-0 top-0 h-full w-2 bg-[#d50b12]"/>
@@ -96,13 +105,13 @@ export function HomeHeroSlider() {
       </div>
     </div>
 
-    <button onClick={()=>move(-1)} aria-label="Previous school highlight" className="absolute left-4 top-1/2 z-20 hidden h-20 w-12 -translate-y-1/2 place-items-center border border-white/15 bg-[#031f66]/35 text-white backdrop-blur-sm transition hover:bg-[#d50b12] md:grid lg:left-8"><ChevronLeft className="h-7 w-7"/></button>
-    <button onClick={()=>move(1)} aria-label="Next school highlight" className="absolute right-4 top-1/2 z-20 hidden h-20 w-12 -translate-y-1/2 place-items-center border border-white/15 bg-[#031f66]/35 text-white backdrop-blur-sm transition hover:bg-[#d50b12] md:grid lg:right-8"><ChevronRight className="h-7 w-7"/></button>
+    {heroSlides.length>1&&<><button onClick={()=>move(-1)} aria-label="Previous school highlight" className="absolute left-4 top-1/2 z-20 hidden h-20 w-12 -translate-y-1/2 place-items-center border border-white/15 bg-[#031f66]/35 text-white backdrop-blur-sm transition hover:bg-[#d50b12] md:grid lg:left-8"><ChevronLeft className="h-7 w-7"/></button>
+    <button onClick={()=>move(1)} aria-label="Next school highlight" className="absolute right-4 top-1/2 z-20 hidden h-20 w-12 -translate-y-1/2 place-items-center border border-white/15 bg-[#031f66]/35 text-white backdrop-blur-sm transition hover:bg-[#d50b12] md:grid lg:right-8"><ChevronRight className="h-7 w-7"/></button></>}
 
     <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/15 bg-[#020d2b]/55 backdrop-blur-md">
       <div className="container-shell flex min-h-20 flex-col justify-center gap-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:py-0">
         <div className="hidden items-center gap-8 text-xs font-bold text-blue-100 lg:flex"><span>Ngata, Nakuru</span><span className="h-4 w-px bg-white/25"/><span>CBC-aligned education</span><span className="h-4 w-px bg-white/25"/><span className="text-[#ffc400]">Endeavour to Succeed</span></div>
-        <div className="flex items-center gap-3">{heroSlides.map((item,index)=><button key={item.id} onClick={()=>setActive(index)} aria-label={`Show slide ${index+1}: ${item.alt}`} className={`group flex items-center gap-2 py-2 ${index===active?'text-white':'text-blue-200/70'}`}><span className={`relative h-2.5 overflow-hidden rounded-full transition-all ${index===active?'w-9 bg-white/20':'w-2.5 bg-white/50 group-hover:bg-white'}`}>{index===active&&<span key={`progress-${active}-${paused?'paused':'running'}`} className="absolute inset-0 origin-left bg-[#ffc400]" style={{animation:`hero-progress ${HERO_SLIDE_DURATION_MS}ms linear forwards`,animationPlayState:paused?'paused':'running'}}/>}</span><span className="hidden text-[10px] font-black tabular-nums sm:block">0{index+1}</span></button>)}</div>
+        {heroSlides.length>0&&<div className="flex items-center gap-3">{heroSlides.map((item,index)=><button key={item.id} onClick={()=>setActive(index)} aria-label={`Show slide ${index+1}: ${item.alt}`} className={`group flex items-center gap-2 py-2 ${index===active?'text-white':'text-blue-200/70'}`}><span className={`relative h-2.5 overflow-hidden rounded-full transition-all ${index===active?'w-9 bg-white/20':'w-2.5 bg-white/50 group-hover:bg-white'}`}>{index===active&&<span key={`progress-${active}-${paused?'paused':'running'}`} className="absolute inset-0 origin-left bg-[#ffc400]" style={{animation:`hero-progress ${HERO_SLIDE_DURATION_MS}ms linear forwards`,animationPlayState:paused?'paused':'running'}}/>}</span><span className="hidden text-[10px] font-black tabular-nums sm:block">0{index+1}</span></button>)}</div>}
       </div>
     </div>
     <HeroThemeWaves/>
