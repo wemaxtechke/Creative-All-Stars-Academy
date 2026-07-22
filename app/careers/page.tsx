@@ -50,7 +50,7 @@ export default function Careers() {
             </p>
           </div>
           <a
-            href="mailto:careers@creativeallstars.ac.ke"
+            href="mailto:info@creativeallstarsacademy.sc.ke"
             className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
           >
             <Mail className="w-4 h-4" />

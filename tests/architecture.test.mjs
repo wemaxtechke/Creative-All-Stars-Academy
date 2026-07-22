@@ -180,4 +180,18 @@ test('public PDF downloads require administrator-uploaded R2 files', async () =>
   assert.doesNotMatch(mocks, /export const downloads/);
   assert.doesNotMatch(mocks, /Comprehensive 2025 Fee Structure/);
 });
+
+test('current school phone and email are used throughout public website content', async () => {
+  const paths = [...await sourceFiles('app'), ...await sourceFiles('components'), ...await sourceFiles('lib')];
+  for (const path of paths) {
+    const source = await read(path);
+    assert.doesNotMatch(source, /\+254733590116|\+254712345678|@creativeallstars\.ac\.ke/i, `${path} contains old contact details`);
+  }
+  const settings = await read('lib/site-content.ts');
+  const migration = await read('migrations/0010_update_school_contact_details.sql');
+  assert.match(settings, /\+254724838674/);
+  assert.match(settings, /info@creativeallstarsacademy\.sc\.ke/);
+  assert.match(migration, /'\$\.phone', '\+254724838674'/);
+  assert.match(migration, /'\$\.email', 'info@creativeallstarsacademy\.sc\.ke'/);
+});
 //good code//

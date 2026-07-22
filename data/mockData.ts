@@ -54,7 +54,7 @@ export const teachers: Teacher[] = [
     id: 't1',
     name: 'Mr. John Mwangi',
     role: 'Grade 3 Class Teacher & Mathematics Specialist',
-    email: 'john.mwangi@creativeallstars.ac.ke',
+    email: 'john.mwangi@creativeallstarsacademy.sc.ke',
     image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop',
     bio: 'John makes mathematics engaging using concrete objects and digital games under the CBC curriculum framework.',
     subjects: ['Mathematics', 'Science and Technology']
@@ -63,7 +63,7 @@ export const teachers: Teacher[] = [
     id: 't2',
     name: 'Ms. Faith Chepkemoi',
     role: 'Grade 5 Class Teacher & Language Specialist',
-    email: 'faith.chepkemoi@creativeallstars.ac.ke',
+    email: 'faith.chepkemoi@creativeallstarsacademy.sc.ke',
     image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop',
     bio: 'Faith encourages creative writing, public speaking, and reading comprehension in both English and Kiswahili.',
     subjects: ['English Language', 'Kiswahili (Lugha)', 'Art & Craft']
@@ -72,7 +72,7 @@ export const teachers: Teacher[] = [
     id: 't3',
     name: 'Mr. Emmanuel Mwaleso',
     role: 'ICT and Computer Science Teacher',
-    email: 'emmanuel.mwaleso@creativeallstars.ac.ke',
+    email: 'emmanuel.mwaleso@creativeallstarsacademy.sc.ke',
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop',
     bio: 'Emmanuel introduces coding, digital safety, and basic computing tools to prepare students for the tech-driven global society.',
     subjects: ['Computer Club', 'Creative Arts (Music & Art)']
@@ -81,7 +81,7 @@ export const teachers: Teacher[] = [
     id: 't4',
     name: 'Mrs. Janet Otieno',
     role: 'Grade 1 Class Teacher & Early Years Facilitator',
-    email: 'janet.otieno@creativeallstars.ac.ke',
+    email: 'janet.otieno@creativeallstarsacademy.sc.ke',
     image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop',
     bio: 'Janet specializes in early literacy development, phonics, and socialization skills, facilitating a seamless transition from PP2.',
     subjects: ['Literacy Activities', 'Mathematical Activities', 'Environmental Activities']
@@ -90,7 +90,7 @@ export const teachers: Teacher[] = [
     id: 't5',
     name: 'Mr. Patrick Simiyu',
     role: 'Physical Health Education & Swimming Coach',
-    email: 'patrick.simiyu@creativeallstars.ac.ke',
+    email: 'patrick.simiyu@creativeallstarsacademy.sc.ke',
     image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop',
     bio: 'Coach Patrick is dedicated to physical fitness, teamwork, and coordinating co-curricular sports activities, including our championship soccer team.',
     subjects: ['Physical & Health Education', 'Swimming Co-curricular']

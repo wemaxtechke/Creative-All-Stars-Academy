@@ -39,7 +39,7 @@ const schoolSchema = {
   slogan: 'Endeavour to Succeed',
   description: 'An inclusive CBC education centre in Nakuru providing holistic development and education that enables every learner to realize their full potential.',
   address: { '@type': 'PostalAddress', streetAddress: 'Ngata Area', addressLocality: 'Nakuru', addressCountry: 'KE' },
-  email: 'info@creativeallstars.ac.ke', telephone: '+254712345678',
+  email: 'info@creativeallstarsacademy.sc.ke', telephone: '+254724838674',
 };
 
 export const dynamic = 'force-dynamic';
