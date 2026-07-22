@@ -41,7 +41,7 @@ export default function Blog() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="News, ideas and celebrations" title="Stories from a school that never stops growing." description="Follow learner achievements, school events, thoughtful parent guidance and practical insights into CBC learning." image="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=85&w=1200&auto=format&fit=crop" imageAlt="Books and learning resources for school news"/>
+      <PageHero eyebrow="News, ideas and celebrations" title="Stories from a school that never stops growing." description="Follow learner achievements, school events, thoughtful parent guidance and practical insights into CBC learning." imageSlot="page-blog"/>
 
       <Breadcrumbs items={[{ name: 'News & Blog' }]} />
 

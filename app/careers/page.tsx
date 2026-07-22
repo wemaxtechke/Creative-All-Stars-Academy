@@ -13,7 +13,7 @@ export default function Careers() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Build meaningful careers" title="Do work that shapes a child’s future." description="Join a caring, creative team committed to professional excellence and inclusive learner development." image="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=85&w=1200&auto=format&fit=crop" imageAlt="Professional educator ready to support learners"/>
+      <PageHero eyebrow="Build meaningful careers" title="Do work that shapes a child’s future." description="Join a caring, creative team committed to professional excellence and inclusive learner development." imageSlot="page-careers"/>
 
       <Breadcrumbs items={[{ name: 'Careers' }]} />
 

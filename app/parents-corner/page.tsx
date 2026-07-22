@@ -28,7 +28,7 @@ export default function ParentsCorner() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Families are part of the team" title="Everything parents need, in one welcoming place." description="Find school documents, calendars, uniform guidance and practical information that keeps home and school connected." image="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=85&w=1200&auto=format&fit=crop" imageAlt="Parents and school community working together"/>
+      <PageHero eyebrow="Families are part of the team" title="Everything parents need, in one welcoming place." description="Find school documents, calendars, uniform guidance and practical information that keeps home and school connected." imageSlot="page-parents"/>
 
       <Breadcrumbs items={[{ name: 'Parents Corner' }]} />
 

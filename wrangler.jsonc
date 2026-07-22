@@ -17,6 +17,7 @@
     {
       "binding": "DB",
       "database_name": "creative-all-stars-cms",
+      "database_id": "7cc10bd5-5805-46e1-b832-e12b35bcc822",
       "migrations_dir": "migrations"
     }
   ],

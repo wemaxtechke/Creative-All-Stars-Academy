@@ -46,6 +46,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { name: 'News & stories', href: '/admin/dashboard/blog', icon: FileText },
     { name: 'Events', href: '/admin/dashboard/events', icon: Calendar },
     { name: 'Gallery', href: '/admin/dashboard/gallery', icon: ImageIcon },
+    { name: 'Website visuals', href: '/admin/dashboard/visuals', icon: ImageIcon },
     { name: 'Staff profiles', href: '/admin/dashboard/staff', icon: Users },
     { name: 'Careers', href: '/admin/dashboard/careers', icon: Briefcase },
     { name: 'Job applications', href: '/admin/dashboard/applications', icon: Layers, count: jobApplications.filter(j => j.status === 'Pending').length },

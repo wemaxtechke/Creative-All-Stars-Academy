@@ -18,7 +18,8 @@ const links = [
 
 export function Navbar() {
   const pathname = usePathname();
-  const { settings } = useApp();
+  const { settings, getSiteImage } = useApp();
+  const logo=getSiteImage('brand-logo');
   const [open, setOpen] = useState(false);
   if (pathname.startsWith('/admin')) return null;
 
@@ -31,7 +32,7 @@ export function Navbar() {
     </div>
     <div className="container-shell flex h-20 items-center justify-between">
       <Link href="/" className="flex items-center gap-3" onClick={()=>setOpen(false)}>
-        <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={58} height={58} priority className="h-14 w-14 rounded-full object-contain"/>
+        {logo&&<Image src={logo.url} alt={logo.alt} width={58} height={58} priority className="h-14 w-14 rounded-full object-contain"/>}
         <div><span className="block font-[var(--font-heading)] text-base font-extrabold leading-tight text-[#031f66] sm:text-lg">{settings.schoolName}</span><span className="text-[10px] font-black uppercase tracking-[.16em] text-[#d50b12]">Endeavour to Succeed</span></div>
       </Link>
       <nav className="hidden items-center gap-1 xl:flex">{links.map(link=>{const active=pathname===link.href||pathname.startsWith(link.href+'/');return <Link key={link.href} href={link.href} className={`rounded-lg px-3 py-2 text-sm font-bold transition ${active?'bg-blue-50 text-[#0739a6]':'text-slate-600 hover:bg-slate-50 hover:text-[#031f66]'}`}>{link.name}</Link>})}</nav>

@@ -10,9 +10,10 @@ import { motion } from 'framer-motion';
 import { PageHero } from '@/components/PageHero';
 
 export default function CoCurricular() {
+  const { getSiteImage }=useApp();
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Beyond the classroom" title="Talent grows when children get to try." description="Sport, swimming, music, drama, coding and clubs create space for confidence, teamwork and joyful discovery." image="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=85&w=1200&auto=format&fit=crop" imageAlt="Children participating in school sports" cta={{label:'View school life',href:'/gallery'}}/>
+      <PageHero eyebrow="Beyond the classroom" title="Talent grows when children get to try." description="Sport, swimming, music, drama, coding and clubs create space for confidence, teamwork and joyful discovery." imageSlot="page-activities" cta={{label:'View school life',href:'/gallery'}}/>
 
       <Breadcrumbs items={[{ name: 'Co-Curricular' }]} />
 
@@ -25,7 +26,10 @@ export default function CoCurricular() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {coCurricularActivities.map((club, idx) => (
+          {coCurricularActivities.map((club, idx) => {
+            const assignedImage=getSiteImage(`activity-${idx+1}`);
+            if(!assignedImage)return null;
+            return (
             <motion.div
               key={club.id}
               initial={{ opacity: 0, y: 15 }}
@@ -38,8 +42,8 @@ export default function CoCurricular() {
               {/* Image Block */}
               <div className="relative h-48 bg-gray-100 overflow-hidden">
                 <img
-                  src={club.image}
-                  alt={club.name}
+                  src={assignedImage.url}
+                  alt={assignedImage.alt}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -64,7 +68,7 @@ export default function CoCurricular() {
                 </div>
               </div>
             </motion.div>
-          ))}
+          )})}
         </div>
       </section>
 

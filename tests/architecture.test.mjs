@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import test from 'node:test';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -59,4 +59,30 @@ test('database migration contains CMS, lead, private document, media and audit t
   for (const table of ['content_items', 'website_leads', 'lead_documents', 'media_assets', 'audit_log', 'request_limits']) {
     assert.match(migration, new RegExp(`CREATE TABLE IF NOT EXISTS ${table}`));
   }
+});
+
+async function sourceFiles(directory) {
+  const root = new URL(`../${directory}/`, import.meta.url);
+  const entries = await readdir(root, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    if (entry.name === 'admin') continue;
+    if (entry.isDirectory()) files.push(...await sourceFiles(`${directory}/${entry.name}`));
+    else if (/\.(?:ts|tsx)$/.test(entry.name)) files.push(`${directory}/${entry.name}`);
+  }
+  return files;
+}
+
+test('public website images come only from CMS media records', async () => {
+  const paths = [...await sourceFiles('app'), ...await sourceFiles('components'), ...await sourceFiles('lib')];
+  for (const path of paths) {
+    const source = await read(path);
+    assert.doesNotMatch(source, /images\.unsplash\.com|["']\/images\/|["']\/brand\//, `${path} contains a static public image`);
+  }
+  const content = await read('lib/site-content.ts');
+  for (const collection of ['heroSlides', 'siteImages', 'teachers', 'blogPosts', 'schoolEvents', 'galleryImages', 'jobs', 'testimonials', 'downloads']) {
+    assert.match(content, new RegExp(`${collection}: \\[\\]`), `${collection} must not have demo fallback records`);
+  }
+  const migration = await read('migrations/0005_dynamic_visual_content.sql');
+  assert.match(migration, /'heroSlides', 'siteImages'/);
 });

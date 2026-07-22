@@ -11,7 +11,7 @@ import { PageHero } from '@/components/PageHero';
 
 export default function ClassDetails() {
   const { id } = useParams() as { id: string };
-  const { classes, teachers } = useApp();
+  const { classes, teachers, getSiteImage } = useApp();
 
   const selectedClass = classes.find(c => c.id === id);
 
@@ -20,10 +20,11 @@ export default function ClassDetails() {
   }
 
   const leadTeacher = teachers.find(t => t.id === selectedClass.teacherId);
+  const classImage=getSiteImage(`class-${selectedClass.id}`);
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow={`${selectedClass.ageGroup} learning pathway`} title={selectedClass.name} description={selectedClass.description} image={selectedClass.image} imageAlt={`${selectedClass.name} learners at Creative All Stars Academy`} cta={{label:'Enquire about this class',href:'/admissions'}}/>
+      <PageHero eyebrow={`${selectedClass.ageGroup} learning pathway`} title={selectedClass.name} description={selectedClass.description} image={classImage?.url} imageAlt={classImage?.alt} cta={{label:'Enquire about this class',href:'/admissions'}}/>
 
       <Breadcrumbs items={[{ name: 'Classes', href: '/classes' }, { name: selectedClass.name }]} />
 
@@ -34,13 +35,13 @@ export default function ClassDetails() {
         <div className="lg:col-span-8 space-y-10">
 
           {/* Main Visual Image */}
-          <div className="relative rounded-3xl overflow-hidden shadow-md max-h-[400px]">
+          {classImage&&<div className="relative rounded-3xl overflow-hidden shadow-md max-h-[400px]">
             <img
-              src={selectedClass.image}
-              alt={selectedClass.name}
+              src={classImage.url}
+              alt={classImage.alt}
               className="w-full h-full object-cover"
             />
-          </div>
+          </div>}
 
           {/* Description */}
           <div className="space-y-4">
@@ -88,23 +89,6 @@ export default function ClassDetails() {
           </div>
 
           {/* Class Gallery */}
-          {selectedClass.gallery && selectedClass.gallery.length > 0 && (
-            <div className="space-y-6">
-              <h3 className="text-xl font-extrabold text-blue-950">Visual Gallery from {selectedClass.name}</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {selectedClass.gallery.map((imgUrl, idx) => (
-                  <div key={idx} className="rounded-2xl overflow-hidden h-48 shadow-xs border border-gray-100">
-                    <img
-                      src={imgUrl}
-                      alt={`${selectedClass.name} class session`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           <Link
             href="/classes"
             className="inline-flex items-center gap-1.5 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-blue-950 font-bold text-xs rounded-xl transition-colors"

@@ -21,7 +21,7 @@ export default function Gallery() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Life at CASA" title="Real moments. Growing confidence. Lasting memories." description="Step into the learning, friendships, celebrations and activities that make every school day meaningful." image="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=85&w=1200&auto=format&fit=crop" imageAlt="Creative school celebration and activities"/>
+      <PageHero eyebrow="Life at CASA" title="Real moments. Growing confidence. Lasting memories." description="Step into the learning, friendships, celebrations and activities that make every school day meaningful." imageSlot="page-gallery"/>
 
       <Breadcrumbs items={[{ name: 'Gallery' }]} />
 

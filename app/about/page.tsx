@@ -11,7 +11,9 @@ import { PageHero } from '@/components/PageHero';
 import { ShieldCheck, Award, CheckCircle } from 'lucide-react';
 
 export default function About() {
-  const { teachers } = useApp();
+  const { teachers, getSiteImage } = useApp();
+  const leadershipImage=getSiteImage('about-leadership');
+  const missionImage=getSiteImage('about-mission-board');
 
   const historyPoints = [
     {
@@ -59,7 +61,7 @@ export default function About() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Who we are" title="A school built around every learner." description="Discover the purpose, people and learning philosophy behind an inclusive education centre committed to every learner’s growth." image="https://images.unsplash.com/photo-1577896851231-70ee18881754?q=85&w=1200&auto=format&fit=crop" imageAlt="Teacher supporting learners in a bright classroom" cta={{label:'Meet our learning community',href:'#leadership'}}/>
+      <PageHero eyebrow="Who we are" title="A school built around every learner." description="Discover the purpose, people and learning philosophy behind an inclusive education centre committed to every learner’s growth." imageSlot="page-about" cta={{label:'Meet our learning community',href:'#leadership'}}/>
 
       <Breadcrumbs items={[{ name: 'About Us' }]} />
 
@@ -99,13 +101,13 @@ export default function About() {
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-6 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-3 h-full bg-yellow-400" />
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400 flex-shrink-0">
+            {leadershipImage&&<div className="w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400 flex-shrink-0">
               <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop"
-                alt="Mrs. Bevalyne"
+                src={leadershipImage.url}
+                alt={leadershipImage.alt}
                 className="w-full h-full object-cover"
               />
-            </div>
+            </div>}
             <div>
               <h3 className="font-extrabold text-lg text-blue-950">Mrs. Bevalyne</h3>
               <p className="text-xs text-blue-600 font-bold">School Director</p>
@@ -119,7 +121,7 @@ export default function About() {
 
       <section className="container-shell mt-20 grid items-center gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5"><p className="eyebrow">Our guiding board</p><h2 className="brand-title mt-4 text-4xl font-extrabold text-[#031f66]">A promise we live every day.</h2><p className="mt-5 text-lg leading-8 text-slate-600">Our motto, mission and vision keep every decision focused on inclusive, holistic learner development.</p><div className="mt-8 rounded-2xl border-l-4 border-[#d50b12] bg-yellow-50 p-6"><p className="text-xs font-black uppercase tracking-[.18em] text-[#d50b12]">School motto</p><p className="mt-2 text-2xl font-extrabold text-[#031f66]">“Endeavour to Succeed”</p></div></div>
-        <div className="lg:col-span-7"><div className="overflow-hidden rounded-3xl border border-blue-100 bg-white p-3 shadow-2xl"><Image src="/brand/creative-all-stars-academy-mission-vision.png" alt="Creative All Stars Academy motto, mission and vision board" width={1024} height={1536} className="h-auto w-full rounded-2xl"/></div></div>
+        {missionImage&&<div className="lg:col-span-7"><div className="overflow-hidden rounded-3xl border border-blue-100 bg-white p-3 shadow-2xl"><Image src={missionImage.url} alt={missionImage.alt} width={1024} height={1536} className="h-auto w-full rounded-2xl"/></div></div>}
       </section>
 
       {/* Core values section */}

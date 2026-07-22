@@ -74,7 +74,7 @@ export default function Admissions() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Your journey starts here" title="A warm welcome from the very first enquiry." description="Learn about placement, plan a school visit and let our admissions team guide your family through each next step." image="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=85&w=1200&auto=format&fit=crop" imageAlt="Happy learner beginning a new school journey"/>
+      <PageHero eyebrow="Your journey starts here" title="A warm welcome from the very first enquiry." description="Learn about placement, plan a school visit and let our admissions team guide your family through each next step." imageSlot="page-admissions"/>
 
       <Breadcrumbs items={[{ name: 'Admissions' }]} />
 

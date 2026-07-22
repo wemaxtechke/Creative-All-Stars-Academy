@@ -49,7 +49,7 @@ export default function Contact() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Let’s start a conversation" title="Come and experience our school for yourself." description="Ask a question, arrange a school visit or speak with our admissions team in Ngata, Nakuru." image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=85&w=1200&auto=format&fit=crop" imageAlt="Welcoming school community ready to help"/>
+      <PageHero eyebrow="Let’s start a conversation" title="Come and experience our school for yourself." description="Ask a question, arrange a school visit or speak with our admissions team in Ngata, Nakuru." imageSlot="page-contact"/>
 
       <Breadcrumbs items={[{ name: 'Contact' }]} />
 

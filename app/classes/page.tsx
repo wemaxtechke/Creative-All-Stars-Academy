@@ -10,11 +10,11 @@ import { motion } from 'framer-motion';
 import { PageHero } from '@/components/PageHero';
 
 export default function Classes() {
-  const { classes } = useApp();
+  const { classes, getSiteImage } = useApp();
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Every stage matters" title="The right environment for every age." description="Explore thoughtfully designed learning experiences from playful early years through confident primary and junior school pathways." image="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=85&w=1200&auto=format&fit=crop" imageAlt="Young learners enjoying their classroom environment" cta={{label:'Ask about placement',href:'/admissions'}}/>
+      <PageHero eyebrow="Every stage matters" title="The right environment for every age." description="Explore thoughtfully designed learning experiences from playful early years through confident primary and junior school pathways." imageSlot="page-classes" cta={{label:'Ask about placement',href:'/admissions'}}/>
 
       <Breadcrumbs items={[{ name: 'Classes' }]} />
 
@@ -27,7 +27,9 @@ export default function Classes() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {classes.map((cls, idx) => (
+          {classes.map((cls, idx) => {
+            const assignedImage=getSiteImage(`class-${cls.id}`);
+            return (
             <motion.div
               key={cls.id}
               initial={{ opacity: 0, y: 15 }}
@@ -38,16 +40,16 @@ export default function Classes() {
               className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 flex flex-col h-full transition-all duration-300"
             >
               {/* Card Image */}
-              <div className="relative h-48 bg-gray-100 overflow-hidden">
+              {assignedImage&&<div className="relative h-48 bg-gray-100 overflow-hidden">
                 <img
-                  src={cls.image}
-                  alt={cls.name}
+                  src={assignedImage.url}
+                  alt={assignedImage.alt}
                   className="w-full h-full object-cover"
                 />
                 <span className="absolute bottom-4 left-4 z-10 px-3 py-1 bg-blue-600 text-white font-extrabold text-xs rounded-lg uppercase shadow-sm">
                   {cls.ageGroup}
                 </span>
-              </div>
+              </div>}
 
               {/* Card Content */}
               <div className="p-6 flex flex-col flex-grow">
@@ -90,7 +92,7 @@ export default function Classes() {
                 </div>
               </div>
             </motion.div>
-          ))}
+          )})}
         </div>
       </section>
     </div>

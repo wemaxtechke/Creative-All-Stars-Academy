@@ -182,7 +182,8 @@ function PurposeRibbons() {
 }
 
 export default function Home() {
-  const { blogPosts, schoolEvents, settings } = useApp();
+  const { blogPosts, schoolEvents, settings, getSiteImage } = useApp();
+  const learningImage=getSiteImage('home-learning');
 
   return (
     <div className="overflow-hidden bg-white">
@@ -209,7 +210,6 @@ export default function Home() {
 
       <section className="relative overflow-hidden bg-[#f6f9ff] py-24">
         <div aria-hidden="true" className="absolute inset-0 opacity-[.45] [background-image:radial-gradient(#cbd8f1_1px,transparent_1px)] [background-size:28px_28px]"/>
-        <Image aria-hidden="true" src="/brand/creative-all-stars-academy-logo.png" alt="" width={440} height={440} className="pointer-events-none absolute -right-28 -top-16 h-[440px] w-[440px] object-contain opacity-[.035] grayscale"/>
         <div className="container-shell relative z-10">
           <div className="grid gap-14 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-5"><p className="eyebrow inline-flex items-center gap-3">The CASA experience<span aria-hidden="true" className="h-0.5 w-12 bg-[#ffc400]"/></p><h2 className="mt-4 font-[var(--font-heading)] text-4xl font-extrabold tracking-tight text-[#031f66] md:text-5xl">Education designed around the whole child.</h2></div>
@@ -226,13 +226,12 @@ export default function Home() {
 
       <section className="relative overflow-hidden bg-[#f2f6f8] py-20">
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
-        <Image aria-hidden="true" src="/brand/creative-all-stars-academy-logo.png" alt="" width={460} height={460} className="pointer-events-none absolute -right-24 top-1/2 h-[460px] w-[460px] -translate-y-1/2 object-contain opacity-[.035] grayscale"/>
         <div className="container-shell relative z-10 grid items-center gap-14 lg:grid-cols-2">
-          <div className="relative h-[520px]">
+          {learningImage&&<div className="relative h-[520px]">
             <div aria-hidden="true" className="absolute -bottom-3 -left-3 h-28 w-28 rounded-bl-[2.25rem] border-b-4 border-l-4 border-[#d50b12]"/>
             <div aria-hidden="true" className="absolute -right-3 -top-3 h-28 w-28 rounded-tr-[2.25rem] border-r-4 border-t-4 border-[#ffc400]"/>
             <div className="group relative h-full overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_28px_65px_rgba(3,31,102,.16)]">
-              <Image src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=85&w=1100&auto=format&fit=crop" alt="Children learning together in a modern classroom" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.025]" />
+              <Image src={learningImage.url} alt={learningImage.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.025]" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#031f66]/35 via-transparent to-transparent"/>
               <span className="absolute left-5 top-5 rounded-full border border-white/30 bg-[#031f66]/80 px-4 py-2 text-[10px] font-black uppercase tracking-[.16em] text-white backdrop-blur-sm">CBC learning in action</span>
               <Link href="/gallery" className="group/link absolute bottom-5 left-5 right-5 flex items-center justify-between overflow-hidden rounded-2xl bg-white/95 p-5 font-bold text-[#031f66] shadow-lg backdrop-blur">
@@ -240,7 +239,7 @@ export default function Home() {
                 <span className="relative z-10">See life at Creative All Stars</span><PlayCircle className="relative z-10 h-6 w-6 text-[#d50b12] transition-transform group-hover/link:scale-110" />
               </Link>
             </div>
-          </div>
+          </div>}
           <div>
             <p className="eyebrow inline-flex items-center gap-3">Learning that comes alive<span aria-hidden="true" className="h-0.5 w-12 bg-[#ffc400]"/></p>
             <h2 className="mt-4 font-[var(--font-heading)] text-4xl font-extrabold tracking-tight text-[#031f66] md:text-5xl">More than lessons. A childhood full of possibility.</h2>
@@ -302,7 +301,6 @@ export default function Home() {
       </section>
 
       <section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff,#f7f9ff)] py-16">
-        <Image aria-hidden="true" src="/brand/creative-all-stars-academy-logo.png" alt="" width={520} height={520} className="pointer-events-none absolute -right-28 top-1/2 h-[520px] w-[520px] -translate-y-1/2 object-contain opacity-[.035] grayscale"/>
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
         <div className="container-shell relative z-10">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
@@ -327,7 +325,6 @@ export default function Home() {
           <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#3978ff]"/>
           <div aria-hidden="true" className="absolute -bottom-24 -left-20 h-64 w-64 rounded-full border-[38px] border-[#d50b12]/15"/>
           <div aria-hidden="true" className="absolute right-0 top-0 h-64 w-64 rounded-full bg-[#ffc400]/15 blur-3xl"/>
-          <Image aria-hidden="true" src="/brand/creative-all-stars-academy-logo.png" alt="" width={300} height={300} className="pointer-events-none absolute right-[28%] top-1/2 h-72 w-72 -translate-y-1/2 object-contain opacity-[.065] grayscale"/>
           <div className="relative grid items-center gap-8 lg:grid-cols-[1.25fr_.75fr] lg:gap-12">
             <div className="max-w-2xl">
               <p className="text-sm font-bold text-[#ffe588]">Come and experience our school</p>

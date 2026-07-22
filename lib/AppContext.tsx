@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import type {
   Teacher, BlogPost, SchoolEvent, GalleryImage, Job, JobApplication,
   Testimonial, DownloadItem, FAQ, AdmissionApplication, ContactMessage, SchoolClass,
+  HeroSlide, SiteImage,
 } from '@/types';
 import { schoolClasses as initialSchoolClasses, faqs as initialFaqs } from '@/data/mockData';
 import {
@@ -25,6 +26,8 @@ export type UploadedMedia = {
 };
 
 interface AppContextType {
+  heroSlides: HeroSlide[];
+  siteImages: SiteImage[];
   teachers: Teacher[];
   blogPosts: BlogPost[];
   schoolEvents: SchoolEvent[];
@@ -38,6 +41,12 @@ interface AppContextType {
   classes: SchoolClass[];
   faqs: FAQ[];
   settings: SchoolSettings;
+  getSiteImage: (slot: string) => SiteImage | undefined;
+  addHeroSlide: (value: Omit<HeroSlide, 'id'>) => Promise<void>;
+  updateHeroSlide: (id: string, value: Partial<HeroSlide>) => Promise<void>;
+  deleteHeroSlide: (id: string) => Promise<void>;
+  setSiteImage: (slot: string, value: Omit<SiteImage, 'id'>) => Promise<void>;
+  deleteSiteImage: (slot: string) => Promise<void>;
   addTeacher: (value: Omit<Teacher, 'id'>) => Promise<void>;
   updateTeacher: (id: string, value: Partial<Teacher>) => Promise<void>;
   deleteTeacher: (id: string) => Promise<void>;
@@ -80,6 +89,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   initialContent = defaultPublicContent,
 }) => {
   const pathname = usePathname();
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(initialContent.heroSlides);
+  const [siteImages, setSiteImages] = useState<SiteImage[]>(initialContent.siteImages);
   const [teachers, setTeachers] = useState<Teacher[]>(initialContent.teachers);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialContent.blogPosts);
   const [schoolEvents, setSchoolEvents] = useState<SchoolEvent[]>(initialContent.schoolEvents);
@@ -100,6 +111,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
     jsonRequest<Record<string, unknown>>('/api/admin/state')
       .then((data) => {
         if (!active) return;
+        if (Array.isArray(data.heroSlides)) setHeroSlides(data.heroSlides as HeroSlide[]);
+        if (Array.isArray(data.siteImages)) setSiteImages(data.siteImages as SiteImage[]);
         if (Array.isArray(data.teachers)) setTeachers(data.teachers as Teacher[]);
         if (Array.isArray(data.blogPosts)) setBlogPosts(data.blogPosts as BlogPost[]);
         if (Array.isArray(data.schoolEvents)) setSchoolEvents(data.schoolEvents as SchoolEvent[]);
@@ -144,6 +157,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   }
 
   const addTeacher = (value: Omit<Teacher, 'id'>) => createRecord<Teacher>('teachers', value, setTeachers);
+  const addHeroSlide = (value: Omit<HeroSlide, 'id'>) => createRecord<HeroSlide>('heroSlides', value, setHeroSlides);
+  const updateHeroSlide = (id: string, value: Partial<HeroSlide>) => updateRecord('heroSlides', id, value, setHeroSlides);
+  const deleteHeroSlide = (id: string) => deleteRecord('heroSlides', id, setHeroSlides);
+  const setSiteImage = async (slot: string, value: Omit<SiteImage, 'id'>) => {
+    const { record } = await jsonRequest<{ record: SiteImage }>(`/api/admin/content/siteImages/${encodeURIComponent(slot)}`, {
+      method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify(value),
+    });
+    setSiteImages((current) => [record, ...current.filter((item) => item.id !== slot)]);
+  };
+  const deleteSiteImage = (slot: string) => deleteRecord('siteImages', slot, setSiteImages);
+  const getSiteImage = (slot: string) => siteImages.find((item) => item.id === slot);
   const updateTeacher = (id: string, value: Partial<Teacher>) => updateRecord('teachers', id, value, setTeachers);
   const deleteTeacher = (id: string) => deleteRecord('teachers', id, setTeachers);
   const addBlogPost = (value: Omit<BlogPost, 'id'>) => createRecord<BlogPost>('blogPosts', value, setBlogPosts);
@@ -209,8 +233,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   };
 
   return <AppContext.Provider value={{
-    teachers, blogPosts, schoolEvents, galleryImages, jobs, jobApplications,
+    heroSlides, siteImages, teachers, blogPosts, schoolEvents, galleryImages, jobs, jobApplications,
     testimonials, downloads, admissions, messages, classes, faqs, settings,
+    getSiteImage, addHeroSlide, updateHeroSlide, deleteHeroSlide, setSiteImage, deleteSiteImage,
     addTeacher, updateTeacher, deleteTeacher,
     addBlogPost, updateBlogPost, deleteBlogPost, addSchoolEvent, updateSchoolEvent, deleteSchoolEvent,
     addGalleryImage, deleteGalleryImage, addJob, updateJob, deleteJob, addJobApplication,

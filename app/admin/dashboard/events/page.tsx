@@ -30,7 +30,6 @@ export default function AdminEvents() {
       time,
       location,
       category,
-      image: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=80&w=600&auto=format&fit=crop'
     });
     setTitle('');
     setDescription('');

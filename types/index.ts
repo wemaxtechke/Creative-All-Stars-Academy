@@ -87,6 +87,26 @@ export interface Testimonial {
   rating: number;
 }
 
+export interface HeroSlide {
+  id: string;
+  mediaId: string;
+  image: string;
+  alt: string;
+  kicker?: string;
+  title?: string;
+  description?: string;
+  primary?: string;
+  primaryHref?: string;
+}
+
+export interface SiteImage {
+  id: string;
+  mediaId: string;
+  url: string;
+  alt: string;
+  label?: string;
+}
+
 export interface DownloadItem {
   id: string;
   mediaId?: string;

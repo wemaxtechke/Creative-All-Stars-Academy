@@ -57,7 +57,7 @@ function CareerDetailsContent() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow={`${job.type} · ${job.department}`} title={job.title} description="Bring your expertise, care and creativity to a team committed to helping every learner realize their full potential." image="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=85&w=1200&auto=format&fit=crop" imageAlt={`Career opportunity for ${job.title}`} cta={{label:'Apply for this role',href:'#apply-form-block'}}/>
+      <PageHero eyebrow={`${job.type} · ${job.department}`} title={job.title} description="Bring your expertise, care and creativity to a team committed to helping every learner realize their full potential." imageSlot="page-careers" cta={{label:'Apply for this role',href:'#apply-form-block'}}/>
 
       {/* Breadcrumbs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">

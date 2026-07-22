@@ -27,39 +27,13 @@ function normalizeRecord(collection: ContentCollection, value: Record<string, un
   return record;
 }
 
-async function seedContentIfEmpty() {
-  const db = getCloudflareEnv().DB;
-  const existing = await db.prepare("SELECT 1 AS found FROM content_items LIMIT 1").first<{ found: number }>();
-  if (existing) return;
-
-  const statements: ReturnType<D1Database["prepare"]>[] = [];
-  for (const collection of contentCollections) {
-    const records = collection === "settings"
-      ? [{ id: "school", ...defaultPublicContent.settings }]
-      : defaultPublicContent[collection];
-    records.forEach((record, index) => {
-      const value = record as Record<string, unknown>;
-      statements.push(
-        db.prepare(`INSERT OR IGNORE INTO content_items
-          (collection, id, payload, is_published, sort_order, created_at, updated_at)
-          VALUES (?, ?, ?, 1, ?, ?, ?)`)
-          .bind(collection, String(value.id ?? "school"), JSON.stringify(value), index, new Date().toISOString(), new Date().toISOString()),
-      );
-    });
-  }
-
-  for (let index = 0; index < statements.length; index += 50) {
-    await db.batch(statements.slice(index, index + 50));
-  }
-}
-
 export async function getPublicContent(): Promise<PublicContent> {
-  await seedContentIfEmpty();
   const result = await getCloudflareEnv().DB.prepare(`SELECT collection, id, payload
     FROM content_items WHERE is_published = 1
     ORDER BY collection, sort_order ASC, updated_at DESC`).all<StoredContentRow>();
 
   const content: PublicContent = {
+    heroSlides: [], siteImages: [],
     teachers: [], blogPosts: [], schoolEvents: [], galleryImages: [],
     jobs: [], testimonials: [], downloads: [], settings: defaultPublicContent.settings,
   };
@@ -68,6 +42,8 @@ export async function getPublicContent(): Promise<PublicContent> {
     const parsed: unknown = JSON.parse(row.payload);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) continue;
     switch (row.collection) {
+      case "heroSlides": content.heroSlides.push(parsed as PublicContent["heroSlides"][number]); break;
+      case "siteImages": content.siteImages.push(parsed as PublicContent["siteImages"][number]); break;
       case "teachers": content.teachers.push(parsed as PublicContent["teachers"][number]); break;
       case "blogPosts": content.blogPosts.push(parsed as PublicContent["blogPosts"][number]); break;
       case "schoolEvents": content.schoolEvents.push(parsed as PublicContent["schoolEvents"][number]); break;
@@ -151,6 +127,8 @@ export function isContentCollection(value: string): value is ContentCollection {
 export class ContentValidationError extends Error {}
 
 const requiredFields: Record<ContentCollection, string[]> = {
+  heroSlides: ["mediaId", "image", "alt"],
+  siteImages: ["mediaId", "url", "alt"],
   teachers: ["name", "role", "image", "email"],
   blogPosts: ["title", "summary", "content", "featuredImage", "category", "date", "author"],
   schoolEvents: ["title", "description", "date", "time", "location", "category"],

@@ -5,28 +5,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-
-const activities = [
-  { title:'Learning through discovery', label:'CBC Learning', image:'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=85&w=1200&auto=format&fit=crop' },
-  { title:'Confidence on the field', label:'Sports', image:'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=85&w=1200&auto=format&fit=crop' },
-  { title:'Creativity takes centre stage', label:'Music & Arts', image:'https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=85&w=1200&auto=format&fit=crop' },
-  { title:'Friendships beyond the classroom', label:'School Trips', image:'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=85&w=1200&auto=format&fit=crop' },
-  { title:'Technology for tomorrow', label:'Digital Skills', image:'https://images.unsplash.com/photo-1484417894907-623942c8ea29?q=85&w=1200&auto=format&fit=crop' },
-];
-
-const heroStories = [
-  { kicker:'A complete learning journey', title:'Playgroup, Pre-Primary, Primary & Junior Secondary.', description:'Creative All Stars Academy offers a nurturing, continuous learning pathway from the earliest years through Junior Secondary School (JSS).', image:'/images/creative-all-stars-team-building.jpg', primary:'Explore our classes', primaryHref:'/classes' },
-  { kicker:'Creativity and expression', title:'Where imagination becomes confidence.', description:'Music, performance and visual arts give children the courage to express ideas, discover talent and proudly share what makes them unique.', image:'https://images.unsplash.com/photo-1511192336575-5a79af67a629?q=90&w=1800&auto=format&fit=crop', primary:'Discover our activities', primaryHref:'/co-curricular' },
-  { kicker:'Sport and wellbeing', title:'Strong bodies. Brave minds. Better teamwork.', description:'Through sport, swimming and active play, learners develop discipline, resilience, healthy habits and the confidence to work as one team.', image:'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=90&w=1800&auto=format&fit=crop', primary:'See school life', primaryHref:'/gallery' },
-  { kicker:'Future-ready learning', title:'Digital skills for a changing world.', description:'Age-appropriate technology experiences help our learners create, solve problems and understand how to participate responsibly in a digital future.', image:'https://images.unsplash.com/photo-1484417894907-623942c8ea29?q=90&w=1800&auto=format&fit=crop', primary:'View our curriculum', primaryHref:'/academics' },
-  { kicker:'Inclusive by design', title:'Every learner known, supported and encouraged.', description:'We create a caring community where children are respected as individuals and guided to realize their full academic, social and creative potential.', image:'https://images.unsplash.com/photo-1577896851231-70ee18881754?q=90&w=1800&auto=format&fit=crop', primary:'About our school', primaryHref:'/about' },
-];
+import { useApp } from '@/lib/AppContext';
 
 const HERO_SLIDE_DURATION_MS=9000;
 
 function ActivityImage({src,alt}:{src:string;alt:string}) {
   const [failed,setFailed]=useState(false);
-  if(failed)return <div className="absolute inset-0 grid place-items-center bg-[linear-gradient(135deg,#0739a6,#031f66)]"><div className="text-center"><Image src="/brand/creative-all-stars-academy-logo.png" alt="" width={68} height={68} className="mx-auto h-16 w-16 rounded-full bg-white/95 p-1 object-contain"/><p className="mt-3 text-xs font-black uppercase tracking-[.16em] text-[#ffc400]">Creative All Stars</p></div></div>;
+  if(failed)return null;
   return <Image src={src} alt={alt} fill sizes="390px" onError={()=>setFailed(true)} className="object-cover transition duration-700 group-hover:scale-110"/>;
 }
 
@@ -64,18 +49,21 @@ function HeroThemeWaves() {
 }
 
 export function HomeHeroSlider() {
+  const { heroSlides }=useApp();
   const [active,setActive]=useState(0);
   const [paused,setPaused]=useState(false);
   const reduceMotion=useReducedMotion();
-  useEffect(()=>{if(paused)return;const id=setInterval(()=>setActive(value=>(value+1)%heroStories.length),HERO_SLIDE_DURATION_MS);return()=>clearInterval(id)},[paused,active]);
-  const move=(step:number)=>setActive(value=>(value+step+heroStories.length)%heroStories.length);
-  const story=heroStories[active];
+  useEffect(()=>{if(paused||heroSlides.length<2)return;const id=setInterval(()=>setActive(value=>(value+1)%heroSlides.length),HERO_SLIDE_DURATION_MS);return()=>clearInterval(id)},[paused,active,heroSlides.length]);
+  const move=(step:number)=>setActive(value=>(value+step+heroSlides.length)%heroSlides.length);
+  const story=heroSlides[active%Math.max(heroSlides.length,1)];
   const entrance=(delay:number)=>({duration:reduceMotion?0:.55,delay:reduceMotion?0:delay,ease:[.22,1,.36,1] as const});
+
+  if(!story)return null;
 
   return <section aria-label="Creative All Stars Academy highlights" className="relative min-h-[640px] overflow-hidden bg-[#031f66] text-white lg:min-h-[540px]" onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)}>
     <AnimatePresence mode="sync">
       <motion.div key={story.image} initial={reduceMotion?{opacity:0}:{opacity:0,scale:1.02,x:8}} animate={reduceMotion?{opacity:1}:{opacity:1,scale:1.075,x:-8}} exit={{opacity:0}} transition={reduceMotion?{duration:0}:{opacity:{duration:.75},scale:{duration:HERO_SLIDE_DURATION_MS/1000+.4,ease:'linear'},x:{duration:HERO_SLIDE_DURATION_MS/1000+.4,ease:'linear'}}} className="absolute inset-0">
-        <Image src={story.image} alt={story.title} fill priority={active===0} sizes="100vw" className="object-cover"/>
+        <Image src={story.image} alt={story.alt} fill priority={active===0} sizes="100vw" className="object-cover"/>
       </motion.div>
     </AnimatePresence>
     <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,20,65,.94)_0%,rgba(3,31,102,.78)_38%,rgba(3,31,102,.2)_72%,rgba(3,31,102,.1)_100%)]"/>
@@ -92,11 +80,11 @@ export function HomeHeroSlider() {
             <motion.h1 initial={reduceMotion?{opacity:1}:{opacity:0,y:26}} animate={{opacity:1,y:0}} transition={entrance(.38)} className="brand-title max-w-4xl text-5xl font-extrabold leading-[1.03] drop-shadow-lg sm:text-6xl lg:text-[4.25rem]">{story.title}</motion.h1>
             <motion.p initial={reduceMotion?{opacity:1}:{opacity:0,y:22}} animate={{opacity:1,y:0}} transition={entrance(.48)} className="mt-5 max-w-2xl text-base leading-7 text-blue-50 drop-shadow sm:text-lg">{story.description}</motion.p>
             <motion.div initial={reduceMotion?{opacity:1}:{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={entrance(.58)} className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <Link href={story.primaryHref} className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-sm bg-[#d50b12] px-7 py-3.5 font-extrabold text-white shadow-xl transition-transform duration-300 hover:-translate-y-1">
+              {story.primary&&story.primaryHref&&<Link href={story.primaryHref} className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-sm bg-[#d50b12] px-7 py-3.5 font-extrabold text-white shadow-xl transition-transform duration-300 hover:-translate-y-1">
                 <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-1 bg-[#ffc400] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-[#031f66]">{story.primary}</span>
                 <motion.span className="relative z-10 transition-colors duration-300 group-hover:text-[#031f66]" animate={reduceMotion?{}:{x:[0,4,0]}} transition={{duration:1.8,delay:1.2,repeat:Infinity,repeatDelay:1.2}}><ArrowRight className="h-5 w-5"/></motion.span>
-              </Link>
+              </Link>}
               <Link href="/admissions" className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-sm border border-l-4 border-white/50 border-l-[#ffc400] bg-white/10 px-7 py-3.5 font-extrabold text-white shadow-xl backdrop-blur-sm transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-[#ffc400]">
                 <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-0 bg-[#ffc400] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-[#031f66]">Admission enquiry</span>
@@ -114,7 +102,7 @@ export function HomeHeroSlider() {
     <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/15 bg-[#020d2b]/55 backdrop-blur-md">
       <div className="container-shell flex min-h-20 flex-col justify-center gap-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:py-0">
         <div className="hidden items-center gap-8 text-xs font-bold text-blue-100 lg:flex"><span>Ngata, Nakuru</span><span className="h-4 w-px bg-white/25"/><span>CBC-aligned education</span><span className="h-4 w-px bg-white/25"/><span className="text-[#ffc400]">Endeavour to Succeed</span></div>
-        <div className="flex items-center gap-3">{heroStories.map((item,index)=><button key={item.title} onClick={()=>setActive(index)} aria-label={`Show slide ${index+1}: ${item.kicker}`} className={`group flex items-center gap-2 py-2 ${index===active?'text-white':'text-blue-200/70'}`}><span className={`relative h-2.5 overflow-hidden rounded-full transition-all ${index===active?'w-9 bg-white/20':'w-2.5 bg-white/50 group-hover:bg-white'}`}>{index===active&&<span key={`progress-${active}-${paused?'paused':'running'}`} className="absolute inset-0 origin-left bg-[#ffc400]" style={{animation:`hero-progress ${HERO_SLIDE_DURATION_MS}ms linear forwards`,animationPlayState:paused?'paused':'running'}}/>}</span><span className="hidden text-[10px] font-black tabular-nums sm:block">0{index+1}</span></button>)}</div>
+        <div className="flex items-center gap-3">{heroSlides.map((item,index)=><button key={item.id} onClick={()=>setActive(index)} aria-label={`Show slide ${index+1}: ${item.alt}`} className={`group flex items-center gap-2 py-2 ${index===active?'text-white':'text-blue-200/70'}`}><span className={`relative h-2.5 overflow-hidden rounded-full transition-all ${index===active?'w-9 bg-white/20':'w-2.5 bg-white/50 group-hover:bg-white'}`}>{index===active&&<span key={`progress-${active}-${paused?'paused':'running'}`} className="absolute inset-0 origin-left bg-[#ffc400]" style={{animation:`hero-progress ${HERO_SLIDE_DURATION_MS}ms linear forwards`,animationPlayState:paused?'paused':'running'}}/>}</span><span className="hidden text-[10px] font-black tabular-nums sm:block">0{index+1}</span></button>)}</div>
       </div>
     </div>
     <HeroThemeWaves/>
@@ -122,10 +110,13 @@ export function HomeHeroSlider() {
 }
 
 export function ActivityCarousel() {
+  const { siteImages }=useApp();
+  const activities=siteImages.filter((item)=>item.id.startsWith('activity-')).map((item)=>({title:item.alt,label:item.label||'School life',image:item.url}));
   const [active,setActive]=useState(0);
-  useEffect(()=>{const id=setInterval(()=>setActive(value=>(value+1)%activities.length),4500);return()=>clearInterval(id)},[]);
+  useEffect(()=>{if(activities.length<2)return;const id=setInterval(()=>setActive(value=>(value+1)%activities.length),4500);return()=>clearInterval(id)},[activities.length]);
   const move=(step:number)=>setActive(value=>(value+step+activities.length)%activities.length);
-  const item=activities[active];
+  const item=activities[active%Math.max(activities.length,1)];
+  if(!item)return null;
   return <div className="relative h-[500px] overflow-hidden rounded-[2rem] border-[10px] border-white shadow-2xl">
     <AnimatePresence mode="wait"><motion.div key={item.image} initial={{opacity:0,scale:1.08,x:35}} animate={{opacity:1,scale:1,x:0}} exit={{opacity:0,x:-35}} transition={{duration:.65,ease:'easeOut'}} className="absolute inset-0"><Image src={item.image} alt={item.title} fill priority sizes="(min-width: 1024px) 42vw, 92vw" className="object-cover"/><div className="absolute inset-0 bg-gradient-to-t from-[#031f66]/90 via-[#031f66]/10 to-transparent"/></motion.div></AnimatePresence>
     <div className="absolute inset-x-0 bottom-0 z-10 p-6 sm:p-8"><motion.p key={`${active}-label`} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} className="text-xs font-black uppercase tracking-[.18em] text-[#ffc400]">{item.label}</motion.p><motion.h2 key={`${active}-title`} initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} className="mt-2 max-w-md text-2xl font-extrabold text-white sm:text-3xl">{item.title}</motion.h2><div className="mt-5 flex items-center justify-between"><div className="flex gap-2">{activities.map((_,i)=><button key={i} aria-label={`Show activity ${i+1}`} onClick={()=>setActive(i)} className={`h-2 rounded-full transition-all ${i===active?'w-8 bg-[#ffc400]':'w-2 bg-white/50'}`}/>)}</div><div className="flex gap-2"><button onClick={()=>move(-1)} aria-label="Previous activity" className="grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white backdrop-blur hover:bg-white hover:text-[#031f66]"><ChevronLeft className="h-5 w-5"/></button><button onClick={()=>move(1)} aria-label="Next activity" className="grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white backdrop-blur hover:bg-white hover:text-[#031f66]"><ChevronRight className="h-5 w-5"/></button></div></div></div>
@@ -133,11 +124,13 @@ export function ActivityCarousel() {
 }
 
 export function ActivityMarquee() {
+  const { siteImages }=useApp();
+  const activities=siteImages.filter((item)=>item.id.startsWith('activity-')).map((item)=>({title:item.alt,label:item.label||'School life',image:item.url}));
+  if(!activities.length)return null;
   const repeated=[...activities,...activities];
   return <section className="relative overflow-hidden bg-[linear-gradient(145deg,#020d2b,#031f66_48%,#0739a6)] py-16 text-white">
     <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#3978ff]"/>
     <div aria-hidden="true" className="absolute -left-32 top-16 h-72 w-72 rounded-full border-[44px] border-white/[.035]"/>
-    <Image aria-hidden="true" src="/brand/creative-all-stars-academy-logo.png" alt="" width={380} height={380} className="pointer-events-none absolute right-12 top-1/2 h-80 w-80 -translate-y-1/2 object-contain opacity-[.035] grayscale"/>
     <div className="container-shell relative z-10 mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
       <div><p className="text-xs font-black uppercase tracking-[.18em] text-[#ffc400]">Every day is different</p><h2 className="brand-title mt-3 text-4xl font-extrabold md:text-5xl">See our learners in action.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-blue-100">A glimpse of the learning, creativity, teamwork and discovery that fill each school day.</p></div>
       <Link href="/gallery" className="group inline-flex items-center justify-center gap-2 rounded-xl border border-[#ffc400]/40 bg-[#ffc400]/10 px-5 py-3 font-extrabold text-[#ffc400] transition hover:bg-[#ffc400] hover:text-[#031f66]">Explore the gallery <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/></Link>

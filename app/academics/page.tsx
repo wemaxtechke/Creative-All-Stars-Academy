@@ -9,6 +9,8 @@ import { subjects } from '@/data/mockData';
 import { PageHero } from '@/components/PageHero';
 
 export default function Academics() {
+  const { getSiteImage }=useApp();
+  const supportImage=getSiteImage('academics-support');
   const academicTerms = [
     { name: 'Term 1 (Opening & Foundation)', span: 'Early January - Early April', focus: 'Literacy baselines, swimming initiations, introductory science modules.' },
     { name: 'Term 2 (Athletics & Mid-Year)', span: 'May - Early August', focus: 'Annual Track & Field Sports Day, Music Drama Galas, continuous assessments.' },
@@ -17,7 +19,7 @@ export default function Academics() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Learning at CASA" title="Knowledge becomes something learners can use." description="Our CBC learning approach turns curiosity into practical skills, confident communication and meaningful progress." image="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=85&w=1200&auto=format&fit=crop" imageAlt="Creative All Stars Academy learners participating in class" cta={{label:'Explore our classes',href:'/classes'}}/>
+      <PageHero eyebrow="Learning at CASA" title="Knowledge becomes something learners can use." description="Our CBC learning approach turns curiosity into practical skills, confident communication and meaningful progress." imageSlot="page-academics" cta={{label:'Explore our classes',href:'/classes'}}/>
 
       <Breadcrumbs items={[{ name: 'Academics' }]} />
 
@@ -48,13 +50,13 @@ export default function Academics() {
           </div>
         </div>
 
-        <div className="relative">
+        {supportImage&&<div className="relative">
           <img
-            src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=600&auto=format&fit=crop"
-            alt="Students in classroom studying"
+            src={supportImage.url}
+            alt={supportImage.alt}
             className="rounded-3xl shadow-lg w-full h-[350px] object-cover"
           />
-        </div>
+        </div>}
       </section>
 
       {/* 2. Subjects Grid */}

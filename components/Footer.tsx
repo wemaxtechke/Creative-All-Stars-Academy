@@ -27,20 +27,20 @@ const socialButtonClass='grid h-10 w-10 place-items-center rounded-full border b
 
 export const Footer: React.FC = () => {
   const pathname=usePathname();
-  const {settings}=useApp();
+  const {settings,getSiteImage}=useApp();
+  const logo=getSiteImage('brand-logo');
 
   if(pathname.startsWith('/admin'))return null;
 
   return <footer className="relative overflow-hidden bg-[linear-gradient(145deg,#020d2b,#031f66_58%,#0739a6)] text-white">
     <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#3978ff]"/>
     <div aria-hidden="true" className="absolute -left-32 -top-24 h-80 w-80 rounded-full border-[48px] border-white/[.035]"/>
-    <Image aria-hidden="true" src="/brand/creative-all-stars-academy-logo.png" alt="" width={520} height={520} className="pointer-events-none absolute -right-28 top-1/2 h-[520px] w-[520px] -translate-y-1/2 object-contain opacity-[.045] grayscale"/>
 
     <div className="container-shell relative z-10 pb-7 pt-14">
       <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-5 lg:pr-8">
           <div className="flex items-center gap-3">
-            <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={64} height={64} className="h-16 w-16 rounded-full bg-white object-contain p-1 shadow-lg"/>
+            {logo&&<Image src={logo.url} alt={logo.alt} width={64} height={64} className="h-16 w-16 rounded-full bg-white object-contain p-1 shadow-lg"/>}
             <div>
               <p className="font-[var(--font-heading)] text-xl font-extrabold leading-tight">{settings.schoolName}</p>
               <p className="mt-1 text-[10px] font-black uppercase tracking-[.18em] text-[#ffc400]">Endeavour to Succeed</p>

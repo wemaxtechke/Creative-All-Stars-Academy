@@ -1,12 +1,3 @@
-import {
-  teachers,
-  blogPosts,
-  schoolEvents,
-  galleryImages,
-  jobs,
-  testimonials,
-  downloads,
-} from "@/data/mockData";
 import type {
   BlogPost,
   DownloadItem,
@@ -15,6 +6,8 @@ import type {
   SchoolEvent,
   Teacher,
   Testimonial,
+  HeroSlide,
+  SiteImage,
 } from "@/types";
 
 export const defaultSettings = {
@@ -35,6 +28,8 @@ export const defaultSettings = {
 export type SchoolSettings = typeof defaultSettings;
 
 export type PublicContent = {
+  heroSlides: HeroSlide[];
+  siteImages: SiteImage[];
   teachers: Teacher[];
   blogPosts: BlogPost[];
   schoolEvents: SchoolEvent[];
@@ -46,19 +41,23 @@ export type PublicContent = {
 };
 
 export const defaultPublicContent: PublicContent = {
-  teachers,
-  blogPosts,
-  schoolEvents,
-  galleryImages,
-  jobs,
-  testimonials,
-  downloads,
+  heroSlides: [],
+  siteImages: [],
+  teachers: [],
+  blogPosts: [],
+  schoolEvents: [],
+  galleryImages: [],
+  jobs: [],
+  testimonials: [],
+  downloads: [],
   settings: defaultSettings,
 };
 
 export type ContentCollection = Exclude<keyof typeof defaultPublicContent, "settings"> | "settings";
 
 export const contentCollections: ContentCollection[] = [
+  "heroSlides",
+  "siteImages",
   "teachers",
   "blogPosts",
   "schoolEvents",
