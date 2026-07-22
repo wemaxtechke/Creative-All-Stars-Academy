@@ -112,3 +112,4 @@ test('public website images come only from CMS media records', async () => {
   assert.match(eventAdmin, /uploadMedia\(eventImage, title\)/);
   assert.match(eventAdmin, /mediaId: asset\.id/);
 });
+//good code//
