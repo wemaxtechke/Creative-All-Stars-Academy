@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
-import { Plus, Trash, Clock, MapPin } from 'lucide-react';
+import { Plus, Trash, Upload } from 'lucide-react';
 import type { SchoolEvent } from '@/types';
 
 export default function AdminEvents() {
-  const { schoolEvents, addSchoolEvent, deleteSchoolEvent } = useApp();
+  const { schoolEvents, addSchoolEvent, deleteSchoolEvent, uploadMedia } = useApp();
   const [addMode, setAddMode] = useState(false);
 
   // Form states
@@ -16,27 +16,31 @@ export default function AdminEvents() {
   const [time, setTime] = useState('');
   const [location, setLocation] = useState('');
   const [category, setCategory] = useState<'Sports' | 'Academic' | 'Arts' | 'Community' | 'Trip'>('Academic');
+  const [eventImage, setEventImage] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleAddEvent = (e: React.FormEvent) => {
+  const handleAddEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !description || !date || !time || !location) {
-      alert('Please fill in all requested fields correctly.');
+      setError('Please fill in all requested fields correctly.');
       return;
     }
-    addSchoolEvent({
-      title,
-      description,
-      date,
-      time,
-      location,
-      category,
-    });
-    setTitle('');
-    setDescription('');
-    setDate('');
-    setTime('');
-    setLocation('');
-    setAddMode(false);
+    setSaving(true);
+    setError('');
+    let uploadedAssetId = '';
+    try {
+      const asset = eventImage ? await uploadMedia(eventImage, title) : null;
+      uploadedAssetId = asset?.id ?? '';
+      await addSchoolEvent({ title, description, date, time, location, category,
+        ...(asset ? { image: asset.url, mediaId: asset.id } : {}) });
+      setTitle(''); setDescription(''); setDate(''); setTime(''); setLocation(''); setEventImage(null); setAddMode(false);
+    } catch (saveError) {
+      if (uploadedAssetId) await fetch(`/api/admin/media/${encodeURIComponent(uploadedAssetId)}`, { method: 'DELETE', credentials: 'same-origin' });
+      setError(saveError instanceof Error ? saveError.message : 'The event could not be published.');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -57,6 +61,7 @@ export default function AdminEvents() {
 
       {addMode && (
         <form onSubmit={handleAddEvent} className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm space-y-4 text-xs font-semibold text-gray-700">
+          {error && <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-red-700">{error}</p>}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="space-y-1">
               <label className="text-gray-600">Event Title *</label>
@@ -94,7 +99,9 @@ export default function AdminEvents() {
             <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="Provide details on target audiences, guidelines, or items to bring..." className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-semibold text-gray-700" required />
           </div>
 
-          <button type="submit" className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-extrabold rounded-xl transition-colors">Register Event Live</button>
+          <div className="space-y-1"><label className="text-gray-600">Event image (optional)</label><label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{eventImage ? eventImage.name : 'Choose an image (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" onChange={(event) => setEventImage(event.target.files?.[0] ?? null)} /></label></div>
+
+          <button type="submit" disabled={saving} className="px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-slate-400 text-white font-extrabold rounded-xl transition-colors">{saving ? 'Uploading…' : 'Register Event Live'}</button>
         </form>
       )}
 

@@ -36,6 +36,7 @@ export interface BlogPost {
 
 export interface SchoolEvent {
   id: string;
+  mediaId?: string;
   title: string;
   description: string;
   date: string;

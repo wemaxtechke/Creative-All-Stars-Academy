@@ -85,4 +85,12 @@ test('public website images come only from CMS media records', async () => {
   }
   const migration = await read('migrations/0005_dynamic_visual_content.sql');
   assert.match(migration, /'heroSlides', 'siteImages'/);
+  const temporaryMediaMigration = await read('migrations/0006_migrate_temporary_content_media_to_r2.sql');
+  for (const collection of ['blogPosts', 'schoolEvents', 'testimonials']) {
+    assert.match(temporaryMediaMigration, new RegExp(`collection = '${collection}'`));
+  }
+  assert.doesNotMatch(temporaryMediaMigration, /images\.unsplash\.com/);
+  const eventAdmin = await read('app/admin/dashboard/events/page.tsx');
+  assert.match(eventAdmin, /uploadMedia\(eventImage, title\)/);
+  assert.match(eventAdmin, /mediaId: asset\.id/);
 });
