@@ -68,6 +68,7 @@ interface AppContextType {
   addTestimonial: (value: Omit<Testimonial, 'id'>) => Promise<void>;
   deleteTestimonial: (id: string) => Promise<void>;
   addDownload: (value: Omit<DownloadItem, 'id'>) => Promise<void>;
+  updateDownload: (id: string, value: Partial<DownloadItem>) => Promise<void>;
   deleteDownload: (id: string) => Promise<void>;
   addAdmissionApplication: (value: Omit<AdmissionApplication, 'id' | 'status' | 'dateSubmitted'> & { turnstileToken?: string; acceptedPrivacy?: boolean }) => Promise<void>;
   updateAdmissionStatus: (id: string, status: AdmissionApplication['status']) => Promise<void>;
@@ -192,6 +193,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   const addTestimonial = (value: Omit<Testimonial, 'id'>) => createRecord<Testimonial>('testimonials', value, setTestimonials);
   const deleteTestimonial = (id: string) => deleteRecord('testimonials', id, setTestimonials);
   const addDownload = (value: Omit<DownloadItem, 'id'>) => createRecord<DownloadItem>('downloads', value, setDownloads);
+  const updateDownload = (id: string, value: Partial<DownloadItem>) => updateRecord('downloads', id, value, setDownloads);
   const deleteDownload = (id: string) => deleteRecord('downloads', id, setDownloads);
 
   const addJobApplication = async (value: Omit<JobApplication, 'id' | 'status' | 'dateApplied' | 'resumeUrl'> & { turnstileToken?: string; resumeFile: File }) => {
@@ -247,7 +249,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
     addTeacher, updateTeacher, deleteTeacher, updateSchoolClass,
     addBlogPost, updateBlogPost, deleteBlogPost, addSchoolEvent, updateSchoolEvent, deleteSchoolEvent,
     addGalleryImage, updateGalleryImage, deleteGalleryImage, addJob, updateJob, deleteJob, addJobApplication,
-    updateJobApplicationStatus, addTestimonial, deleteTestimonial, addDownload, deleteDownload,
+    updateJobApplicationStatus, addTestimonial, deleteTestimonial, addDownload, updateDownload, deleteDownload,
     addAdmissionApplication, updateAdmissionStatus, addContactMessage, updateMessageStatus, updateSettings, uploadMedia,
   }}>{children}</AppContext.Provider>;
 };

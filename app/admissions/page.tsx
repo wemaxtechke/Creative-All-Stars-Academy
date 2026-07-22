@@ -71,6 +71,9 @@ export default function Admissions() {
     { group: 'Upper Primary (Grades 4, 5, 6)', tuition: 'KES 38,500', inclusive: 'Includes agriculture projects, computer codes, science practical resources.' },
     { group: 'Junior Secondary School (Grade 7 - 9)', tuition: 'KES 42,500', inclusive: 'Includes laboratory experiments, ICT coding resources, strategic chess.' }
   ];
+  const admissionDownloads = downloads
+    .filter((item) => item.category === 'Admission' || item.category === 'Uniform')
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   return (
     <div className="pb-24">
@@ -102,8 +105,8 @@ export default function Admissions() {
             ))}
           </div>
 
-          {/* Downloads Block */}
-          <div className="bg-blue-50/50 p-6 md:p-8 rounded-3xl border border-blue-100 space-y-4">
+          {/* Only administrator-uploaded R2 documents are returned by the CMS. */}
+          {admissionDownloads.length > 0 && <div className="bg-blue-50/50 p-6 md:p-8 rounded-3xl border border-blue-100 space-y-4">
             <h3 className="text-lg font-extrabold text-blue-950 flex items-center gap-2">
               <FileText className="w-5 h-5 text-blue-600" /> Printable Documentation (PDFs)
             </h3>
@@ -111,7 +114,7 @@ export default function Admissions() {
               Prefer manual submission? Download our registration bio-data PDFs or print our comprehensive uniform guidelines to bring to our Ngata campus.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              {downloads.filter(item => item.category === 'Admission' || item.category === 'Uniform').map((item) => (
+              {admissionDownloads.map((item) => (
                 <div key={item.id} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center justify-between gap-3">
                   <div>
                     <h5 className="font-extrabold text-xs text-blue-950 line-clamp-1">{item.title}</h5>
@@ -129,7 +132,7 @@ export default function Admissions() {
                 </div>
               ))}
             </div>
-          </div>
+          </div>}
         </div>
 
         {/* Right column: Form */}

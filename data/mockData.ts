@@ -7,7 +7,6 @@ import {
   Job,
   JobApplication,
   Testimonial,
-  DownloadItem,
   FAQ,
   SchoolStats,
   Leadership,
@@ -872,65 +871,6 @@ export const testimonials: Testimonial[] = [
     content: 'As a graduate of Creative All Stars, I am currently doing incredibly well in high school. The leadership skills, programming lessons, and music choir training I got here set me years ahead of my peers. Highly recommended!',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop',
     rating: 5
-  }
-];
-
-export const downloads: DownloadItem[] = [
-  {
-    id: 'd1',
-    title: 'Comprehensive 2025 Fee Structure (All Grades)',
-    category: 'Admission',
-    fileSize: '420 KB',
-    fileType: 'PDF',
-    url: '#'
-  },
-  {
-    id: 'd2',
-    title: 'Student Admission & Bio-Data Registration Form',
-    category: 'Admission',
-    fileSize: '1.2 MB',
-    fileType: 'PDF',
-    url: '#'
-  },
-  {
-    id: 'd3',
-    title: 'Official Term 2 School Calendar and Events planner',
-    category: 'Calendar',
-    fileSize: '280 KB',
-    fileType: 'PDF',
-    url: '#'
-  },
-  {
-    id: 'd4',
-    title: 'Holiday Assignment - Grade 3 (All Subjects Activities)',
-    category: 'Assignment',
-    fileSize: '1.8 MB',
-    fileType: 'PDF',
-    url: '#'
-  },
-  {
-    id: 'd5',
-    title: 'Holiday Assignment - Grade 5 (Science & Social Projects)',
-    category: 'Assignment',
-    fileSize: '2.1 MB',
-    fileType: 'PDF',
-    url: '#'
-  },
-  {
-    id: 'd6',
-    title: 'School Rules, Dress Codes & Code of Conduct Guidebook',
-    category: 'Policy',
-    fileSize: '510 KB',
-    fileType: 'PDF',
-    url: '#'
-  },
-  {
-    id: 'd7',
-    title: 'Official Uniform Purchase, Styling, and Brand Guidelines',
-    category: 'Uniform',
-    fileSize: '890 KB',
-    fileType: 'PDF',
-    url: '#'
   }
 ];
 

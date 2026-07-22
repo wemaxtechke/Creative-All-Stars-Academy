@@ -10,6 +10,7 @@ import { PageHero } from '@/components/PageHero';
 
 export default function ParentsCorner() {
   const { downloads, faqs } = useApp();
+  const orderedDownloads = [...downloads].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   const rules = [
     'Punctuality is critical. Students must be settled in classrooms by 7:45 AM daily.',
@@ -32,8 +33,8 @@ export default function ParentsCorner() {
 
       <Breadcrumbs items={[{ name: 'Parents Corner' }]} />
 
-      {/* Downloads Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+      {/* Only administrator-uploaded R2 documents are returned by the CMS. */}
+      {orderedDownloads.length > 0 && <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
         <SectionHeader
           title="Instant Documents & Holiday Assignments"
           subtitle="Download official files directly. These resources are compiled termly by the school directorate."
@@ -41,7 +42,7 @@ export default function ParentsCorner() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {downloads.map((item) => (
+          {orderedDownloads.map((item) => (
             <div
               key={item.id}
               className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300"
@@ -67,7 +68,7 @@ export default function ParentsCorner() {
             </div>
           ))}
         </div>
-      </section>
+      </section>}
 
       {/* Rules and Uniform Grid */}
       <section className="bg-gray-100/50 py-16 border-y border-gray-100 mt-20">

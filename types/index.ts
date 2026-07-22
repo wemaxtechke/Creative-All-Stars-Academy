@@ -120,12 +120,13 @@ export interface SiteImage {
 
 export interface DownloadItem {
   id: string;
-  mediaId?: string;
+  mediaId: string;
   title: string;
   category: 'Admission' | 'Calendar' | 'Assignment' | 'Policy' | 'Uniform';
   fileSize: string;
   fileType: string;
   url: string;
+  order?: number;
 }
 
 export interface FAQ {

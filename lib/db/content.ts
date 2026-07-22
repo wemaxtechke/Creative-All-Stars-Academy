@@ -51,7 +51,11 @@ export async function getPublicContent(): Promise<PublicContent> {
       case "galleryImages": content.galleryImages.push(parsed as PublicContent["galleryImages"][number]); break;
       case "jobs": content.jobs.push(parsed as PublicContent["jobs"][number]); break;
       case "testimonials": content.testimonials.push(parsed as PublicContent["testimonials"][number]); break;
-      case "downloads": content.downloads.push(parsed as PublicContent["downloads"][number]); break;
+      case "downloads": {
+        const download = parsed as PublicContent["downloads"][number];
+        if (download.mediaId && download.url.startsWith("/media/")) content.downloads.push(download);
+        break;
+      }
       case "settings": content.settings = {
         ...defaultPublicContent.settings,
         ...(parsed as Partial<PublicContent["settings"]>),
@@ -159,7 +163,7 @@ const requiredFields: Record<ContentCollection, string[]> = {
   galleryImages: ["title", "url", "category", "date"],
   jobs: ["title", "department", "type", "location", "deadline"],
   testimonials: ["name", "role", "content", "avatar"],
-  downloads: ["title", "category", "fileType", "fileSize", "url"],
+  downloads: ["mediaId", "title", "category", "fileType", "fileSize", "url"],
   settings: ["schoolName", "tagline", "email", "phone", "address", "officeHours"],
 };
 
@@ -178,6 +182,11 @@ export function validateContentInput(collection: ContentCollection, input: Recor
     }
     if (input.teacherId !== undefined && typeof input.teacherId !== "string") {
       return "The class lead assignment is invalid.";
+    }
+  }
+  if (collection === "downloads") {
+    if (input.fileType !== "PDF" || typeof input.url !== "string" || !input.url.startsWith("/media/")) {
+      return "Downloads must use an administrator-uploaded PDF file.";
     }
   }
   return null;

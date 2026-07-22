@@ -156,4 +156,28 @@ test('School Life gallery media and page presentation are fully controlled by th
   assert.match(galleryPage, /a\.order \?\? 0/);
   assert.doesNotMatch(galleryPage, /const categories = \['All', 'School Events'/);
 });
+
+test('public PDF downloads require administrator-uploaded R2 files', async () => {
+  const types = await read('types/index.ts');
+  const content = await read('lib/db/content.ts');
+  const context = await read('lib/AppContext.tsx');
+  const admin = await read('app/admin/dashboard/downloads/page.tsx');
+  const admissions = await read('app/admissions/page.tsx');
+  const parents = await read('app/parents-corner/page.tsx');
+  const migration = await read('migrations/0009_require_admin_uploaded_downloads.sql');
+  const mocks = await read('data/mockData.ts');
+
+  assert.match(types, /mediaId: string/);
+  assert.match(content, /download\.mediaId && download\.url\.startsWith\("\/media\/"\)/);
+  assert.match(content, /Downloads must use an administrator-uploaded PDF file/);
+  assert.match(context, /updateDownload/);
+  assert.match(admin, /Replace PDF \(optional\)/);
+  assert.match(admin, /updateDownload/);
+  assert.match(admin, /uploadMedia\(document, title\.trim\(\)\)/);
+  assert.match(admissions, /admissionDownloads\.length > 0/);
+  assert.match(parents, /orderedDownloads\.length > 0/);
+  assert.match(migration, /DELETE FROM content_items/);
+  assert.doesNotMatch(mocks, /export const downloads/);
+  assert.doesNotMatch(mocks, /Comprehensive 2025 Fee Structure/);
+});
 //good code//
