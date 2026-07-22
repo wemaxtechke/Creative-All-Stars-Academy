@@ -43,5 +43,6 @@ button, a, input, select, textarea { outline-offset: 3px; }
 .brand-glow { box-shadow: 0 24px 80px rgba(3,31,102,.2); }
 @keyframes brand-float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(1deg); } }
 @keyframes activity-scroll { from { transform: translateX(0); } to { transform: translateX(calc(-50% - .625rem)); } }
+@keyframes hero-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .brand-float { animation: brand-float 6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }

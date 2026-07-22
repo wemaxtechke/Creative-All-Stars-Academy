@@ -35,7 +35,7 @@ export default function Careers() {
           <div className="text-center py-20 bg-white border border-gray-100 rounded-3xl max-w-xl mx-auto space-y-4">
             <span className="text-4xl">💼</span>
             <h4 className="font-black text-blue-950 text-lg">No openings right now</h4>
-            <p className="text-gray-500 text-sm leading-relaxed">Our faculty block is currently full. Stay updated by bookmarking this page or dropping your CV at our Milimani desk.</p>
+            <p className="text-gray-500 text-sm leading-relaxed">Our faculty block is currently full. Stay updated by bookmarking this page or dropping your CV at our Ngata office.</p>
           </div>
         )}
       </section>

@@ -49,7 +49,7 @@ export default function Contact() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Let’s start a conversation" title="Come and experience our school for yourself." description="Ask a question, arrange a school visit or speak with our admissions team in Milimani, Nakuru." image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=85&w=1200&auto=format&fit=crop" imageAlt="Welcoming school community ready to help"/>
+      <PageHero eyebrow="Let’s start a conversation" title="Come and experience our school for yourself." description="Ask a question, arrange a school visit or speak with our admissions team in Ngata, Nakuru." image="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=85&w=1200&auto=format&fit=crop" imageAlt="Welcoming school community ready to help"/>
 
       <Breadcrumbs items={[{ name: 'Contact' }]} />
 
@@ -65,7 +65,7 @@ export default function Contact() {
             </span>
             <h2 className="text-3xl font-black text-blue-950">Official Administrative Office</h2>
             <p className="text-gray-500 text-sm md:text-base leading-relaxed">
-              We operate transparent physical consultations and tour guiding at our quiet, clean campus blocks in Milimani suburbs, Nakuru. Drop by or shoot us an email.
+              We operate transparent physical consultations and tour guiding at our quiet, clean campus blocks in Ngata, Nakuru. Drop by or send us an email.
             </p>
           </div>
 
@@ -108,9 +108,9 @@ export default function Contact() {
 
           {/* Custom Visual Map Placeholder (Elegantly Styled SVG map) */}
           <div className="bg-blue-900 text-white rounded-3xl p-6 sm:p-8 shadow-md relative overflow-hidden border-t-4 border-yellow-400">
-            <h4 className="font-extrabold text-base mb-2">Our Milimani Nakuru Location Map</h4>
+            <h4 className="font-extrabold text-base mb-2">Our Ngata, Nakuru Location Map</h4>
             <p className="text-blue-100 text-xs leading-relaxed mb-6">
-              Located within Nakuru City Milimani plots, adjacent to the green Milimani Golf range area. Clean, safe, guarded, and easily accessible.
+              Located in Ngata, Nakuru, in a clean, safe, guarded, and easily accessible environment ideal for learning.
             </p>
 
             {/* Custom SVG Stylized Map */}
@@ -120,7 +120,7 @@ export default function Contact() {
               <div className="absolute inset-y-0 left-1/3 w-1 bg-white/10 transform rotate-45" />
               <div className="absolute inset-x-0 bottom-1/4 h-1 bg-white/10" />
 
-              {/* Milimani Golf Range area green */}
+              {/* Ngata campus area */}
               <div className="absolute top-4 right-6 w-24 h-24 bg-green-500/20 rounded-full blur-xl" />
 
               {/* Lake Nakuru blurred representation */}
@@ -132,7 +132,7 @@ export default function Contact() {
                   ⭐
                 </div>
                 <span className="mt-1 px-3 py-1 bg-blue-900 text-[10px] font-black uppercase tracking-wider rounded-lg border border-white/20 shadow-md">
-                  CASA MILIMANI
+                  CASA NGATA
                 </span>
               </div>
             </div>

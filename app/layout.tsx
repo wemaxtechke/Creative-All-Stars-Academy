@@ -14,8 +14,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstars.ac
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: 'Creative All Stars Academy | CBC School in Nakuru', template: '%s | Creative All Stars Academy' },
-  description: 'Creative All Stars Academy is an inclusive CBC school in Milimani, Nakuru, providing holistic education that helps every learner realize their full potential.',
-  keywords: ['Creative All Stars Academy', 'school in Nakuru', 'CBC school Nakuru', 'private school Nakuru', 'primary school Nakuru', 'pre-primary school Nakuru', 'Milimani school', 'inclusive education Kenya'],
+  description: 'Creative All Stars Academy is an inclusive CBC school in Ngata, Nakuru, providing holistic education that helps every learner realize their full potential.',
+  keywords: ['Creative All Stars Academy', 'school in Nakuru', 'CBC school Nakuru', 'private school Nakuru', 'primary school Nakuru', 'pre-primary school Nakuru', 'Ngata school', 'inclusive education Kenya'],
   authors: [{ name: 'Creative All Stars Academy' }],
   creator: 'Creative All Stars Academy',
   publisher: 'Creative All Stars Academy',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     type: 'website', locale: 'en_KE', url: siteUrl,
     siteName: 'Creative All Stars Academy',
     title: 'Creative All Stars Academy — Endeavour to Succeed',
-    description: 'Holistic, inclusive CBC education in Milimani, Nakuru, helping every learner realize their full potential.',
+    description: 'Holistic, inclusive CBC education in Ngata, Nakuru, helping every learner realize their full potential.',
     images: [{ url: '/brand/creative-all-stars-academy-logo.png', width: 1254, height: 1254, alt: 'Creative All Stars Academy official logo' }],
   },
   twitter: { card: 'summary_large_image', title: 'Creative All Stars Academy — Endeavour to Succeed', description: 'Holistic, inclusive CBC education in Nakuru.', images: ['/brand/creative-all-stars-academy-logo.png'] },
@@ -42,7 +42,7 @@ const schoolSchema = {
   image: `${siteUrl}/brand/creative-all-stars-academy-logo.png`,
   slogan: 'Endeavour to Succeed',
   description: 'An inclusive CBC education centre in Nakuru providing holistic development and education that enables every learner to realize their full potential.',
-  address: { '@type': 'PostalAddress', streetAddress: 'Milimani Area', addressLocality: 'Nakuru', addressCountry: 'KE' },
+  address: { '@type': 'PostalAddress', streetAddress: 'Ngata Area', addressLocality: 'Nakuru', addressCountry: 'KE' },
   email: 'info@creativeallstars.ac.ke', telephone: '+254712345678',
 };
 

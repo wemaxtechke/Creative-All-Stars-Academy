@@ -938,7 +938,7 @@ export const faqs: FAQ[] = [
   {
     id: 'f1',
     question: 'Where exactly in Nakuru is the academy located?',
-    answer: 'We are located in a clean, quiet, and highly secure environment in Milimani, Nakuru, Kenya, just a few minutes drive from the Nakuru City Center. Our location is ideal for child learning, away from noise and congestion.',
+    answer: 'We are located in a clean, quiet, and highly secure environment in Ngata, Nakuru, Kenya, just a few minutes drive from the Nakuru City Center. Our location is ideal for child learning, away from noise and congestion.',
     category: 'General'
   },
   {
@@ -962,7 +962,7 @@ export const faqs: FAQ[] = [
   {
     id: 'f5',
     question: 'How do I apply for admission for my child?',
-    answer: 'Admissions are open throughout the year. You can start by filling the admission form on our Admissions page, or visit our Milimani campus for a guided tour and interview. Children are assessed to determine proper placement.',
+    answer: 'Admissions are open throughout the year. You can start by filling the admission form on our Admissions page, or visit our Ngata campus for a guided tour and interview. Children are assessed to determine proper placement.',
     category: 'Admissions'
   },
   {
@@ -1004,7 +1004,7 @@ export const initialAdmissions: AdmissionApplication[] = [
     parentName: 'George Kamau',
     parentEmail: 'gkamau@yahoo.com',
     parentPhone: '+254 721 456 789',
-    address: 'Milimani, Nakuru',
+    address: 'Ngata, Nakuru',
     status: 'Approved',
     dateSubmitted: '2025-05-10'
   },
