@@ -88,6 +88,14 @@ export interface Testimonial {
   rating: number;
 }
 
+export interface BlogComment {
+  id: string;
+  postId: string;
+  name: string;
+  message: string;
+  createdAt: string;
+}
+
 export interface HeroSlide {
   id: string;
   mediaId: string;

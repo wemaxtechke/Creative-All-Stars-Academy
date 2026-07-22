@@ -61,6 +61,24 @@ test('database migration contains CMS, lead, private document, media and audit t
   }
 });
 
+test('blog comments persist in D1 and blog editing uses a sanitized rich text workflow', async () => {
+  const migration = await read('migrations/0007_persistent_blog_comments.sql');
+  const route = await read('app/api/blog/[id]/comments/route.ts');
+  const page = await read('app/blog/[id]/page.tsx');
+  const editor = await read('components/admin/RichTextEditor.tsx');
+  const sanitizer = await read('lib/content/sanitize.ts');
+  assert.match(migration, /CREATE TABLE IF NOT EXISTS blog_comments/);
+  assert.match(route, /createBlogComment/);
+  assert.match(route, /checkRateLimit/);
+  assert.match(route, /verifyTurnstile/);
+  assert.match(page, /\/comments/);
+  assert.match(page, /TurnstileWidget/);
+  assert.match(editor, /insertHTML/);
+  assert.match(editor, /createLink/);
+  assert.match(sanitizer, /sanitizeHtml/);
+  assert.match(sanitizer, /startsWith\("\/media\/"\)/);
+});
+
 async function sourceFiles(directory) {
   const root = new URL(`../${directory}/`, import.meta.url);
   const entries = await readdir(root, { withFileTypes: true });

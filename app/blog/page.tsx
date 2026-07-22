@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
@@ -9,11 +10,14 @@ import { BlogCard } from '@/components/BlogCard';
 import { Search, ChevronLeft, ChevronRight, FileText, ArrowRight } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 
-export default function Blog() {
+function BlogContent() {
   const { blogPosts } = useApp();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
+  const authorFilter = searchParams.get('author') ?? '';
 
   const postsPerPage = 6;
   const categories = ['All', 'Learning', 'Arts', 'Sports', 'Trips', 'Campus', 'School Events', 'Graduation'];
@@ -21,9 +25,11 @@ export default function Blog() {
   // Filter posts
   const filteredPosts = blogPosts.filter((post) => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          post.summary.toLowerCase().includes(searchQuery.toLowerCase());
+                          post.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          post.author.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+    const matchesAuthor = !authorFilter || post.author === authorFilter;
+    return matchesSearch && matchesCategory && matchesAuthor;
   });
 
   // Pagination calculations
@@ -50,6 +56,8 @@ export default function Blog() {
 
         {/* Left Column: Posts Grid and filters */}
         <div className="lg:col-span-8 space-y-10">
+
+          {authorFilter && <div className="flex items-center justify-between rounded-2xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm font-bold text-blue-950"><span>Articles by {authorFilter}</span><button type="button" onClick={() => router.replace('/blog')} className="text-xs text-blue-700 underline">Show all authors</button></div>}
 
           {/* Top Search & Filter bar */}
           <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-3xl shadow-xs border border-gray-100">
@@ -196,4 +204,8 @@ export default function Blog() {
       </section>
     </div>
   );
+}
+
+export default function Blog() {
+  return <Suspense fallback={<div className="container-shell py-24 text-center text-sm font-semibold text-slate-500">Loading publications…</div>}><BlogContent/></Suspense>;
 }

@@ -111,6 +111,7 @@ export async function deleteContent(collection: ContentCollection, id: string, a
     }
   }
   await db.batch([
+    db.prepare("DELETE FROM blog_comments WHERE post_id = ? AND ? = 'blogPosts'").bind(id, collection),
     db.prepare("DELETE FROM content_items WHERE collection = ? AND id = ?").bind(collection, id),
     db.prepare(`INSERT INTO audit_log
       (id, actor_email, action, resource_type, resource_id, details, created_at)
