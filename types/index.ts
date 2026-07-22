@@ -196,9 +196,9 @@ export interface SchoolClass {
   name: string;
   ageGroup: string;
   description: string;
-  teacherId: string;
+  teacherId?: string;
   subjects: string[];
   activities: string[];
-  gallery: string[];
-  image: string;
+  gallery?: string[];
+  image?: string;
 }

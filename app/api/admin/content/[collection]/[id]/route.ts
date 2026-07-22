@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { authorizeAdminRequest } from "@/lib/auth/api";
-import { ContentValidationError, deleteContent, isContentCollection, upsertContent } from "@/lib/db/content";
+import { ContentConflictError, ContentValidationError, deleteContent, isContentCollection, upsertContent } from "@/lib/db/content";
 import { parseJsonBytes, readBoundedBody } from "@/lib/security/request-body";
 import { deleteMediaRecord } from "@/lib/db/media";
 import { getCloudflareEnv } from "@/lib/cloudflare";
@@ -30,7 +30,15 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ c
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { collection, id } = await params;
   if (!isContentCollection(collection)) return NextResponse.json({ error: "Unknown content collection" }, { status: 404 });
-  const mediaId = await deleteContent(collection, id, admin.email);
+  let mediaId: string | null;
+  try {
+    mediaId = await deleteContent(collection, id, admin.email);
+  } catch (error) {
+    if (error instanceof ContentConflictError) {
+      return NextResponse.json({ error: error.message }, { status: 409 });
+    }
+    throw error;
+  }
   if (mediaId) {
     const asset = await deleteMediaRecord(mediaId, admin.email);
     if (asset) {

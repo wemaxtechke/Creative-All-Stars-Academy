@@ -34,7 +34,7 @@ export async function getPublicContent(): Promise<PublicContent> {
 
   const content: PublicContent = {
     heroSlides: [], siteImages: [],
-    teachers: [], blogPosts: [], schoolEvents: [], galleryImages: [],
+    teachers: [], classes: [], blogPosts: [], schoolEvents: [], galleryImages: [],
     jobs: [], testimonials: [], downloads: [], settings: defaultPublicContent.settings,
   };
 
@@ -45,6 +45,7 @@ export async function getPublicContent(): Promise<PublicContent> {
       case "heroSlides": content.heroSlides.push(parsed as PublicContent["heroSlides"][number]); break;
       case "siteImages": content.siteImages.push(parsed as PublicContent["siteImages"][number]); break;
       case "teachers": content.teachers.push(parsed as PublicContent["teachers"][number]); break;
+      case "classes": content.classes.push(parsed as PublicContent["classes"][number]); break;
       case "blogPosts": content.blogPosts.push(parsed as PublicContent["blogPosts"][number]); break;
       case "schoolEvents": content.schoolEvents.push(parsed as PublicContent["schoolEvents"][number]); break;
       case "galleryImages": content.galleryImages.push(parsed as PublicContent["galleryImages"][number]); break;
@@ -80,6 +81,12 @@ export async function upsertContent(
   const record = normalizeRecord(collection, { ...existingRecord, ...input, id });
   const validationError = validateContentInput(collection, record);
   if (validationError) throw new ContentValidationError(validationError);
+  if (collection === "classes" && typeof record.teacherId === "string" && record.teacherId) {
+    const teacher = await db.prepare(`SELECT id FROM content_items
+      WHERE collection = 'teachers' AND id = ? AND is_published = 1 LIMIT 1`)
+      .bind(record.teacherId).first<{ id: string }>();
+    if (!teacher) throw new ContentValidationError("Select an existing teacher or leave the class unassigned.");
+  }
   await db.batch([
     db.prepare(`INSERT INTO content_items
       (collection, id, payload, is_published, sort_order, created_at, updated_at)
@@ -110,6 +117,17 @@ export async function deleteContent(collection: ContentCollection, id: string, a
       mediaId = null;
     }
   }
+  if (collection === "teachers") {
+    const assigned = await db.prepare(`SELECT id, json_extract(payload, '$.name') AS name
+      FROM content_items
+      WHERE collection = 'classes' AND is_published = 1
+        AND json_extract(payload, '$.teacherId') = ?
+      ORDER BY sort_order ASC LIMIT 5`).bind(id).all<{ id: string; name: string | null }>();
+    if (assigned.results.length > 0) {
+      const classNames = assigned.results.map((item) => item.name || item.id).join(", ");
+      throw new ContentConflictError(`Reassign or remove this teacher from ${classNames} before deleting the profile.`);
+    }
+  }
   await db.batch([
     db.prepare("DELETE FROM blog_comments WHERE post_id = ? AND ? = 'blogPosts'").bind(id, collection),
     db.prepare("DELETE FROM content_items WHERE collection = ? AND id = ?").bind(collection, id),
@@ -126,11 +144,13 @@ export function isContentCollection(value: string): value is ContentCollection {
 }
 
 export class ContentValidationError extends Error {}
+export class ContentConflictError extends Error {}
 
 const requiredFields: Record<ContentCollection, string[]> = {
   heroSlides: ["mediaId", "image", "alt"],
   siteImages: ["mediaId", "url", "alt"],
   teachers: ["name", "role", "image", "email"],
+  classes: ["name", "ageGroup", "description"],
   blogPosts: ["title", "summary", "content", "featuredImage", "category", "date", "author"],
   schoolEvents: ["title", "description", "date", "time", "location", "category"],
   galleryImages: ["title", "url", "category", "date"],
@@ -147,6 +167,14 @@ export function validateContentInput(collection: ContentCollection, input: Recor
   if (collection === "jobs") {
     if (!Array.isArray(input.responsibilities) || !Array.isArray(input.requirements)) {
       return "Responsibilities and requirements must be lists.";
+    }
+  }
+  if (collection === "classes") {
+    if (!Array.isArray(input.subjects) || !Array.isArray(input.activities)) {
+      return "Subjects and activities must be lists.";
+    }
+    if (input.teacherId !== undefined && typeof input.teacherId !== "string") {
+      return "The class lead assignment is invalid.";
     }
   }
   return null;

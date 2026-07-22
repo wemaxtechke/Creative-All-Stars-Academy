@@ -23,7 +23,7 @@ export default function Classes() {
         <SectionHeader
           title="Browse Early Childhood, Primary & Junior School Blocks"
           subtitle="Click on any card to view detailed learning schedules, certified classroom teachers, specialized subjects, and active co-curriculars."
-          badge="10 SPECIFIED CARDS"
+          badge={`${classes.length} LEARNING PATHWAYS`}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

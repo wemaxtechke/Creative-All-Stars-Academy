@@ -7,7 +7,7 @@ import type {
   Testimonial, DownloadItem, FAQ, AdmissionApplication, ContactMessage, SchoolClass,
   HeroSlide, SiteImage,
 } from '@/types';
-import { schoolClasses as initialSchoolClasses, faqs as initialFaqs } from '@/data/mockData';
+import { faqs as initialFaqs } from '@/data/mockData';
 import {
   defaultPublicContent,
   type ContentCollection,
@@ -50,6 +50,7 @@ interface AppContextType {
   addTeacher: (value: Omit<Teacher, 'id'>) => Promise<void>;
   updateTeacher: (id: string, value: Partial<Teacher>) => Promise<void>;
   deleteTeacher: (id: string) => Promise<void>;
+  updateSchoolClass: (id: string, value: Partial<SchoolClass>) => Promise<void>;
   addBlogPost: (value: Omit<BlogPost, 'id'>) => Promise<void>;
   updateBlogPost: (id: string, value: Partial<BlogPost>) => Promise<void>;
   deleteBlogPost: (id: string) => Promise<void>;
@@ -92,6 +93,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(initialContent.heroSlides);
   const [siteImages, setSiteImages] = useState<SiteImage[]>(initialContent.siteImages);
   const [teachers, setTeachers] = useState<Teacher[]>(initialContent.teachers);
+  const [classes, setClasses] = useState<SchoolClass[]>(initialContent.classes);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialContent.blogPosts);
   const [schoolEvents, setSchoolEvents] = useState<SchoolEvent[]>(initialContent.schoolEvents);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>(initialContent.galleryImages);
@@ -102,7 +104,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   const [admissions, setAdmissions] = useState<AdmissionApplication[]>([]);
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [settings, setSettings] = useState<SchoolSettings>(initialContent.settings);
-  const [classes] = useState<SchoolClass[]>(initialSchoolClasses);
   const [faqs] = useState<FAQ[]>(initialFaqs);
 
   useEffect(() => {
@@ -114,6 +115,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
         if (Array.isArray(data.heroSlides)) setHeroSlides(data.heroSlides as HeroSlide[]);
         if (Array.isArray(data.siteImages)) setSiteImages(data.siteImages as SiteImage[]);
         if (Array.isArray(data.teachers)) setTeachers(data.teachers as Teacher[]);
+        if (Array.isArray(data.classes)) setClasses(data.classes as SchoolClass[]);
         if (Array.isArray(data.blogPosts)) setBlogPosts(data.blogPosts as BlogPost[]);
         if (Array.isArray(data.schoolEvents)) setSchoolEvents(data.schoolEvents as SchoolEvent[]);
         if (Array.isArray(data.galleryImages)) setGalleryImages(data.galleryImages as GalleryImage[]);
@@ -145,7 +147,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
 
   async function deleteRecord<T extends { id: string }>(collection: ContentCollection, id: string, setter: React.Dispatch<React.SetStateAction<T[]>>) {
     const response = await fetch(`/api/admin/content/${collection}/${encodeURIComponent(id)}`, { method: 'DELETE', credentials: 'same-origin' });
-    if (!response.ok) throw new Error('The website could not delete this item.');
+    if (!response.ok) {
+      const result = await response.json().catch(() => ({})) as { error?: string };
+      throw new Error(result.error || 'The website could not delete this item.');
+    }
     setter((current) => current.filter((item) => item.id !== id));
   }
 
@@ -170,6 +175,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   const getSiteImage = (slot: string) => siteImages.find((item) => item.id === slot);
   const updateTeacher = (id: string, value: Partial<Teacher>) => updateRecord('teachers', id, value, setTeachers);
   const deleteTeacher = (id: string) => deleteRecord('teachers', id, setTeachers);
+  const updateSchoolClass = (id: string, value: Partial<SchoolClass>) => updateRecord('classes', id, value, setClasses);
   const addBlogPost = (value: Omit<BlogPost, 'id'>) => createRecord<BlogPost>('blogPosts', value, setBlogPosts);
   const updateBlogPost = (id: string, value: Partial<BlogPost>) => updateRecord('blogPosts', id, value, setBlogPosts);
   const deleteBlogPost = (id: string) => deleteRecord('blogPosts', id, setBlogPosts);
@@ -236,7 +242,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
     heroSlides, siteImages, teachers, blogPosts, schoolEvents, galleryImages, jobs, jobApplications,
     testimonials, downloads, admissions, messages, classes, faqs, settings,
     getSiteImage, addHeroSlide, updateHeroSlide, deleteHeroSlide, setSiteImage, deleteSiteImage,
-    addTeacher, updateTeacher, deleteTeacher,
+    addTeacher, updateTeacher, deleteTeacher, updateSchoolClass,
     addBlogPost, updateBlogPost, deleteBlogPost, addSchoolEvent, updateSchoolEvent, deleteSchoolEvent,
     addGalleryImage, deleteGalleryImage, addJob, updateJob, deleteJob, addJobApplication,
     updateJobApplicationStatus, addTestimonial, deleteTestimonial, addDownload, deleteDownload,

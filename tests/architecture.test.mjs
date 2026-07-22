@@ -98,7 +98,7 @@ test('public website images come only from CMS media records', async () => {
     assert.doesNotMatch(source, /images\.unsplash\.com|["']\/images\/|["']\/brand\//, `${path} contains a static public image`);
   }
   const content = await read('lib/site-content.ts');
-  for (const collection of ['heroSlides', 'siteImages', 'teachers', 'blogPosts', 'schoolEvents', 'galleryImages', 'jobs', 'testimonials', 'downloads']) {
+  for (const collection of ['heroSlides', 'siteImages', 'teachers', 'classes', 'blogPosts', 'schoolEvents', 'galleryImages', 'jobs', 'testimonials', 'downloads']) {
     assert.match(content, new RegExp(`${collection}: \\[\\]`), `${collection} must not have demo fallback records`);
   }
   const migration = await read('migrations/0005_dynamic_visual_content.sql');
@@ -111,5 +111,26 @@ test('public website images come only from CMS media records', async () => {
   const eventAdmin = await read('app/admin/dashboard/events/page.tsx');
   assert.match(eventAdmin, /uploadMedia\(eventImage, title\)/);
   assert.match(eventAdmin, /mediaId: asset\.id/);
+});
+
+test('teachers and class lead assignments are fully administered through D1 CMS content', async () => {
+  const migration = await read('migrations/0008_dynamic_classes_and_teacher_assignments.sql');
+  const content = await read('lib/db/content.ts');
+  const context = await read('lib/AppContext.tsx');
+  const staffAdmin = await read('app/admin/dashboard/staff/page.tsx');
+  const classesAdmin = await read('app/admin/dashboard/classes/page.tsx');
+  const classPage = await read('app/classes/[id]/page.tsx');
+
+  assert.match(migration, /'classes'/);
+  assert.match(migration, /'teacherId', 't4'/);
+  assert.match(content, /case "classes"/);
+  assert.match(content, /Reassign or remove this teacher/);
+  assert.match(context, /updateSchoolClass/);
+  assert.match(staffAdmin, /updateTeacher/);
+  assert.match(staffAdmin, /Replace staff photograph/);
+  assert.match(classesAdmin, /No lead educator/);
+  assert.match(classesAdmin, /updateSchoolClass/);
+  assert.match(classPage, /teachers\.find\(t => t\.id === selectedClass\.teacherId\)/);
+  assert.doesNotMatch(context, /schoolClasses as initialSchoolClasses/);
 });
 //good code//

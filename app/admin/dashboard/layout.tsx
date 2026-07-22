@@ -24,7 +24,8 @@ import {
   ShieldCheck,
   FileCheck,
   Star,
-  Download
+  Download,
+  GraduationCap
 } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -48,6 +49,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { name: 'Gallery', href: '/admin/dashboard/gallery', icon: ImageIcon },
     { name: 'Website visuals', href: '/admin/dashboard/visuals', icon: ImageIcon },
     { name: 'Staff profiles', href: '/admin/dashboard/staff', icon: Users },
+    { name: 'Classes & leads', href: '/admin/dashboard/classes', icon: GraduationCap },
     { name: 'Careers', href: '/admin/dashboard/careers', icon: Briefcase },
     { name: 'Job applications', href: '/admin/dashboard/applications', icon: Layers, count: jobApplications.filter(j => j.status === 'Pending').length },
     { name: 'Parent downloads', href: '/admin/dashboard/downloads', icon: Download },

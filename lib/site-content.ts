@@ -8,6 +8,7 @@ import type {
   Testimonial,
   HeroSlide,
   SiteImage,
+  SchoolClass,
 } from "@/types";
 
 export const defaultSettings = {
@@ -31,6 +32,7 @@ export type PublicContent = {
   heroSlides: HeroSlide[];
   siteImages: SiteImage[];
   teachers: Teacher[];
+  classes: SchoolClass[];
   blogPosts: BlogPost[];
   schoolEvents: SchoolEvent[];
   galleryImages: GalleryImage[];
@@ -44,6 +46,7 @@ export const defaultPublicContent: PublicContent = {
   heroSlides: [],
   siteImages: [],
   teachers: [],
+  classes: [],
   blogPosts: [],
   schoolEvents: [],
   galleryImages: [],
@@ -59,6 +62,7 @@ export const contentCollections: ContentCollection[] = [
   "heroSlides",
   "siteImages",
   "teachers",
+  "classes",
   "blogPosts",
   "schoolEvents",
   "galleryImages",
