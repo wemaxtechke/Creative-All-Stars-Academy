@@ -32,7 +32,7 @@
     "LOCAL_ADMIN_EMAIL": "",
     "ACCESS_TEAM_DOMAIN": "",
     "ACCESS_AUD": "",
-    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "",
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAD7PawXOFdXkKOsZ",
     "NEXT_PUBLIC_SITE_URL": "https://creativeallstars.ac.ke"
   },
   "env": {
@@ -60,7 +60,7 @@
         "LOCAL_ADMIN_EMAIL": "",
         "ACCESS_TEAM_DOMAIN": "",
         "ACCESS_AUD": "",
-        "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "",
+        "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAD7PawXOFdXkKOsZ",
         "NEXT_PUBLIC_SITE_URL": "https://staging.creativeallstars.ac.ke"
       }
     }

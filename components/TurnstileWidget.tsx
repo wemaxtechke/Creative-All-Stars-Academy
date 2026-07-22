@@ -13,7 +13,9 @@ declare global {
 }
 
 export function TurnstileWidget({ onToken }: { onToken: (token: string) => void }) {
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  // Turnstile site keys are public. Keep the environment override for local
+  // testing while ensuring Cloudflare builds receive the production key.
+  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAAD7PawXOFdXkKOsZ';
   const container = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const [loaded, setLoaded] = useState(false);
