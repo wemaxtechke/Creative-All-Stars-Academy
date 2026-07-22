@@ -164,7 +164,7 @@ const requiredFields: Record<ContentCollection, string[]> = {
   jobs: ["title", "department", "type", "location", "deadline"],
   testimonials: ["name", "role", "content", "avatar"],
   downloads: ["mediaId", "title", "category", "fileType", "fileSize", "url"],
-  settings: ["schoolName", "tagline", "email", "phone", "address", "officeHours"],
+  settings: ["schoolName", "tagline", "email", "phone", "address", "mapUrl", "mapLatitude", "mapLongitude", "officeHours"],
 };
 
 export function validateContentInput(collection: ContentCollection, input: Record<string, unknown>) {
@@ -187,6 +187,18 @@ export function validateContentInput(collection: ContentCollection, input: Recor
   if (collection === "downloads") {
     if (input.fileType !== "PDF" || typeof input.url !== "string" || !input.url.startsWith("/media/")) {
       return "Downloads must use an administrator-uploaded PDF file.";
+    }
+  }
+  if (collection === "settings") {
+    const mapUrl = String(input.mapUrl);
+    const latitude = Number(input.mapLatitude);
+    const longitude = Number(input.mapLongitude);
+    if (!/^https:\/\/(?:maps\.app\.goo\.gl|(?:www\.)?google\.[^/]+\/maps)\//i.test(mapUrl)) {
+      return "Enter a valid Google Maps share link.";
+    }
+    if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90 ||
+        !Number.isFinite(longitude) || longitude < -180 || longitude > 180) {
+      return "Enter valid map latitude and longitude coordinates.";
     }
   }
   return null;

@@ -3,13 +3,13 @@
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
-import { Mail, Phone, MapPin, Clock, Send, Globe, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, ExternalLink } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
 
 export default function Contact() {
   const { addContactMessage, settings } = useApp();
+  const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(`${settings.mapLatitude},${settings.mapLongitude}`)}&z=17&output=embed`;
 
   const [formData, setFormData] = useState({
     name: '',
@@ -106,36 +106,26 @@ export default function Contact() {
 
           </div>
 
-          {/* Custom Visual Map Placeholder (Elegantly Styled SVG map) */}
+          {/* Live Google Maps location controlled through global settings. */}
           <div className="bg-blue-900 text-white rounded-3xl p-6 sm:p-8 shadow-md relative overflow-hidden border-t-4 border-yellow-400">
             <h4 className="font-extrabold text-base mb-2">Our Ngata, Nakuru Location Map</h4>
             <p className="text-blue-100 text-xs leading-relaxed mb-6">
               Located in Ngata, Nakuru, in a clean, safe, guarded, and easily accessible environment ideal for learning.
             </p>
 
-            {/* Custom SVG Stylized Map */}
-            <div className="w-full h-48 bg-blue-950 rounded-2xl relative overflow-hidden border border-white/10 flex items-center justify-center">
-              {/* Road lines simulated */}
-              <div className="absolute inset-x-0 top-1/2 h-1 bg-white/10 transform -rotate-12" />
-              <div className="absolute inset-y-0 left-1/3 w-1 bg-white/10 transform rotate-45" />
-              <div className="absolute inset-x-0 bottom-1/4 h-1 bg-white/10" />
-
-              {/* Ngata campus area */}
-              <div className="absolute top-4 right-6 w-24 h-24 bg-green-500/20 rounded-full blur-xl" />
-
-              {/* Lake Nakuru blurred representation */}
-              <div className="absolute -bottom-10 left-10 w-48 h-20 bg-sky-500/10 rounded-full blur-lg" />
-
-              {/* Pin representation */}
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center text-lg animate-bounce shadow-lg border border-white">
-                  ⭐
-                </div>
-                <span className="mt-1 px-3 py-1 bg-blue-900 text-[10px] font-black uppercase tracking-wider rounded-lg border border-white/20 shadow-md">
-                  CASA NGATA
-                </span>
-              </div>
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-blue-950">
+              <iframe
+                title="Creative All Stars Academy location on Google Maps"
+                src={mapEmbedUrl}
+                className="h-64 w-full border-0"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
+            <a href={settings.mapUrl} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-yellow-400 px-4 py-2.5 text-xs font-extrabold text-blue-950 transition-colors hover:bg-yellow-300">
+              <ExternalLink className="h-4 w-4" /> Open in Google Maps
+            </a>
           </div>
 
         </div>

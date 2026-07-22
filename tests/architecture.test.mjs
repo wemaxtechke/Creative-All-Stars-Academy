@@ -194,4 +194,23 @@ test('current school phone and email are used throughout public website content'
   assert.match(migration, /'\$\.phone', '\+254724838674'/);
   assert.match(migration, /'\$\.email', 'info@creativeallstarsacademy\.sc\.ke'/);
 });
+
+test('contact page embeds the administrator-controlled Google Maps location', async () => {
+  const settings = await read('lib/site-content.ts');
+  const content = await read('lib/db/content.ts');
+  const admin = await read('app/admin/dashboard/settings/page.tsx');
+  const contact = await read('app/contact/page.tsx');
+  const migration = await read('migrations/0011_add_school_map_location.sql');
+
+  assert.match(settings, /mapUrl: "https:\/\/maps\.app\.goo\.gl\/6yFsBYC5fGmtHNpa7"/);
+  assert.match(settings, /mapLatitude: "-0\.2592805"/);
+  assert.match(settings, /mapLongitude: "35\.9917215"/);
+  assert.match(content, /Enter a valid Google Maps share link/);
+  assert.match(admin, /Google Maps share link/);
+  assert.match(admin, /Map latitude/);
+  assert.match(contact, /output=embed/);
+  assert.match(contact, /settings\.mapUrl/);
+  assert.doesNotMatch(contact, /Custom SVG Stylized Map|Road lines simulated|CASA NGATA/);
+  assert.match(migration, /'\$\.mapUrl'/);
+});
 //good code//

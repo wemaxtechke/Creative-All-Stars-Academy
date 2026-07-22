@@ -13,6 +13,9 @@ export default function AdminSettings() {
   const [email, setEmail] = useState(settings.email);
   const [phone, setPhone] = useState(settings.phone);
   const [address, setAddress] = useState(settings.address);
+  const [mapUrl, setMapUrl] = useState(settings.mapUrl);
+  const [mapLatitude, setMapLatitude] = useState(settings.mapLatitude);
+  const [mapLongitude, setMapLongitude] = useState(settings.mapLongitude);
   const [officeHours, setOfficeHours] = useState(settings.officeHours);
 
   const [saved, setSaved] = useState(false);
@@ -27,6 +30,9 @@ export default function AdminSettings() {
       email,
       phone,
       address,
+      mapUrl,
+      mapLatitude,
+      mapLongitude,
       officeHours
     });
     setSaved(true);
@@ -114,6 +120,28 @@ export default function AdminSettings() {
             className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium"
             required
           />
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-gray-600">Google Maps share link *</label>
+          <input
+            type="url"
+            value={mapUrl}
+            onChange={(e) => setMapUrl(e.target.value)}
+            className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium"
+            required
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="space-y-1">
+            <label className="text-gray-600">Map latitude *</label>
+            <input type="number" step="any" value={mapLatitude} onChange={(e) => setMapLatitude(e.target.value)} className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium" required />
+          </div>
+          <div className="space-y-1">
+            <label className="text-gray-600">Map longitude *</label>
+            <input type="number" step="any" value={mapLongitude} onChange={(e) => setMapLongitude(e.target.value)} className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-medium" required />
+          </div>
         </div>
 
         <div className="space-y-1">
