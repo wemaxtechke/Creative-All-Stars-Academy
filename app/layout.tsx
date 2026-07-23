@@ -9,7 +9,7 @@ import { defaultPublicContent } from '@/lib/site-content';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-heading', display: 'swap' });
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstars.ac.ke';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstarsacademy.sc.ke';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

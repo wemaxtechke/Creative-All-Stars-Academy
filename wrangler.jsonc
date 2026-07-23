@@ -4,6 +4,12 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-07-15",
   "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    {
+      "pattern": "creativeallstarsacademy.sc.ke",
+      "custom_domain": true
+    }
+  ],
   "observability": {
     "enabled": true,
     "logs": { "head_sampling_rate": 1 },
@@ -33,11 +39,17 @@
     "ACCESS_TEAM_DOMAIN": "",
     "ACCESS_AUD": "",
     "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAD7PawXOFdXkKOsZ",
-    "NEXT_PUBLIC_SITE_URL": "https://creativeallstars.ac.ke"
+    "NEXT_PUBLIC_SITE_URL": "https://creativeallstarsacademy.sc.ke"
   },
   "env": {
     "staging": {
       "name": "creative-all-stars-academy-staging",
+      "routes": [
+        {
+          "pattern": "staging.creativeallstarsacademy.sc.ke",
+          "custom_domain": true
+        }
+      ],
       "assets": {
         "binding": "ASSETS",
         "directory": ".open-next/assets"
@@ -61,7 +73,7 @@
         "ACCESS_TEAM_DOMAIN": "",
         "ACCESS_AUD": "",
         "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAD7PawXOFdXkKOsZ",
-        "NEXT_PUBLIC_SITE_URL": "https://staging.creativeallstars.ac.ke"
+        "NEXT_PUBLIC_SITE_URL": "https://staging.creativeallstarsacademy.sc.ke"
       }
     }
   }

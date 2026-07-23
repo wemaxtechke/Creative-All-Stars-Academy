@@ -24,7 +24,7 @@ export default function BlogDetails() {
   const [commentError, setCommentError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [copied, setCopied] = useState(false);
-  const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://creative-all-stars-academy.creativeallstarsacademynakuru.workers.dev'}/blog/${encodeURIComponent(id)}`;
+  const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstarsacademy.sc.ke'}/blog/${encodeURIComponent(id)}`;
 
   useEffect(() => {
     const controller = new AbortController();

@@ -55,12 +55,15 @@ Copy `.dev.vars.example` for local work. Never commit `.dev.vars` or production 
 
 The Wrangler configuration declares separate production and staging D1/R2 resources. Resource IDs are intentionally omitted so Wrangler can provision or resolve them for each account/environment.
 
-1. Create a Turnstile widget for the production and staging hostnames.
-2. Configure a Cloudflare Access self-hosted application protecting `/admin/dashboard/*` and `/api/admin/*`.
-3. Set the Access domain, audience and administrator allowlist.
-4. Set the Turnstile secret for each environment.
-5. Apply D1 migrations remotely.
-6. Build and deploy.
+The production Worker is configured for `creativeallstarsacademy.sc.ke`, and the staging Worker is configured for `staging.creativeallstarsacademy.sc.ke`. Both are Wrangler-managed Custom Domains, so deployment creates their DNS records and certificates after the `creativeallstarsacademy.sc.ke` zone is active in Cloudflare.
+
+1. Activate `creativeallstarsacademy.sc.ke` in Cloudflare by installing the assigned Cloudflare nameservers at the registrar.
+2. Add `creativeallstarsacademy.sc.ke` and `staging.creativeallstarsacademy.sc.ke` to the Turnstile widget's allowed hostnames.
+3. Configure a Cloudflare Access self-hosted application protecting `/admin/dashboard/*` and `/api/admin/*`.
+4. Set the Access domain, audience and administrator allowlist.
+5. Set the Turnstile secret for each environment.
+6. Apply D1 migrations remotely.
+7. Build and deploy.
 
 ```powershell
 npx wrangler secret put TURNSTILE_SECRET
