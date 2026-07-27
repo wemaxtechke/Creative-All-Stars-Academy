@@ -11,7 +11,7 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#0739a6',
     icons: [
       {
-        src: '/brand/creative-all-stars-academy-logo.png',
+        src: '/icon.png',
         type: 'image/png',
         sizes: '1254x1254',
         purpose: 'any',
