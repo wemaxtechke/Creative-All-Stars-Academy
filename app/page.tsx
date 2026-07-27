@@ -5,21 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { animate, motion, useInView, useReducedMotion } from 'framer-motion';
 import {
-  ArrowRight, BookOpen, CheckCircle2, Eye, Flag, Laptop, MapPin,
-  Palette, Phone, PlayCircle, Rocket, Trophy
+  ArrowRight, CheckCircle2, Eye, Flag, MapPin, Phone, PlayCircle, Rocket
 } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 import { BlogCard } from '@/components/BlogCard';
 import { EventCard } from '@/components/EventCard';
 import { TestimonialsCarousel } from '@/components/TestimonialsCarousel';
 import { ActivityMarquee, HomeHeroSlider } from '@/components/ActivityShowcase';
-
-const pillars = [
-  { icon: BookOpen, number:'01', accent:'bg-[#d50b12]', title: 'Confident learners', text: 'A strong CBC foundation built through curiosity, practical learning and individual support.' },
-  { icon: Palette, number:'02', accent:'bg-[#ffc400]', title: 'Creative expression', text: 'Music, art and performance give every child room to discover and share their unique strengths.' },
-  { icon: Trophy, number:'03', accent:'bg-[#0739a6]', title: 'Active development', text: 'Sport, swimming and clubs nurture teamwork, resilience and healthy lifelong habits.' },
-  { icon: Laptop, number:'04', accent:'bg-[#d50b12]', title: 'Future-ready skills', text: 'Age-appropriate digital literacy helps learners create, communicate and use technology responsibly.' },
-];
 
 const learningHighlights = [
   { text:'Purposeful, practical CBC experiences', accent:'bg-[#d50b12]', icon:'text-[#d50b12] bg-red-50' },
@@ -59,13 +51,13 @@ function AnimatedStat({value,suffix,label,index}:{value:number;suffix:string;lab
     whileInView={{opacity:1,y:0}}
     viewport={{once:true,amount:.6}}
     transition={{duration:reduceMotion?0:.55,delay:reduceMotion?0:index*.12,ease:[.22,1,.36,1]}}
-    className="group relative flex min-h-12 items-center justify-center gap-2 transition-transform duration-300 hover:-translate-y-1"
+    className="group relative flex min-h-10 items-center justify-center gap-1 transition-transform duration-300 hover:-translate-y-1 sm:min-h-12 sm:gap-2"
   >
     <span aria-hidden="true" className="absolute left-1/2 top-1/2 h-12 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-300/0 blur-xl transition-colors duration-300 group-hover:bg-blue-300/25"/>
-    <strong className="relative text-2xl font-extrabold tabular-nums text-[#0739a6] transition-colors duration-300 group-hover:text-[#d50b12]">
+    <strong className="relative text-xl font-extrabold tabular-nums text-[#0739a6] transition-colors duration-300 group-hover:text-[#d50b12] sm:text-2xl">
       {reduceMotion?value:displayValue}{suffix}
     </strong>
-    <span className="relative text-sm font-semibold text-slate-500">{label}</span>
+    <span className="relative whitespace-nowrap text-[9px] font-semibold leading-none text-slate-500 min-[390px]:text-[10px] sm:text-sm">{label}</span>
     {index<schoolStats.length-1&&<motion.span
       aria-hidden="true"
       initial={reduceMotion?false:{scaleY:0}}
@@ -79,21 +71,9 @@ function AnimatedStat({value,suffix,label,index}:{value:number;suffix:string;lab
 
 function PurposeRibbons() {
   const reduceMotion=useReducedMotion();
-  const redRibbonPaths=[
-    'M-120 245C40 45 310 40 290 215C274 350 80 324 98 160C120-45 430 20 570 230',
-    'M-120 260C60 25 330 62 285 225C250 352 62 306 110 145C170-42 445 50 575 215',
-    'M-120 245C40 45 310 40 290 215C274 350 80 324 98 160C120-45 430 20 570 230',
-  ];
-  const yellowRibbonPaths=[
-    'M760 125C900-35 1040 18 1030 170C1020 300 1150 315 1200 165C1250 20 1380 25 1530 190',
-    'M750 150C880-55 1060 4 1045 180C1030 325 1175 298 1210 145C1245-8 1405 48 1540 170',
-    'M760 125C900-35 1040 18 1030 170C1020 300 1150 315 1200 165C1250 20 1380 25 1530 190',
-  ];
-  const blueRibbonPaths=[
-    'M-100 560C120 340 280 650 500 470C700 300 810 610 1010 455C1180 330 1340 520 1540 390',
-    'M-110 535C105 385 300 625 520 445C690 305 825 635 1025 470C1205 322 1360 555 1550 370',
-    'M-100 560C120 340 280 650 500 470C700 300 810 610 1010 455C1180 330 1340 520 1540 390',
-  ];
+  const redRibbonPath='M-120 245C40 45 310 40 290 215C274 350 80 324 98 160C120-45 430 20 570 230';
+  const yellowRibbonPath='M760 125C900-35 1040 18 1030 170C1020 300 1150 315 1200 165C1250 20 1380 25 1530 190';
+  const blueRibbonPath='M-100 560C120 340 280 650 500 470C700 300 810 610 1010 455C1180 330 1340 520 1540 390';
 
   return <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
     <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMid slice" className="h-full w-full">
@@ -128,16 +108,14 @@ function PurposeRibbons() {
         opacity=".52"
         filter="url(#purpose-ribbon-shadow)"
       >
-        <motion.path
-          d={redRibbonPaths[0]}
-          animate={reduceMotion?undefined:{d:redRibbonPaths}}
-          transition={{duration:8,ease:'easeInOut',repeat:Infinity}}
+        <path
+          d={redRibbonPath}
           fill="none"
           stroke="url(#purpose-ribbon-red)"
           strokeWidth="25"
           strokeLinecap="round"
         />
-        <motion.path d={redRibbonPaths[0]} animate={reduceMotion?undefined:{d:redRibbonPaths}} transition={{duration:8,ease:'easeInOut',repeat:Infinity}} fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="3" strokeLinecap="round"/>
+        <path d={redRibbonPath} fill="none" stroke="rgba(255,255,255,.28)" strokeWidth="3" strokeLinecap="round"/>
       </motion.g>
 
       <motion.g
@@ -147,16 +125,14 @@ function PurposeRibbons() {
         opacity=".58"
         filter="url(#purpose-ribbon-shadow)"
       >
-        <motion.path
-          d={yellowRibbonPaths[0]}
-          animate={reduceMotion?undefined:{d:yellowRibbonPaths}}
-          transition={{duration:9.5,ease:'easeInOut',repeat:Infinity}}
+        <path
+          d={yellowRibbonPath}
           fill="none"
           stroke="url(#purpose-ribbon-yellow)"
           strokeWidth="27"
           strokeLinecap="round"
         />
-        <motion.path d={yellowRibbonPaths[0]} animate={reduceMotion?undefined:{d:yellowRibbonPaths}} transition={{duration:9.5,ease:'easeInOut',repeat:Infinity}} fill="none" stroke="rgba(255,255,255,.35)" strokeWidth="3" strokeLinecap="round"/>
+        <path d={yellowRibbonPath} fill="none" stroke="rgba(255,255,255,.35)" strokeWidth="3" strokeLinecap="round"/>
       </motion.g>
 
       <motion.g
@@ -166,16 +142,14 @@ function PurposeRibbons() {
         opacity=".42"
         filter="url(#purpose-ribbon-shadow)"
       >
-        <motion.path
-          d={blueRibbonPaths[0]}
-          animate={reduceMotion?undefined:{d:blueRibbonPaths}}
-          transition={{duration:11,ease:'easeInOut',repeat:Infinity}}
+        <path
+          d={blueRibbonPath}
           fill="none"
           stroke="url(#purpose-ribbon-blue)"
           strokeWidth="28"
           strokeLinecap="round"
         />
-        <motion.path d={blueRibbonPaths[0]} animate={reduceMotion?undefined:{d:blueRibbonPaths}} transition={{duration:11,ease:'easeInOut',repeat:Infinity}} fill="none" stroke="rgba(255,255,255,.22)" strokeWidth="3" strokeLinecap="round"/>
+        <path d={blueRibbonPath} fill="none" stroke="rgba(255,255,255,.22)" strokeWidth="3" strokeLinecap="round"/>
       </motion.g>
     </svg>
   </div>;
@@ -189,8 +163,8 @@ export default function Home() {
     <div className="overflow-hidden bg-white">
       <HomeHeroSlider/>
 
-      <section className="border-b border-slate-200 bg-slate-50 py-5 sm:py-7">
-        <div className="container-shell grid grid-cols-2 gap-x-2 gap-y-4 sm:gap-5 lg:grid-cols-4">
+      <section className="border-b border-slate-200 bg-slate-50 py-4 sm:py-7">
+        <div className="container-shell grid grid-cols-2 gap-x-1 gap-y-3 sm:gap-5 lg:grid-cols-4">
           {schoolStats.map((stat,index)=><AnimatedStat key={stat.label} {...stat} index={index}/>)}
         </div>
       </section>
@@ -205,22 +179,6 @@ export default function Home() {
             <article className="group relative col-span-2 overflow-hidden rounded-2xl bg-[#0739a6] p-4 text-white shadow-lg transition duration-300 hover:-translate-y-2 sm:rounded-3xl sm:p-8 sm:shadow-xl lg:col-span-1"><Eye className="h-6 w-6 text-[#ffc400] sm:h-8 sm:w-8"/><p className="mt-5 text-[9px] font-black uppercase tracking-[.14em] text-blue-100 sm:mt-10 sm:text-xs sm:tracking-[.18em]">Our vision</p><h3 className="mt-2 text-base font-extrabold leading-6 sm:mt-3 sm:text-xl sm:leading-8">To be an inclusive education centre that develops learners in every aspect of growth.</h3></article>
           </div>
           <div className="mt-8 text-center"><Link href="/about" className="inline-flex items-center gap-2 font-extrabold text-[#0739a6] hover:text-[#d50b12]">Discover who we are <ArrowRight className="h-4 w-4"/></Link></div>
-        </div>
-      </section>
-
-      <section className="relative overflow-hidden bg-[#f6f9ff] py-12 sm:py-24">
-        <div aria-hidden="true" className="absolute inset-0 opacity-[.45] [background-image:radial-gradient(#cbd8f1_1px,transparent_1px)] [background-size:28px_28px]"/>
-        <div className="container-shell relative z-10">
-          <div className="grid gap-4 sm:gap-8 lg:grid-cols-12 lg:items-end lg:gap-14">
-            <div className="lg:col-span-5"><p className="eyebrow inline-flex items-center gap-3">The CASA experience<span aria-hidden="true" className="h-0.5 w-10 bg-[#ffc400] sm:w-12"/></p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold tracking-tight text-[#031f66] sm:mt-4 sm:text-4xl md:text-5xl">Education designed around the whole child.</h2></div>
-            <p className="max-w-2xl text-sm leading-6 text-slate-600 sm:text-lg sm:leading-8 lg:col-span-6 lg:col-start-7">Children learn best when they feel safe, seen and excited to participate. Our approach balances academic confidence with character, creativity and movement.</p>
-          </div>
-          <div className="relative mt-7 sm:mt-14">
-            <div aria-hidden="true" className="absolute left-[10%] right-[10%] top-12 hidden border-t-2 border-dashed border-blue-200/80 lg:block"/>
-            <div className="relative grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
-              {pillars.map(({icon:Icon,number,accent,title,text},index) => <motion.article initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.25}} transition={{delay:index*.08}} key={title} className="group relative overflow-hidden rounded-2xl border border-blue-100 bg-white p-4 shadow-[0_12px_30px_rgba(3,31,102,.08)] transition duration-300 hover:-translate-y-1 hover:border-blue-200 sm:p-7 sm:shadow-[0_18px_45px_rgba(3,31,102,.08)] sm:hover:shadow-[0_24px_55px_rgba(3,31,102,.14)]"><span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1 ${accent} sm:h-1.5`}/><span aria-hidden="true" className="absolute right-3 top-2 font-[var(--font-heading)] text-3xl font-black text-slate-100 transition-colors group-hover:text-blue-50 sm:right-5 sm:top-3 sm:text-5xl">{number}</span><div className="relative mb-5 inline-flex rounded-lg border border-blue-100 bg-blue-50 p-2 text-[#0739a6] shadow-sm transition group-hover:bg-[#d50b12] group-hover:text-white sm:mb-8 sm:rounded-xl sm:p-3"><Icon className="h-5 w-5 sm:h-6 sm:w-6" /></div><h3 className="relative text-base font-extrabold leading-tight text-[#031f66] sm:text-xl">{title}</h3><p className="relative mt-2 text-xs leading-5 text-slate-600 sm:mt-3 sm:text-sm sm:leading-7">{text}</p></motion.article>)}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -284,37 +242,30 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#031f66] py-16 text-white">
+      <section className="relative overflow-hidden bg-[#031f66] py-10 text-white sm:py-14">
         <div aria-hidden="true" className="absolute -left-28 -top-28 h-80 w-80 rounded-full border-[52px] border-[#0739a6]/35"/>
         <div aria-hidden="true" className="absolute -bottom-24 right-[8%] h-64 w-64 rounded-full bg-[#d50b12]/10 blur-3xl"/>
-        <div className="container-shell relative z-10 grid items-center gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-14">
-          <div className="max-w-md">
-            <p className="text-xs font-extrabold uppercase tracking-[.18em] text-[#ffc400]">Parent stories</p>
-            <h2 className="mt-4 font-[var(--font-heading)] text-4xl font-extrabold leading-tight">Trusted by families across Nakuru.</h2>
-            <p className="mt-5 leading-7 text-blue-100">Hear how a caring school community, practical CBC learning and varied activities help children grow in confidence.</p>
-            <ul className="mt-7 grid gap-3 text-sm font-semibold text-blue-50">
-              {['Confidence families can see','Learning children enjoy','A community that listens'].map((item,index)=><li key={item} className="flex items-center gap-3"><span className={`h-2.5 w-2.5 rounded-full ${index===0?'bg-[#d50b12]':index===1?'bg-[#ffc400]':'bg-[#3978ff]'}`}/>{item}</li>)}
-            </ul>
-          </div>
-          <TestimonialsCarousel />
+        <div className="container-shell relative z-10">
+          <h2 className="text-center font-[var(--font-heading)] text-2xl font-extrabold leading-tight sm:text-4xl">Parent stories and reviews</h2>
+          <div className="mt-5 sm:mt-7"><TestimonialsCarousel /></div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff,#f7f9ff)] py-16">
+      <section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff,#f7f9ff)] py-10 sm:py-14">
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
         <div className="container-shell relative z-10">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-            <div><p className="eyebrow">What’s happening</p><h2 className="mt-3 font-[var(--font-heading)] text-4xl font-extrabold text-[#0b1f3a]">School life, news and events.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">Upcoming school moments and the latest stories from our classrooms, clubs and community.</p></div>
+            <div><p className="eyebrow">What’s happening</p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold text-[#0b1f3a] sm:text-4xl">School life, news and events.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">Upcoming school moments and the latest stories from our classrooms, clubs and community.</p></div>
             <Link href="/blog" className="group inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-[#0739a6] shadow-sm transition hover:border-[#0739a6] hover:shadow-md">View all updates <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/></Link>
           </div>
-          <div className="mt-9 grid gap-7 lg:grid-cols-2">
+          <div className="mt-8 space-y-7">
             <div>
               <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#d50b12]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Upcoming events</h3></div>
-              <div className="grid gap-5">{schoolEvents.slice(0,2).map(event=><EventCard key={event.id} event={event} compact/>)}</div>
+              <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{schoolEvents.slice(0,4).map(event=><div key={event.id} className="w-[84vw] max-w-[32rem] shrink-0 snap-start"><EventCard event={event} compact/></div>)}</div>
             </div>
             <div>
               <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#ffc400]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Latest stories</h3></div>
-              <div className="grid gap-4">{blogPosts.slice(0,3).map(post=><BlogCard key={post.id} post={post} compact/>)}</div>
+              <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{blogPosts.slice(0,5).map(post=><div key={post.id} className="w-[82vw] max-w-[26rem] shrink-0 snap-start"><BlogCard post={post} compact/></div>)}</div>
             </div>
           </div>
         </div>

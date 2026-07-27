@@ -7,8 +7,8 @@ import { Footer } from '@/components/Footer';
 import { getPublicContent } from '@/lib/db/content';
 import { defaultPublicContent } from '@/lib/site-content';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
-const manrope = Manrope({ subsets: ['latin'], variable: '--font-heading', display: 'swap' });
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: false });
+const manrope = Manrope({ subsets: ['latin'], variable: '--font-heading', display: 'swap', preload: false });
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstarsacademy.sc.ke';
 
 export const metadata: Metadata = {
