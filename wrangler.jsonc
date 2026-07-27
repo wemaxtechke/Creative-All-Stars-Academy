@@ -34,10 +34,10 @@
     }
   ],
   "vars": {
-    "ADMIN_EMAILS": "",
+    "ADMIN_EMAILS": "creativeallstarsacademynakuru@gmail.com,mainaenock10@gmail.com",
     "LOCAL_ADMIN_EMAIL": "",
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": "",
+    "ACCESS_TEAM_DOMAIN": "https://autumn-pond-64ad.cloudflareaccess.com",
+    "ACCESS_AUD": "13eadd5de2cace7e947fe409920c0f6f50a50e0bb5ad9a02bf78ae13ec0fa58c",
     "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAD7PawXOFdXkKOsZ",
     "NEXT_PUBLIC_SITE_URL": "https://creativeallstarsacademy.sc.ke"
   },
