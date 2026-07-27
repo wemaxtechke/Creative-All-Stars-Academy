@@ -1,8 +1,9 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import { ImagePlus, Trash2, Upload } from 'lucide-react';
+import { FormEvent, useRef, useState } from 'react';
+import { ImagePlus, Pencil, Trash2, Upload, X } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
+import type { HeroSlide } from '@/types';
 
 const imageSlots = [
   ['brand-logo', 'Website logo'],
@@ -38,7 +39,9 @@ const imageSlots = [
 ] as const;
 
 export default function VisualsPage() {
-  const { heroSlides, siteImages, addHeroSlide, deleteHeroSlide, setSiteImage, deleteSiteImage, uploadMedia } = useApp();
+  const { heroSlides, siteImages, addHeroSlide, updateHeroSlide, deleteHeroSlide, setSiteImage, deleteSiteImage, uploadMedia } = useApp();
+  const heroFormRef=useRef<HTMLFormElement>(null);
+  const [editingHeroId,setEditingHeroId]=useState<string|null>(null);
   const [heroFile,setHeroFile]=useState<File|null>(null);
   const [heroAlt,setHeroAlt]=useState('');
   const [heroTitle,setHeroTitle]=useState('');
@@ -53,14 +56,46 @@ export default function VisualsPage() {
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
 
-  async function saveHero(event:FormEvent) {
-    event.preventDefault();
-    if(!heroFile||!heroAlt.trim())return setError('Choose a hero image and describe what is visible.');
+  function resetHeroForm() {
+    setEditingHeroId(null);setHeroFile(null);setHeroAlt('');setHeroTitle('');setHeroKicker('');setHeroDescription('');setHeroButton('');setHeroHref('');
+  }
+
+  function editHero(slide:HeroSlide) {
+    setEditingHeroId(slide.id);
+    setHeroFile(null);
+    setHeroAlt(slide.alt);
+    setHeroTitle(slide.title||'');
+    setHeroKicker(slide.kicker||'');
+    setHeroDescription(slide.description||'');
+    setHeroButton(slide.primary||'');
+    setHeroHref(slide.primaryHref||'');
+    setError('');
+    requestAnimationFrame(()=>heroFormRef.current?.scrollIntoView({behavior:'smooth',block:'start'}));
+  }
+
+  async function removeHero(id:string) {
     setBusy(true);setError('');
     try {
-      const asset=await uploadMedia(heroFile,heroAlt);
-      await addHeroSlide({mediaId:asset.id,image:asset.url,alt:heroAlt,kicker:heroKicker,title:heroTitle,description:heroDescription,primary:heroButton,primaryHref:heroHref});
-      setHeroFile(null);setHeroAlt('');setHeroTitle('');setHeroKicker('');setHeroDescription('');setHeroButton('');setHeroHref('');
+      await deleteHeroSlide(id);
+      if(editingHeroId===id)resetHeroForm();
+    } catch(value) { setError(value instanceof Error?value.message:'Unable to delete the hero slide.'); }
+    finally { setBusy(false); }
+  }
+
+  async function saveHero(event:FormEvent) {
+    event.preventDefault();
+    if(!editingHeroId&&!heroFile)return setError('Choose a hero image.');
+    if(!heroAlt.trim())return setError('Describe what is visible in the hero image.');
+    setBusy(true);setError('');
+    try {
+      const asset=heroFile?await uploadMedia(heroFile,heroAlt):null;
+      const fields={alt:heroAlt.trim(),kicker:heroKicker.trim(),title:heroTitle.trim(),description:heroDescription.trim(),primary:heroButton.trim(),primaryHref:heroHref.trim()};
+      if(editingHeroId) {
+        await updateHeroSlide(editingHeroId,{...fields,...(asset?{mediaId:asset.id,image:asset.url}:{})});
+      } else if(asset) {
+        await addHeroSlide({mediaId:asset.id,image:asset.url,...fields});
+      }
+      resetHeroForm();
     } catch(value) { setError(value instanceof Error?value.message:'Unable to save the hero slide.'); }
     finally { setBusy(false); }
   }
@@ -82,18 +117,18 @@ export default function VisualsPage() {
     {error&&<p className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-bold text-red-700">{error}</p>}
 
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="text-xl font-extrabold text-[#031f66]">Homepage hero slides</h2>
-      <form onSubmit={saveHero} className="mt-5 grid gap-4 lg:grid-cols-2">
-        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4"><Upload className="h-5 w-5"/><span className="text-sm">{heroFile?.name||'Choose hero image'}</span><input className="sr-only" type="file" accept="image/jpeg,image/png,image/webp,image/avif" onChange={event=>setHeroFile(event.target.files?.[0]||null)}/></label>
+      <div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-xl font-extrabold text-[#031f66]">Homepage hero slides</h2>{editingHeroId&&<p className="mt-1 text-sm font-semibold text-blue-700">Editing the selected slide. Its current image will remain unless you choose a replacement.</p>}</div>{editingHeroId&&<button type="button" onClick={resetHeroForm} className="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50"><X className="h-4 w-4"/>Cancel editing</button>}</div>
+      <form ref={heroFormRef} onSubmit={saveHero} className="mt-5 grid scroll-mt-6 gap-4 lg:grid-cols-2">
+        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4"><Upload className="h-5 w-5"/><span className="text-sm">{heroFile?.name||(editingHeroId?'Choose a replacement image (optional)':'Choose hero image')}</span><input className="sr-only" type="file" accept="image/jpeg,image/png,image/webp,image/avif" onChange={event=>setHeroFile(event.target.files?.[0]||null)}/></label>
         <input value={heroAlt} onChange={event=>setHeroAlt(event.target.value)} placeholder="Image description (required)" className="rounded-xl border border-slate-300 px-4 py-3"/>
         <input value={heroKicker} onChange={event=>setHeroKicker(event.target.value)} placeholder="Small heading (optional)" className="rounded-xl border border-slate-300 px-4 py-3"/>
         <input value={heroTitle} onChange={event=>setHeroTitle(event.target.value)} placeholder="Main heading (optional)" className="rounded-xl border border-slate-300 px-4 py-3"/>
         <textarea value={heroDescription} onChange={event=>setHeroDescription(event.target.value)} placeholder="Description (optional)" className="rounded-xl border border-slate-300 px-4 py-3 lg:col-span-2"/>
         <input value={heroButton} onChange={event=>setHeroButton(event.target.value)} placeholder="Button label (optional)" className="rounded-xl border border-slate-300 px-4 py-3"/>
         <input value={heroHref} onChange={event=>setHeroHref(event.target.value)} placeholder="Button link, e.g. /admissions" className="rounded-xl border border-slate-300 px-4 py-3"/>
-        <button disabled={busy} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0739a6] px-5 py-3 font-bold text-white disabled:opacity-50 lg:col-span-2"><ImagePlus className="h-4 w-4"/>Add hero slide</button>
+        <button disabled={busy} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0739a6] px-5 py-3 font-bold text-white disabled:opacity-50 lg:col-span-2">{editingHeroId?<Pencil className="h-4 w-4"/>:<ImagePlus className="h-4 w-4"/>}{busy?'Saving…':editingHeroId?'Save slide changes':'Add hero slide'}</button>
       </form>
-      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">{heroSlides.map(slide=><article key={slide.id} className="overflow-hidden rounded-xl border border-slate-200"><img src={slide.image} alt={slide.alt} className="h-40 w-full object-cover"/><div className="flex items-start justify-between gap-3 p-4"><div><p className="font-bold text-[#031f66]">{slide.title||slide.alt}</p><p className="mt-1 text-xs text-slate-500">{slide.kicker||'Image-only slide'}</p></div><button onClick={()=>deleteHeroSlide(slide.id)} aria-label="Delete hero slide" className="rounded-lg bg-red-50 p-2 text-red-700"><Trash2 className="h-4 w-4"/></button></div></article>)}</div>
+      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">{heroSlides.map(slide=><article key={slide.id} className={`overflow-hidden rounded-xl border ${editingHeroId===slide.id?'border-blue-400 ring-2 ring-blue-100':'border-slate-200'}`}><img src={slide.image} alt={slide.alt} className="h-40 w-full object-cover"/><div className="flex items-start justify-between gap-3 p-4"><div className="min-w-0"><p className="truncate font-bold text-[#031f66]">{slide.title||slide.alt}</p><p className="mt-1 truncate text-xs text-slate-500">{slide.kicker||'Image-only slide'}</p></div><div className="flex shrink-0 gap-1"><button type="button" onClick={()=>editHero(slide)} disabled={busy} aria-label={`Edit ${slide.title||slide.alt}`} title="Edit hero slide" className="rounded-lg bg-blue-50 p-2 text-blue-700 hover:bg-blue-100 disabled:opacity-50"><Pencil className="h-4 w-4"/></button><button type="button" onClick={()=>removeHero(slide.id)} disabled={busy} aria-label="Delete hero slide" title="Delete hero slide" className="rounded-lg bg-red-50 p-2 text-red-700 hover:bg-red-100 disabled:opacity-50"><Trash2 className="h-4 w-4"/></button></div></div></article>)}</div>
     </section>
 
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">

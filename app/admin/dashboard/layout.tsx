@@ -58,10 +58,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   ];
 
   return (
-    <div className={`min-h-screen flex ${darkMode ? 'bg-gray-950 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`flex h-screen overflow-hidden ${darkMode ? 'bg-gray-950 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
 
       {/* 1. SIDEBAR DESKTOP */}
-      <aside className={`hidden lg:flex flex-col w-72 border-r flex-shrink-0 transition-colors ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
+      <aside className={`hidden h-screen lg:flex flex-col w-72 border-r flex-shrink-0 transition-colors ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
         {/* Brand Banner */}
         <div className="h-20 flex items-center px-6 border-b border-gray-100/50 gap-2">
           <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={46} height={46} className="h-11 w-11 rounded-full bg-white object-contain"/>
@@ -166,10 +166,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       )}
 
       {/* 3. MAIN WORKSPACE */}
-      <div className="flex-grow flex flex-col min-w-0">
+      <div className="flex min-h-0 min-w-0 flex-grow flex-col">
 
         {/* Top Navbar */}
-        <header className={`h-20 flex items-center justify-between px-6 border-b transition-colors relative z-40 ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
+        <header className={`relative z-40 flex h-20 shrink-0 items-center justify-between border-b px-6 transition-colors ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -239,7 +239,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </header>
 
         {/* Page Content area */}
-        <main className="flex-grow p-6 md:p-8 overflow-y-auto">
+        <main className="min-h-0 flex-grow overflow-y-auto p-6 md:p-8">
           {children}
         </main>
       </div>
