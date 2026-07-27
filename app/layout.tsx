@@ -28,6 +28,11 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary', title: 'Creative All Stars Academy — Endeavour to Succeed', description: 'Holistic, inclusive CBC education in Nakuru.' },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
+  icons: {
+    icon: [{ url: '/brand/creative-all-stars-academy-logo.png', type: 'image/png' }],
+    shortcut: '/brand/creative-all-stars-academy-logo.png',
+    apple: '/brand/creative-all-stars-academy-logo.png',
+  },
   manifest: '/manifest.webmanifest',
 };
 
