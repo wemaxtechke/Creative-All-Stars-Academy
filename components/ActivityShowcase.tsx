@@ -69,32 +69,32 @@ export function HomeHeroSlider() {
   const hasAssignedImage=Boolean(assignedStory?.image);
   const entrance=(delay:number)=>({duration:reduceMotion?0:.55,delay:reduceMotion?0:delay,ease:[.22,1,.36,1] as const});
 
-  return <section aria-label="Creative All Stars Academy highlights" className="relative min-h-[640px] overflow-hidden bg-[#031f66] text-white lg:min-h-[540px]" onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)}>
+  return <section aria-label="Creative All Stars Academy highlights" className="relative min-h-[540px] overflow-hidden bg-[#031f66] text-white sm:min-h-[600px] lg:min-h-[540px]" onMouseEnter={()=>setPaused(true)} onMouseLeave={()=>setPaused(false)}>
     {hasAssignedImage&&<AnimatePresence mode="sync">
       <motion.div key={story.image} initial={reduceMotion?{opacity:0}:{opacity:0,scale:1.02,x:8}} animate={reduceMotion?{opacity:1}:{opacity:1,scale:1.075,x:-8}} exit={{opacity:0}} transition={reduceMotion?{duration:0}:{opacity:{duration:.75},scale:{duration:HERO_SLIDE_DURATION_MS/1000+.4,ease:'linear'},x:{duration:HERO_SLIDE_DURATION_MS/1000+.4,ease:'linear'}}} className="absolute inset-0">
         <Image src={story.image} alt={story.alt} fill priority={active===0} sizes="100vw" className="object-cover"/>
       </motion.div>
     </AnimatePresence>}
-    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,20,65,.94)_0%,rgba(3,31,102,.78)_38%,rgba(3,31,102,.2)_72%,rgba(3,31,102,.1)_100%)]"/>
+    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(3,20,65,.95)_0%,rgba(3,31,102,.83)_48%,rgba(3,31,102,.32)_100%)] sm:bg-[linear-gradient(90deg,rgba(3,20,65,.94)_0%,rgba(3,31,102,.78)_38%,rgba(3,31,102,.2)_72%,rgba(3,31,102,.1)_100%)]"/>
     <div className="absolute inset-0 bg-gradient-to-t from-[#020d2b]/75 via-transparent to-[#020d2b]/20"/>
     <div className="absolute left-0 top-0 h-full w-2 bg-[#d50b12]"/>
 
     {!reduceMotion&&<motion.div key={`ribbon-${active}`} aria-hidden="true" initial={{x:'0%'}} animate={{x:'300%'}} transition={{duration:.92,ease:[.76,0,.24,1]}} className="pointer-events-none absolute -left-[60%] top-0 z-30 h-full w-[58%] -skew-x-12 border-l-[10px] border-[#d50b12] border-r-[14px] border-[#ffc400] bg-[#0739a6] shadow-[28px_0_70px_rgba(3,31,102,.45)]"><div className="absolute inset-y-0 right-12 w-24 bg-white/10 blur-2xl"/></motion.div>}
 
-    <div className="container-shell relative z-10 flex min-h-[640px] items-start py-6 lg:min-h-[540px] lg:py-5">
-      <div className="max-w-4xl pb-24 pt-0">
+    <div className="container-shell relative z-10 flex min-h-[540px] items-start py-6 sm:min-h-[600px] lg:min-h-[540px] lg:py-5">
+      <div className="max-w-4xl pb-20 pt-1 sm:pb-24 sm:pt-0">
         <AnimatePresence mode="wait">
           <motion.div key={active} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:reduceMotion?0:.2}}>
-            <motion.div initial={reduceMotion?{opacity:1}:{opacity:0,x:-24}} animate={{opacity:1,x:0}} transition={entrance(.28)} className="mb-5 flex items-center gap-4"><motion.span initial={reduceMotion?{scaleX:1}:{scaleX:0}} animate={{scaleX:1}} transition={entrance(.34)} className="h-[3px] w-12 origin-left bg-[#ffc400]"/><p className="text-xs font-black uppercase tracking-[.28em] text-[#ffc400] sm:text-sm">{story.kicker}</p></motion.div>
-            <motion.h1 initial={reduceMotion?{opacity:1}:{opacity:0,y:26}} animate={{opacity:1,y:0}} transition={entrance(.38)} className="brand-title max-w-4xl text-5xl font-extrabold leading-[1.03] drop-shadow-lg sm:text-6xl lg:text-[4.25rem]">{story.title}</motion.h1>
-            <motion.p initial={reduceMotion?{opacity:1}:{opacity:0,y:22}} animate={{opacity:1,y:0}} transition={entrance(.48)} className="mt-5 max-w-2xl text-base leading-7 text-blue-50 drop-shadow sm:text-lg">{story.description}</motion.p>
-            <motion.div initial={reduceMotion?{opacity:1}:{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={entrance(.58)} className="mt-7 flex flex-col gap-3 sm:flex-row">
-              {story.primary&&story.primaryHref&&<Link href={story.primaryHref} className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-sm bg-[#d50b12] px-7 py-3.5 font-extrabold text-white shadow-xl transition-transform duration-300 hover:-translate-y-1">
+            <motion.div initial={reduceMotion?{opacity:1}:{opacity:0,x:-24}} animate={{opacity:1,x:0}} transition={entrance(.28)} className="mb-4 flex items-center gap-3 sm:mb-5 sm:gap-4"><motion.span initial={reduceMotion?{scaleX:1}:{scaleX:0}} animate={{scaleX:1}} transition={entrance(.34)} className="h-[3px] w-8 origin-left bg-[#ffc400] sm:w-12"/><p className="text-[10px] font-black uppercase tracking-[.2em] text-[#ffc400] sm:text-sm sm:tracking-[.28em]">{story.kicker}</p></motion.div>
+            <motion.h1 initial={reduceMotion?{opacity:1}:{opacity:0,y:26}} animate={{opacity:1,y:0}} transition={entrance(.38)} className="brand-title max-w-4xl text-[2.55rem] font-extrabold leading-[1.02] drop-shadow-lg min-[390px]:text-5xl sm:text-6xl lg:text-[4.25rem]">{story.title}</motion.h1>
+            <motion.p initial={reduceMotion?{opacity:1}:{opacity:0,y:22}} animate={{opacity:1,y:0}} transition={entrance(.48)} className="mt-4 max-w-2xl text-sm leading-6 text-blue-50 drop-shadow sm:mt-5 sm:text-lg sm:leading-7">{story.description}</motion.p>
+            <motion.div initial={reduceMotion?{opacity:1}:{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={entrance(.58)} className="mt-5 grid grid-cols-2 gap-2.5 sm:mt-7 sm:flex sm:gap-3">
+              {story.primary&&story.primaryHref&&<Link href={story.primaryHref} className="group relative inline-flex min-h-12 items-center justify-center gap-1.5 overflow-hidden rounded-lg bg-[#d50b12] px-3 py-3 text-center text-sm font-extrabold text-white shadow-xl transition-transform duration-300 hover:-translate-y-1 sm:gap-2 sm:rounded-sm sm:px-7 sm:py-3.5 sm:text-base">
                 <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-1 bg-[#ffc400] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-[#031f66]">{story.primary}</span>
                 <motion.span className="relative z-10 transition-colors duration-300 group-hover:text-[#031f66]" animate={reduceMotion?{}:{x:[0,4,0]}} transition={{duration:1.8,delay:1.2,repeat:Infinity,repeatDelay:1.2}}><ArrowRight className="h-5 w-5"/></motion.span>
               </Link>}
-              <Link href="/admissions" className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-sm border border-l-4 border-white/50 border-l-[#ffc400] bg-white/10 px-7 py-3.5 font-extrabold text-white shadow-xl backdrop-blur-sm transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-[#ffc400]">
+              <Link href="/admissions" className="group relative inline-flex min-h-12 items-center justify-center gap-1.5 overflow-hidden rounded-lg border border-l-4 border-white/50 border-l-[#ffc400] bg-white/10 px-3 py-3 text-center text-sm font-extrabold text-white shadow-xl backdrop-blur-sm transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-[#ffc400] sm:gap-2 sm:rounded-sm sm:px-7 sm:py-3.5 sm:text-base">
                 <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-0 bg-[#ffc400] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
                 <span className="relative z-10 transition-colors duration-300 group-hover:text-[#031f66]">Admission enquiry</span>
                 <motion.span className="relative z-10 transition-colors duration-300 group-hover:text-[#031f66]" animate={reduceMotion?{}:{x:[0,4,0]}} transition={{duration:1.8,delay:1.2,repeat:Infinity,repeatDelay:1.2}}><ArrowRight className="h-5 w-5"/></motion.span>
@@ -109,7 +109,7 @@ export function HomeHeroSlider() {
     <button onClick={()=>move(1)} aria-label="Next school highlight" className="absolute right-4 top-1/2 z-20 hidden h-20 w-12 -translate-y-1/2 place-items-center border border-white/15 bg-[#031f66]/35 text-white backdrop-blur-sm transition hover:bg-[#d50b12] md:grid lg:right-8"><ChevronRight className="h-7 w-7"/></button></>}
 
     <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/15 bg-[#020d2b]/55 backdrop-blur-md">
-      <div className="container-shell flex min-h-20 flex-col justify-center gap-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:py-0">
+      <div className="container-shell flex min-h-14 flex-col justify-center gap-2 py-2 sm:min-h-20 sm:flex-row sm:items-center sm:justify-between sm:py-0">
         <div className="hidden items-center gap-8 text-xs font-bold text-blue-100 lg:flex"><span>Ngata, Nakuru</span><span className="h-4 w-px bg-white/25"/><span>CBC-aligned education</span><span className="h-4 w-px bg-white/25"/><span className="text-[#ffc400]">Endeavour to Succeed</span></div>
         {heroSlides.length>0&&<div className="flex items-center gap-3">{heroSlides.map((item,index)=><button key={item.id} onClick={()=>setActive(index)} aria-label={`Show slide ${index+1}: ${item.alt}`} className={`group flex items-center gap-2 py-2 ${index===active?'text-white':'text-blue-200/70'}`}><span className={`relative h-2.5 overflow-hidden rounded-full transition-all ${index===active?'w-9 bg-white/20':'w-2.5 bg-white/50 group-hover:bg-white'}`}>{index===active&&<span key={`progress-${active}-${paused?'paused':'running'}`} className="absolute inset-0 origin-left bg-[#ffc400]" style={{animation:`hero-progress ${HERO_SLIDE_DURATION_MS}ms linear forwards`,animationPlayState:paused?'paused':'running'}}/>}</span><span className="hidden text-[10px] font-black tabular-nums sm:block">0{index+1}</span></button>)}</div>}
       </div>
@@ -137,22 +137,22 @@ export function ActivityMarquee() {
   const activities=siteImages.filter((item)=>item.id.startsWith('activity-')).map((item)=>({title:item.alt,label:item.label||'School life',image:item.url}));
   if(!activities.length)return null;
   const repeated=[...activities,...activities];
-  return <section className="relative overflow-hidden bg-[linear-gradient(145deg,#020d2b,#031f66_48%,#0739a6)] py-16 text-white">
+  return <section className="relative overflow-hidden bg-[linear-gradient(145deg,#020d2b,#031f66_48%,#0739a6)] py-12 text-white sm:py-16">
     <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#3978ff]"/>
     <div aria-hidden="true" className="absolute -left-32 top-16 h-72 w-72 rounded-full border-[44px] border-white/[.035]"/>
     <div className="container-shell relative z-10 mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-      <div><p className="text-xs font-black uppercase tracking-[.18em] text-[#ffc400]">Every day is different</p><h2 className="brand-title mt-3 text-4xl font-extrabold md:text-5xl">See our learners in action.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-blue-100">A glimpse of the learning, creativity, teamwork and discovery that fill each school day.</p></div>
+      <div><p className="text-[10px] font-black uppercase tracking-[.18em] text-[#ffc400] sm:text-xs">Every day is different</p><h2 className="brand-title mt-3 text-3xl font-extrabold sm:text-4xl md:text-5xl">See our learners in action.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-blue-100">A glimpse of the learning, creativity, teamwork and discovery that fill each school day.</p></div>
       <Link href="/gallery" className="group inline-flex items-center justify-center gap-2 rounded-xl border border-[#ffc400]/40 bg-[#ffc400]/10 px-5 py-3 font-extrabold text-[#ffc400] transition hover:bg-[#ffc400] hover:text-[#031f66]">Explore the gallery <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/></Link>
     </div>
     <div className="relative z-10">
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 z-20 w-20 bg-gradient-to-r from-[#020d2b] to-transparent sm:w-32"/>
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-20 w-20 bg-gradient-to-l from-[#0739a6] to-transparent sm:w-32"/>
-      <div className="flex w-max animate-[activity-scroll_42s_linear_infinite] gap-5 py-2 hover:[animation-play-state:paused]">{repeated.map((item,index)=><article key={`${item.title}-${index}`} className="group relative h-64 w-[320px] shrink-0 overflow-hidden rounded-[1.75rem] border border-white/15 bg-[#0739a6] shadow-[0_22px_50px_rgba(0,0,0,.25)] sm:w-[390px]">
+      <div className="flex w-max animate-[activity-scroll_42s_linear_infinite] gap-3 py-2 hover:[animation-play-state:paused] sm:gap-5">{repeated.map((item,index)=><article key={`${item.title}-${index}`} className="group relative h-48 w-[230px] shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-[#0739a6] shadow-[0_22px_50px_rgba(0,0,0,.25)] sm:h-64 sm:w-[390px] sm:rounded-[1.75rem]">
         <ActivityImage src={item.image} alt={item.title}/>
         <div className="absolute inset-0 bg-gradient-to-t from-[#020d2b]/95 via-[#031f66]/20 to-[#020d2b]/10"/>
         <span className={`absolute inset-x-0 top-0 h-1 ${index%3===0?'bg-[#d50b12]':index%3===1?'bg-[#ffc400]':'bg-[#3978ff]'}`}/>
         <span className="absolute right-5 top-5 text-4xl font-black text-white/20">0{index%activities.length+1}</span>
-        <div className="absolute bottom-0 p-6"><p className="text-[10px] font-black uppercase tracking-[.16em] text-[#ffc400]">{item.label}</p><h3 className="mt-2 text-xl font-extrabold">{item.title}</h3><span className="mt-4 block h-0.5 w-10 bg-[#d50b12] transition-[width] duration-300 group-hover:w-20"/></div>
+        <div className="absolute bottom-0 p-4 sm:p-6"><p className="text-[9px] font-black uppercase tracking-[.16em] text-[#ffc400] sm:text-[10px]">{item.label}</p><h3 className="mt-1.5 text-base font-extrabold sm:mt-2 sm:text-xl">{item.title}</h3><span className="mt-3 block h-0.5 w-10 bg-[#d50b12] transition-[width] duration-300 group-hover:w-20 sm:mt-4"/></div>
       </article>)}</div>
     </div>
     <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#3978ff] via-[#ffc400] to-[#d50b12]"/>

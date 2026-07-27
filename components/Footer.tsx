@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ArrowRight, Clock, Heart, Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowRight, Clock, Heart, LockKeyhole, Mail, MapPin, Phone } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 
 const navigation = [
@@ -71,7 +71,7 @@ export const Footer: React.FC = () => {
         <div className="lg:col-span-2">
           <h3 className="text-sm font-black uppercase tracking-[.16em] text-[#ffc400]">Community</h3>
           <ul className="mt-5 space-y-3">{community.map(([label,href])=><li key={href}><Link href={href} className="group flex items-center gap-2 text-sm text-blue-100 transition hover:text-white"><ArrowRight className="h-3.5 w-3.5 text-[#3978ff] transition-transform group-hover:translate-x-1"/>{label}</Link></li>)}</ul>
-          <Link href="/admin/login" className="mt-5 inline-flex rounded-lg border border-white/10 bg-white/[.05] px-3 py-2 text-xs font-bold text-blue-100 transition hover:border-[#ffc400] hover:text-[#ffc400]">Staff portal</Link>
+          <Link href="/admin/login" className="mt-5 inline-flex items-center gap-2 rounded-lg border border-[#ffc400]/35 bg-[#ffc400]/10 px-3 py-2 text-xs font-bold text-[#ffe588] transition hover:border-[#ffc400] hover:bg-[#ffc400] hover:text-[#031f66]"><LockKeyhole className="h-3.5 w-3.5"/>Admin portal</Link>
         </div>
 
         <div className="lg:col-span-3">

@@ -189,45 +189,45 @@ export default function Home() {
     <div className="overflow-hidden bg-white">
       <HomeHeroSlider/>
 
-      <section className="border-b border-slate-200 bg-slate-50 py-7">
-        <div className="container-shell grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="border-b border-slate-200 bg-slate-50 py-5 sm:py-7">
+        <div className="container-shell grid grid-cols-2 gap-x-2 gap-y-4 sm:gap-5 lg:grid-cols-4">
           {schoolStats.map((stat,index)=><AnimatedStat key={stat.label} {...stat} index={index}/>)}
         </div>
       </section>
 
-      <section className="relative overflow-hidden py-24" aria-labelledby="purpose-heading">
-        <PurposeRibbons/>
+      <section className="relative overflow-hidden py-12 sm:py-24" aria-labelledby="purpose-heading">
+        <div className="hidden sm:block"><PurposeRibbons/></div>
         <div className="container-shell relative z-10">
-          <div className="mx-auto max-w-3xl text-center"><p className="eyebrow">Driven by purpose</p><h2 id="purpose-heading" className="brand-title mt-4 text-4xl font-extrabold text-[#031f66] md:text-5xl">Endeavour to Succeed.</h2><p className="mt-5 text-lg leading-8 text-slate-600">Our motto, mission and vision shape every learning experience and every relationship within our school community.</p></div>
-          <div className="mt-14 grid gap-6 lg:grid-cols-3">
-            <article className="group relative overflow-hidden rounded-3xl bg-[#d50b12] p-8 text-white shadow-xl transition duration-300 hover:-translate-y-2"><Flag className="h-8 w-8 text-[#ffc400]"/><p className="mt-10 text-xs font-black uppercase tracking-[.18em] text-red-100">Our motto</p><h3 className="mt-3 text-3xl font-extrabold">Endeavour to Succeed</h3></article>
-            <article className="group relative overflow-hidden rounded-3xl bg-[#ffc400] p-8 text-[#031f66] shadow-xl transition duration-300 hover:-translate-y-2"><Rocket className="h-8 w-8 text-[#d50b12]"/><p className="mt-10 text-xs font-black uppercase tracking-[.18em] text-[#8a3600]">Our mission</p><h3 className="mt-3 text-xl font-extrabold leading-8">To provide holistic development and education to the learner that enable him/her to realize his/her full potential.</h3></article>
-            <article className="group relative overflow-hidden rounded-3xl bg-[#0739a6] p-8 text-white shadow-xl transition duration-300 hover:-translate-y-2"><Eye className="h-8 w-8 text-[#ffc400]"/><p className="mt-10 text-xs font-black uppercase tracking-[.18em] text-blue-100">Our vision</p><h3 className="mt-3 text-xl font-extrabold leading-8">To be an inclusive Education Centre that develops learners in all aspects of growth.</h3></article>
+          <div className="mx-auto max-w-3xl text-center"><p className="eyebrow">Driven by purpose</p><h2 id="purpose-heading" className="brand-title mt-3 text-3xl font-extrabold text-[#031f66] sm:mt-4 sm:text-4xl md:text-5xl">Endeavour to Succeed.</h2><p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-600 sm:mt-5 sm:text-lg sm:leading-8">Our motto, mission and vision shape every learning experience and every relationship within our school community.</p></div>
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:mt-14 sm:gap-6 lg:grid-cols-3">
+            <article className="group relative overflow-hidden rounded-2xl bg-[#d50b12] p-4 text-white shadow-lg transition duration-300 hover:-translate-y-2 sm:rounded-3xl sm:p-8 sm:shadow-xl"><Flag className="h-6 w-6 text-[#ffc400] sm:h-8 sm:w-8"/><p className="mt-6 text-[9px] font-black uppercase tracking-[.14em] text-red-100 sm:mt-10 sm:text-xs sm:tracking-[.18em]">Our motto</p><h3 className="mt-2 text-lg font-extrabold leading-tight sm:mt-3 sm:text-3xl">Endeavour to Succeed</h3></article>
+            <article className="group relative overflow-hidden rounded-2xl bg-[#ffc400] p-4 text-[#031f66] shadow-lg transition duration-300 hover:-translate-y-2 sm:rounded-3xl sm:p-8 sm:shadow-xl"><Rocket className="h-6 w-6 text-[#d50b12] sm:h-8 sm:w-8"/><p className="mt-6 text-[9px] font-black uppercase tracking-[.14em] text-[#8a3600] sm:mt-10 sm:text-xs sm:tracking-[.18em]">Our mission</p><h3 className="mt-2 text-[13px] font-extrabold leading-5 sm:mt-3 sm:text-xl sm:leading-8">To provide holistic development and education that helps every learner realise their full potential.</h3></article>
+            <article className="group relative col-span-2 overflow-hidden rounded-2xl bg-[#0739a6] p-4 text-white shadow-lg transition duration-300 hover:-translate-y-2 sm:rounded-3xl sm:p-8 sm:shadow-xl lg:col-span-1"><Eye className="h-6 w-6 text-[#ffc400] sm:h-8 sm:w-8"/><p className="mt-5 text-[9px] font-black uppercase tracking-[.14em] text-blue-100 sm:mt-10 sm:text-xs sm:tracking-[.18em]">Our vision</p><h3 className="mt-2 text-base font-extrabold leading-6 sm:mt-3 sm:text-xl sm:leading-8">To be an inclusive education centre that develops learners in every aspect of growth.</h3></article>
           </div>
           <div className="mt-8 text-center"><Link href="/about" className="inline-flex items-center gap-2 font-extrabold text-[#0739a6] hover:text-[#d50b12]">Discover who we are <ArrowRight className="h-4 w-4"/></Link></div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#f6f9ff] py-24">
+      <section className="relative overflow-hidden bg-[#f6f9ff] py-12 sm:py-24">
         <div aria-hidden="true" className="absolute inset-0 opacity-[.45] [background-image:radial-gradient(#cbd8f1_1px,transparent_1px)] [background-size:28px_28px]"/>
         <div className="container-shell relative z-10">
-          <div className="grid gap-14 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-5"><p className="eyebrow inline-flex items-center gap-3">The CASA experience<span aria-hidden="true" className="h-0.5 w-12 bg-[#ffc400]"/></p><h2 className="mt-4 font-[var(--font-heading)] text-4xl font-extrabold tracking-tight text-[#031f66] md:text-5xl">Education designed around the whole child.</h2></div>
-            <p className="max-w-2xl text-lg leading-8 text-slate-600 lg:col-span-6 lg:col-start-7">Children learn best when they feel safe, seen and excited to participate. Our approach balances academic confidence with character, creativity and movement.</p>
+          <div className="grid gap-4 sm:gap-8 lg:grid-cols-12 lg:items-end lg:gap-14">
+            <div className="lg:col-span-5"><p className="eyebrow inline-flex items-center gap-3">The CASA experience<span aria-hidden="true" className="h-0.5 w-10 bg-[#ffc400] sm:w-12"/></p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold tracking-tight text-[#031f66] sm:mt-4 sm:text-4xl md:text-5xl">Education designed around the whole child.</h2></div>
+            <p className="max-w-2xl text-sm leading-6 text-slate-600 sm:text-lg sm:leading-8 lg:col-span-6 lg:col-start-7">Children learn best when they feel safe, seen and excited to participate. Our approach balances academic confidence with character, creativity and movement.</p>
           </div>
-          <div className="relative mt-14">
+          <div className="relative mt-7 sm:mt-14">
             <div aria-hidden="true" className="absolute left-[10%] right-[10%] top-12 hidden border-t-2 border-dashed border-blue-200/80 lg:block"/>
-            <div className="relative grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {pillars.map(({icon:Icon,number,accent,title,text},index) => <motion.article initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.25}} transition={{delay:index*.08}} key={title} className="group relative overflow-hidden rounded-2xl border border-blue-100 bg-white p-7 shadow-[0_18px_45px_rgba(3,31,102,.08)] transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_24px_55px_rgba(3,31,102,.14)]"><span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 ${accent}`}/><span aria-hidden="true" className="absolute right-5 top-3 font-[var(--font-heading)] text-5xl font-black text-slate-100 transition-colors group-hover:text-blue-50">{number}</span><div className="relative mb-8 inline-flex rounded-xl border border-blue-100 bg-blue-50 p-3 text-[#0739a6] shadow-sm transition group-hover:bg-[#d50b12] group-hover:text-white"><Icon className="h-6 w-6" /></div><h3 className="relative text-xl font-extrabold text-[#031f66]">{title}</h3><p className="relative mt-3 text-sm leading-7 text-slate-600">{text}</p></motion.article>)}
+            <div className="relative grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+              {pillars.map(({icon:Icon,number,accent,title,text},index) => <motion.article initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.25}} transition={{delay:index*.08}} key={title} className="group relative overflow-hidden rounded-2xl border border-blue-100 bg-white p-4 shadow-[0_12px_30px_rgba(3,31,102,.08)] transition duration-300 hover:-translate-y-1 hover:border-blue-200 sm:p-7 sm:shadow-[0_18px_45px_rgba(3,31,102,.08)] sm:hover:shadow-[0_24px_55px_rgba(3,31,102,.14)]"><span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1 ${accent} sm:h-1.5`}/><span aria-hidden="true" className="absolute right-3 top-2 font-[var(--font-heading)] text-3xl font-black text-slate-100 transition-colors group-hover:text-blue-50 sm:right-5 sm:top-3 sm:text-5xl">{number}</span><div className="relative mb-5 inline-flex rounded-lg border border-blue-100 bg-blue-50 p-2 text-[#0739a6] shadow-sm transition group-hover:bg-[#d50b12] group-hover:text-white sm:mb-8 sm:rounded-xl sm:p-3"><Icon className="h-5 w-5 sm:h-6 sm:w-6" /></div><h3 className="relative text-base font-extrabold leading-tight text-[#031f66] sm:text-xl">{title}</h3><p className="relative mt-2 text-xs leading-5 text-slate-600 sm:mt-3 sm:text-sm sm:leading-7">{text}</p></motion.article>)}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#f2f6f8] py-20">
+      <section className="relative overflow-hidden bg-[#f2f6f8] py-12 sm:py-20">
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
         <div className="container-shell relative z-10 grid items-center gap-14 lg:grid-cols-2">
-          {learningImage&&<div className="relative h-[520px]">
+          {learningImage&&<div className="relative h-[310px] sm:h-[520px]">
             <div aria-hidden="true" className="absolute -bottom-3 -left-3 h-28 w-28 rounded-bl-[2.25rem] border-b-4 border-l-4 border-[#d50b12]"/>
             <div aria-hidden="true" className="absolute -right-3 -top-3 h-28 w-28 rounded-tr-[2.25rem] border-r-4 border-t-4 border-[#ffc400]"/>
             <div className="group relative h-full overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_28px_65px_rgba(3,31,102,.16)]">
@@ -242,9 +242,9 @@ export default function Home() {
           </div>}
           <div>
             <p className="eyebrow inline-flex items-center gap-3">Learning that comes alive<span aria-hidden="true" className="h-0.5 w-12 bg-[#ffc400]"/></p>
-            <h2 className="mt-4 font-[var(--font-heading)] text-4xl font-extrabold tracking-tight text-[#031f66] md:text-5xl">More than lessons. A childhood full of possibility.</h2>
-            <p className="mt-5 text-lg leading-8 text-slate-600">From practical classroom projects to music, swimming, sport and digital discovery, learners build skills they can use far beyond school.</p>
-            <ul className="mt-7 grid gap-3 sm:grid-cols-2">{learningHighlights.map(item=><li key={item.text} className="relative overflow-hidden rounded-2xl border border-blue-100 bg-white/85 p-4 shadow-[0_10px_25px_rgba(3,31,102,.06)]"><span aria-hidden="true" className={`absolute inset-y-0 left-0 w-1 ${item.accent}`}/><span className="flex items-start gap-3"><span className={`mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg ${item.icon}`}><CheckCircle2 className="h-4 w-4"/></span><span className="text-sm font-bold leading-6 text-slate-700">{item.text}</span></span></li>)}</ul>
+            <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold tracking-tight text-[#031f66] sm:mt-4 sm:text-4xl md:text-5xl">More than lessons. A childhood full of possibility.</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-600 sm:mt-5 sm:text-lg sm:leading-8">From practical classroom projects to music, swimming, sport and digital discovery, learners build skills they can use far beyond school.</p>
+            <ul className="mt-5 grid grid-cols-2 gap-3 sm:mt-7">{learningHighlights.map(item=><li key={item.text} className="relative overflow-hidden rounded-xl border border-blue-100 bg-white/85 p-3 shadow-[0_10px_25px_rgba(3,31,102,.06)] sm:rounded-2xl sm:p-4"><span aria-hidden="true" className={`absolute inset-y-0 left-0 w-1 ${item.accent}`}/><span className="flex items-start gap-2 sm:gap-3"><span className={`mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg sm:h-8 sm:w-8 ${item.icon}`}><CheckCircle2 className="h-4 w-4"/></span><span className="text-xs font-bold leading-5 text-slate-700 sm:text-sm sm:leading-6">{item.text}</span></span></li>)}</ul>
             <Link href="/academics" className="group relative mt-8 inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#0739a6] px-6 py-3.5 font-extrabold text-white shadow-lg transition-transform hover:-translate-y-0.5">
               <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-1 bg-[#ffc400] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
               <span className="relative z-10 transition-colors group-hover:text-[#031f66]">Explore our learning approach</span><ArrowRight className="relative z-10 h-4 w-4 transition-[color,transform] group-hover:translate-x-1 group-hover:text-[#031f66]" />
@@ -255,22 +255,22 @@ export default function Home() {
 
       <ActivityMarquee/>
 
-      <section className="relative overflow-hidden bg-[#f5f8ff] py-24">
+      <section className="relative overflow-hidden bg-[#f5f8ff] py-12 sm:py-24">
         <div aria-hidden="true" className="absolute -left-32 top-20 h-80 w-80 rounded-full border-[42px] border-[#0739a6]/5"/>
         <div aria-hidden="true" className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-[#ffc400]/10 blur-3xl"/>
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
         <div className="container-shell relative z-10">
-          <div className="mx-auto max-w-3xl text-center"><p className="eyebrow">Your admission journey</p><h2 className="mt-4 font-[var(--font-heading)] text-4xl font-extrabold text-[#031f66]">A simple, welcoming way to get started.</h2><p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-600">From your first look at the school to submitting an enquiry, our admissions team will guide your family at every stage.</p></div>
-          <div className="relative mt-20">
+          <div className="mx-auto max-w-3xl text-center"><p className="eyebrow">Your admission journey</p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold text-[#031f66] sm:mt-4 sm:text-4xl">A simple, welcoming way to get started.</h2><p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:mt-5 sm:text-base sm:leading-7">From your first look at the school to submitting an enquiry, our admissions team will guide your family at every stage.</p></div>
+          <div className="relative mt-12 sm:mt-20">
             <div aria-hidden="true" className="absolute -top-4 left-[16.66%] right-[16.66%] hidden h-1 rounded-full bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6] lg:block"/>
-            <div className="relative grid gap-14 md:grid-cols-3 md:gap-6">
-              {journey.map(({icon:Icon,...step})=><article key={step.number} className="group relative rounded-3xl border border-blue-100 bg-white px-7 pb-8 pt-14 shadow-[0_18px_45px_rgba(3,31,102,.09)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_26px_60px_rgba(3,31,102,.15)]">
+            <div className="relative grid grid-cols-2 gap-x-3 gap-y-11 sm:gap-14 md:grid-cols-3 md:gap-6">
+              {journey.map(({icon:Icon,...step})=><article key={step.number} className={`group relative rounded-2xl border border-blue-100 bg-white px-4 pb-5 pt-10 shadow-[0_12px_30px_rgba(3,31,102,.09)] transition duration-300 hover:-translate-y-1 sm:rounded-3xl sm:px-7 sm:pb-8 sm:pt-14 sm:shadow-[0_18px_45px_rgba(3,31,102,.09)] sm:hover:shadow-[0_26px_60px_rgba(3,31,102,.15)] ${step.number==='03'?'col-span-2 md:col-span-1':''}`}>
                 <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 rounded-t-3xl ${step.accent}`}/>
-                <div className={`absolute -top-8 left-1/2 z-10 grid h-16 w-16 -translate-x-1/2 place-items-center rounded-full border-[6px] border-[#f5f8ff] shadow-lg ${step.iconStyle}`}><Icon className="h-6 w-6"/></div>
-                <span aria-hidden="true" className="absolute right-6 top-8 font-[var(--font-heading)] text-6xl font-black text-slate-100 transition-colors group-hover:text-blue-50">{step.number}</span>
-                <p className={`relative text-xs font-black uppercase tracking-[.18em] ${step.labelStyle}`}>Step {step.number}</p>
-                <h3 className="relative mt-7 text-xl font-extrabold text-[#031f66]">{step.title}</h3>
-                <p className="relative mt-3 leading-7 text-slate-600">{step.text}</p>
+                <div className={`absolute -top-7 left-1/2 z-10 grid h-14 w-14 -translate-x-1/2 place-items-center rounded-full border-[5px] border-[#f5f8ff] shadow-lg sm:-top-8 sm:h-16 sm:w-16 sm:border-[6px] ${step.iconStyle}`}><Icon className="h-5 w-5 sm:h-6 sm:w-6"/></div>
+                <span aria-hidden="true" className="absolute right-3 top-6 font-[var(--font-heading)] text-4xl font-black text-slate-100 transition-colors group-hover:text-blue-50 sm:right-6 sm:top-8 sm:text-6xl">{step.number}</span>
+                <p className={`relative text-[9px] font-black uppercase tracking-[.14em] sm:text-xs sm:tracking-[.18em] ${step.labelStyle}`}>Step {step.number}</p>
+                <h3 className="relative mt-4 text-base font-extrabold leading-tight text-[#031f66] sm:mt-7 sm:text-xl">{step.title}</h3>
+                <p className="relative mt-2 text-xs leading-5 text-slate-600 sm:mt-3 sm:text-base sm:leading-7">{step.text}</p>
               </article>)}
             </div>
           </div>
