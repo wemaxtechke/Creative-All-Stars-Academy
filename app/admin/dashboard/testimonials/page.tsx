@@ -93,9 +93,9 @@ export default function AdminTestimonials() {
       )}
 
       {/* Grid listing */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
         {testimonials.map((test) => (
-          <div key={test.id} className="bg-white rounded-3xl p-6 border border-gray-100 shadow-xs relative flex flex-col justify-between h-full">
+          <div key={test.id} className="relative flex h-full flex-col justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-xs sm:rounded-3xl sm:p-6">
             <button
               onClick={() => deleteTestimonial(test.id)}
               className="absolute top-4 right-4 p-2 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-colors"

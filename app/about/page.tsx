@@ -66,7 +66,7 @@ export default function About() {
       <Breadcrumbs items={[{ name: 'About Us' }]} />
 
       {/* History and Director section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-center gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="space-y-6">
           <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 font-extrabold text-xs uppercase tracking-widest rounded-full">
             Our Foundation
@@ -119,8 +119,8 @@ export default function About() {
         </div>
       </section>
 
-      <section className="container-shell mt-20 grid items-center gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-5"><p className="eyebrow">Our guiding board</p><h2 className="brand-title mt-4 text-4xl font-extrabold text-[#031f66]">A promise we live every day.</h2><p className="mt-5 text-lg leading-8 text-slate-600">Our motto, mission and vision keep every decision focused on inclusive, holistic learner development.</p><div className="mt-8 rounded-2xl border-l-4 border-[#d50b12] bg-yellow-50 p-6"><p className="text-xs font-black uppercase tracking-[.18em] text-[#d50b12]">School motto</p><p className="mt-2 text-2xl font-extrabold text-[#031f66]">“Endeavour to Succeed”</p></div></div>
+      <section className="container-shell mt-12 grid items-center gap-7 sm:mt-20 sm:gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-5"><p className="eyebrow">Our guiding board</p><h2 className="brand-title mt-3 text-3xl font-extrabold text-[#031f66] sm:mt-4 sm:text-4xl">A promise we live every day.</h2><p className="mt-3 text-sm leading-6 text-slate-600 sm:mt-5 sm:text-lg sm:leading-8">Our motto, mission and vision keep every decision focused on inclusive, holistic learner development.</p><div className="mt-5 rounded-2xl border-l-4 border-[#d50b12] bg-yellow-50 p-4 sm:mt-8 sm:p-6"><p className="text-[10px] font-black uppercase tracking-[.18em] text-[#d50b12] sm:text-xs">School motto</p><p className="mt-2 text-xl font-extrabold text-[#031f66] sm:text-2xl">“Endeavour to Succeed”</p></div></div>
         {missionImage&&<div className="lg:col-span-7"><div className="overflow-hidden rounded-3xl border border-blue-100 bg-white p-3 shadow-2xl"><Image src={missionImage.url} alt={missionImage.alt} width={1024} height={1536} className="h-auto w-full rounded-2xl"/></div></div>}
       </section>
 
@@ -132,7 +132,7 @@ export default function About() {
             subtitle="These key tenets guide our daily classroom schedules, extracurricular behavior, and staff interactions."
             badge="Cultural Pillars"
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-5">
             {coreValues.map((val, idx) => (
               <div key={idx} className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-center space-y-3">
                 <div className="text-3xl">{val.icon}</div>
@@ -161,7 +161,7 @@ export default function About() {
           subtitle="We hire highly certified, TSC registered teachers specialized in Early Learning and Primary Competency-Based Curriculum frameworks."
           badge="FACULTY TEAM"
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 gap-3 sm:gap-8 lg:grid-cols-4">
           {teachers.map((teacher) => (
             <TeacherCard key={teacher.id} teacher={teacher} />
           ))}
@@ -170,7 +170,7 @@ export default function About() {
 
       {/* Key Achievements */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <div className="bg-blue-950 text-white rounded-3xl p-8 md:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 items-center gap-6 rounded-2xl bg-blue-950 p-5 text-white shadow-xl sm:gap-12 sm:rounded-3xl sm:p-8 md:p-12 lg:grid-cols-2">
           <div className="space-y-6">
             <span className="inline-block px-4 py-1.5 bg-yellow-400 text-blue-950 font-extrabold text-xs uppercase tracking-widest rounded-full">
               Key Achievements

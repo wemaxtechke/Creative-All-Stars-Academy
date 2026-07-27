@@ -58,7 +58,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   ];
 
   return (
-    <div className={`flex h-screen overflow-hidden ${darkMode ? 'bg-gray-950 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`admin-shell flex h-[100dvh] overflow-hidden ${darkMode ? 'bg-gray-950 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
 
       {/* 1. SIDEBAR DESKTOP */}
       <aside className={`hidden h-screen lg:flex flex-col w-72 border-r flex-shrink-0 transition-colors ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
@@ -116,13 +116,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
           <div className="fixed inset-0 bg-blue-950/80 backdrop-blur-xs" onClick={() => setSidebarOpen(false)} />
-          <aside className={`relative flex flex-col w-72 max-w-xs h-full shadow-2xl transition-colors ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
-            <div className="h-20 flex items-center justify-between px-6 border-b border-gray-100/50">
+          <aside className={`relative flex h-full w-[88vw] max-w-72 flex-col shadow-2xl transition-colors ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-900'}`}>
+            <div className="flex h-16 items-center justify-between border-b border-gray-100/50 px-4 sm:h-20 sm:px-6">
               <div className="flex items-center gap-2">
                 <Image src="/brand/creative-all-stars-academy-logo.png" alt="Creative All Stars Academy logo" width={34} height={34} className="h-9 w-9 rounded-full object-contain"/>
                 <span className="font-extrabold text-blue-950 dark:text-yellow-400 text-sm">CASA Website CMS</span>
               </div>
-              <button onClick={() => setSidebarOpen(false)} className="p-1 rounded-full text-gray-400 hover:text-gray-600">
+              <button onClick={() => setSidebarOpen(false)} className="grid h-10 w-10 place-items-center rounded-xl text-gray-400 hover:bg-gray-100 hover:text-gray-600" aria-label="Close navigation">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -169,11 +169,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="flex min-h-0 min-w-0 flex-grow flex-col">
 
         {/* Top Navbar */}
-        <header className={`relative z-40 flex h-20 shrink-0 items-center justify-between border-b px-6 transition-colors ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
-          <div className="flex items-center gap-4">
+        <header className={`relative z-40 flex h-16 shrink-0 items-center justify-between border-b px-3 transition-colors sm:h-20 sm:px-6 ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-100'}`}>
+          <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="grid h-11 w-11 place-items-center rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 lg:hidden"
               title="Open Navigation menu"
             >
               <Menu className="w-5 h-5" />
@@ -183,7 +183,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1 sm:gap-4">
             {/* Theme Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
@@ -206,7 +206,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
               {/* Notification Drawer */}
               {notificationsOpen && (
-                <div className={`absolute right-0 mt-3 w-80 rounded-2xl shadow-xl border p-4 text-xs font-semibold z-50 ${darkMode ? 'bg-gray-900 border-gray-800 text-gray-100' : 'bg-white border-gray-100 text-gray-800'}`}>
+                <div className={`fixed left-3 right-3 top-16 z-50 rounded-2xl border p-4 text-xs font-semibold shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-3 sm:w-80 ${darkMode ? 'bg-gray-900 border-gray-800 text-gray-100' : 'bg-white border-gray-100 text-gray-800'}`}>
                   <div className="flex items-center justify-between border-b pb-2 mb-3">
                     <span className="font-extrabold text-blue-950 dark:text-white">Active Alerts</span>
                     <button className="text-[10px] text-blue-600 font-extrabold uppercase hover:underline" onClick={() => setNotificationsOpen(false)}>Close</button>
@@ -226,7 +226,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
 
             {/* Profile Avatar */}
-            <div className="flex items-center gap-2 border-l pl-4 border-gray-100/50">
+            <div className="flex items-center gap-2 border-l border-gray-100/50 pl-2 sm:pl-4">
               <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-900 border-2 border-yellow-400 font-black text-xs flex items-center justify-center flex-shrink-0">
                 AD
               </div>
@@ -239,7 +239,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </header>
 
         {/* Page Content area */}
-        <main className="min-h-0 flex-grow overflow-y-auto p-6 md:p-8">
+        <main className="min-h-0 min-w-0 flex-grow overflow-y-auto p-3 sm:p-5 md:p-8">
           {children}
         </main>
       </div>

@@ -54,7 +54,7 @@ export default function Contact() {
       <Breadcrumbs items={[{ name: 'Contact' }]} />
 
       {/* Grid: details and Form */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-12 lg:px-8">
 
         {/* Left Column: Contact details & Map Placeholder */}
         <div className="lg:col-span-6 space-y-8">
@@ -70,9 +70,9 @@ export default function Contact() {
           </div>
 
           {/* Details list */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6">
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-start gap-4">
+            <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:gap-4 sm:rounded-3xl sm:p-6">
               <MapPin className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
               <div className="space-y-1">
                 <h4 className="font-extrabold text-blue-950 text-sm">Our Location</h4>
@@ -80,7 +80,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-start gap-4">
+            <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:gap-4 sm:rounded-3xl sm:p-6">
               <Clock className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
               <div className="space-y-1">
                 <h4 className="font-extrabold text-blue-950 text-sm">Working Hours</h4>
@@ -88,7 +88,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-start gap-4">
+            <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:gap-4 sm:rounded-3xl sm:p-6">
               <Phone className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
               <div className="space-y-1">
                 <h4 className="font-extrabold text-blue-950 text-sm">Call Center</h4>
@@ -96,7 +96,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex items-start gap-4">
+            <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:gap-4 sm:rounded-3xl sm:p-6">
               <Mail className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
               <div className="space-y-1">
                 <h4 className="font-extrabold text-blue-950 text-sm">Email Mailbox</h4>

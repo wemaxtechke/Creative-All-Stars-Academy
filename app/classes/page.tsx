@@ -26,7 +26,7 @@ export default function Classes() {
           badge={`${classes.length} LEARNING PATHWAYS`}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {classes.map((cls, idx) => {
             const assignedImage=getSiteImage(`class-${cls.id}`);
             return (
@@ -37,10 +37,10 @@ export default function Classes() {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.05 }}
               whileHover={{ y: -6, scale: 1.01 }}
-              className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 flex flex-col h-full transition-all duration-300"
+              className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md sm:rounded-3xl"
             >
               {/* Card Image */}
-              {assignedImage&&<div className="relative h-48 bg-gray-100 overflow-hidden">
+              {assignedImage&&<div className="relative h-32 overflow-hidden bg-gray-100 sm:h-48">
                 <img
                   src={assignedImage.url}
                   alt={assignedImage.alt}
@@ -52,8 +52,8 @@ export default function Classes() {
               </div>}
 
               {/* Card Content */}
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-black text-blue-950 mb-2">{cls.name}</h3>
+              <div className="flex flex-grow flex-col p-4 sm:p-6">
+                <h3 className="mb-2 text-base font-black leading-tight text-blue-950 sm:text-xl">{cls.name}</h3>
                 <p className="text-gray-500 text-xs leading-relaxed mb-6 flex-grow line-clamp-3">
                   {cls.description}
                 </p>

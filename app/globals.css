@@ -46,3 +46,38 @@ button, a, input, select, textarea { outline-offset: 3px; }
 @keyframes hero-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .brand-float { animation: brand-float 6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+@media (max-width: 639px) {
+  .container-shell { padding-inline: .875rem; }
+  .eyebrow { font-size: .625rem; line-height: .9rem; letter-spacing: .14em; }
+  main section { scroll-margin-top: 4.5rem; }
+  input, select, textarea { font-size: 16px !important; }
+  .admin-shell main h1 { font-size: 1.5rem; line-height: 1.2; }
+  .admin-shell main h2 { line-height: 1.25; }
+  .admin-shell main form,
+  .admin-shell main > section,
+  .admin-shell main > div { max-width: 100%; }
+  .admin-shell table { min-width: 42rem; }
+  .admin-shell table th,
+  .admin-shell table td { padding: .75rem !important; }
+  .admin-shell main button,
+  .admin-shell main a { touch-action: manipulation; }
+  .admin-shell main .rounded-3xl { border-radius: 1rem; }
+  .admin-shell main .p-6 { padding: 1rem; }
+  .admin-shell main .p-8 { padding: 1.25rem; }
+  .admin-shell main .gap-8 { gap: 1.25rem; }
+  .admin-shell main .space-y-8 > :not([hidden]) ~ :not([hidden]) { margin-top: 1.25rem; }
+  .admin-shell main .overflow-x-auto {
+    margin-inline: -.75rem;
+    padding-inline: .75rem;
+    overscroll-behavior-inline: contain;
+    scrollbar-gutter: stable;
+  }
+  .admin-shell main [class*="md:grid-cols-2"][class*="xl:grid-cols-3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .75rem;
+  }
+  .site-main > :not(.admin-shell) section[class*="mt-20"] { margin-top: 3rem; }
+  .site-main > :not(.admin-shell) section[class*="py-16"] { padding-block: 3rem; }
+  .site-main > :not(.admin-shell) section[class*="gap-12"] { gap: 1.75rem; }
+}

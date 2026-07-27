@@ -54,7 +54,7 @@ export default function Gallery() {
         </div>
 
         {/* Masonry-like dynamic Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
             {filteredImages.map((img) => (
               <motion.div
@@ -65,10 +65,10 @@ export default function Gallery() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
                 whileHover={{ y: -4 }}
-                className="bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-md border border-gray-100 group cursor-pointer"
+                className="group cursor-pointer overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xs hover:shadow-md sm:rounded-3xl"
                 onClick={() => setModalImage(img)}
               >
-                <div className="relative h-64 overflow-hidden bg-gray-50">
+                <div className="relative h-40 overflow-hidden bg-gray-50 sm:h-64">
                   <img
                     src={img.url}
                     alt={img.alt || img.title}

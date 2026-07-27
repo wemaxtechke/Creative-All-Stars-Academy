@@ -24,7 +24,7 @@ export default function Academics() {
       <Breadcrumbs items={[{ name: 'Academics' }]} />
 
       {/* 1. CBC philosophy */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-center gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="space-y-6">
           <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 font-extrabold text-xs uppercase tracking-widest rounded-full">
             CBC Methodology
@@ -36,7 +36,7 @@ export default function Academics() {
             The Competency-Based Curriculum (CBC) shifts classroom focus from memorizing textbooks to acquiring practical life skills. Our pedagogical philosophy at Creative All Stars emphasizes visual, auditory, and kinesthetic styles, ensuring that no child is left behind.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+          <div className="grid grid-cols-2 gap-3 pt-2 sm:gap-6">
             <div className="p-5 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-2">
               <Laptop className="w-6 h-6 text-blue-600" />
               <h4 className="font-extrabold text-blue-950 text-sm">Digital Literacy</h4>
@@ -54,7 +54,7 @@ export default function Academics() {
           <img
             src={supportImage.url}
             alt={supportImage.alt}
-            className="rounded-3xl shadow-lg w-full h-[350px] object-cover"
+            className="h-[230px] w-full rounded-2xl object-cover shadow-lg sm:h-[350px] sm:rounded-3xl"
           />
         </div>}
       </section>
@@ -68,7 +68,7 @@ export default function Academics() {
             badge="SUBJECT BLOCKS"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
             {subjects.map((subj) => (
               <div key={subj.id} className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm flex flex-col justify-between h-full">
                 <div className="space-y-4">
@@ -106,7 +106,7 @@ export default function Academics() {
           badge="FACULTY DEPARTMENTS"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-3">
           <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-4 text-center">
             <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto">🎨</div>
             <h3 className="text-xl font-extrabold text-blue-950">Early Years Education (EYE)</h3>
@@ -127,7 +127,7 @@ export default function Academics() {
 
       {/* 4. Assessment */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <div className="bg-gradient-to-r from-blue-900 to-indigo-950 text-white rounded-3xl p-8 md:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 items-center gap-6 rounded-2xl bg-gradient-to-r from-blue-900 to-indigo-950 p-5 text-white shadow-xl sm:gap-12 sm:rounded-3xl sm:p-8 md:p-12 lg:grid-cols-2">
           <div className="space-y-6">
             <span className="inline-block px-4 py-1.5 bg-yellow-400 text-blue-950 font-extrabold text-xs uppercase tracking-widest rounded-full">
               Assessment Standards

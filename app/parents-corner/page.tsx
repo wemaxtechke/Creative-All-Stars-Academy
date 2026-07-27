@@ -41,11 +41,11 @@ export default function ParentsCorner() {
           badge="DOWNLOADS CENTRE"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {orderedDownloads.map((item) => (
             <div
               key={item.id}
-              className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300"
+              className="flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md sm:rounded-3xl sm:p-6"
             >
               <div className="space-y-4">
                 <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 font-extrabold text-[10px] uppercase rounded-lg tracking-wider">
@@ -72,10 +72,10 @@ export default function ParentsCorner() {
 
       {/* Rules and Uniform Grid */}
       <section className="bg-gray-100/50 py-16 border-y border-gray-100 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
 
           {/* Rules Block */}
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-6">
+          <div className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:space-y-6 sm:rounded-3xl sm:p-8">
             <h3 className="text-2xl font-black text-blue-950 flex items-center gap-2">
               <ShieldCheck className="w-6 h-6 text-blue-600" /> Non-Negotiable School Rules
             </h3>
@@ -93,12 +93,12 @@ export default function ParentsCorner() {
           </div>
 
           {/* Uniform Guide Block */}
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-6">
+          <div className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:space-y-6 sm:rounded-3xl sm:p-8">
             <h3 className="text-2xl font-black text-blue-950">Uniform & Dressing Standards</h3>
             <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
               We maintain absolute standard brand colors. Official star-embroidered sweaters are purchasable from official Nakuru vendors:
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {uniformGuides.map((guide, idx) => (
                 <div key={idx} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 space-y-2">
                   <h5 className="font-extrabold text-xs text-blue-950 uppercase tracking-tight">{guide.item}</h5>

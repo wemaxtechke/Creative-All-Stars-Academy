@@ -274,7 +274,7 @@ export default function AdminGallery() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
         {filteredImages.map((image) => (
           <article key={image.id} className="overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm">
             <div className="relative h-44 bg-gray-50"><img src={image.url} alt={image.alt || image.title} className="h-full w-full object-cover" /><div className="absolute right-3 top-3 flex gap-2"><button onClick={() => beginEdit(image)} className="rounded-xl bg-white p-2 text-blue-700 shadow-md" title="Edit gallery item"><Pencil className="h-4 w-4" /></button><button onClick={() => removeImage(image)} className="rounded-xl bg-red-600 p-2 text-white shadow-md" title="Delete gallery item"><Trash className="h-4 w-4" /></button></div></div>

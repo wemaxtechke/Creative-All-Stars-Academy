@@ -57,7 +57,7 @@ function CareerDetailsContent() {
   };
 
   return (
-    <div className="pb-24">
+    <div className="pb-12 sm:pb-24">
       <PageHero eyebrow={`${job.type} · ${job.department}`} title={job.title} description={job.description} imageSlot="page-careers" cta={{label:'Apply for this role',href:'#apply-form-block'}}/>
 
       {/* Breadcrumbs */}
@@ -68,10 +68,10 @@ function CareerDetailsContent() {
       </div>
 
       {/* Job Details and Application form */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <section className="mx-auto mt-6 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:mt-8 sm:gap-12 sm:px-6 lg:grid-cols-12 lg:px-8">
 
         {/* Left Column: responsibilities & requirements */}
-        <div className="lg:col-span-7 space-y-8 bg-white p-6 sm:p-10 rounded-3xl border border-gray-100 shadow-xs">
+        <div className="space-y-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-xs sm:space-y-8 sm:rounded-3xl sm:p-10 lg:col-span-7">
 
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 font-semibold border-b border-gray-50 pb-4">
             <span className="flex items-center gap-1">
@@ -112,7 +112,7 @@ function CareerDetailsContent() {
 
         {/* Right Column: Application form */}
         <div className="lg:col-span-5" id="apply-form-block">
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-6 relative overflow-hidden">
+          <div className="relative space-y-5 overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:space-y-6 sm:rounded-3xl sm:p-8">
             <div className="absolute top-0 left-0 w-full h-2 bg-yellow-400" />
 
             <div className="space-y-2">

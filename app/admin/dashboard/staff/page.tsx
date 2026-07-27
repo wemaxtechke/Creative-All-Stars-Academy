@@ -161,10 +161,10 @@ export default function AdminStaff() {
       <button type="submit" disabled={saving} className="rounded-xl bg-green-600 px-6 py-3 text-xs font-extrabold text-white transition-colors hover:bg-green-700 disabled:bg-slate-400">{saving ? 'Saving…' : editing ? 'Save Profile Changes' : 'Publish Faculty Member'}</button>
     </form>}
 
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
       {teachers.map((teacher) => {
         const assigned = assignments.get(teacher.id) ?? [];
-        return <article key={teacher.id} className="relative flex h-full flex-col justify-between space-y-4 rounded-3xl border border-gray-100 bg-white p-6 text-center shadow-xs">
+        return <article key={teacher.id} className="relative flex h-full flex-col justify-between space-y-3 rounded-2xl border border-gray-100 bg-white p-4 text-center shadow-xs sm:space-y-4 sm:rounded-3xl sm:p-6">
           <div className="absolute right-4 top-4 flex gap-1.5">
             <button onClick={() => openEdit(teacher)} className="rounded-xl bg-blue-50 p-2 text-blue-600 transition-colors hover:bg-blue-600 hover:text-white" title={`Edit ${teacher.name}`}><Edit3 className="h-4 w-4"/></button>
             <button onClick={() => removeTeacher(teacher)} className="rounded-xl bg-red-50 p-2 text-red-500 transition-colors hover:bg-red-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-40" title={assigned.length ? `Assigned to ${assigned.join(', ')}` : `Delete ${teacher.name}`} disabled={assigned.length > 0}><Trash className="h-4 w-4"/></button>

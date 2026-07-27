@@ -23,13 +23,13 @@ export default function ClassDetails() {
   const classImage=getSiteImage(`class-${selectedClass.id}`);
 
   return (
-    <div className="pb-24">
+    <div className="pb-12 sm:pb-24">
       <PageHero eyebrow={`${selectedClass.ageGroup} learning pathway`} title={selectedClass.name} description={selectedClass.description} image={classImage?.url} imageAlt={classImage?.alt} cta={{label:'Enquire about this class',href:'/admissions'}}/>
 
       <Breadcrumbs items={[{ name: 'Classes', href: '/classes' }, { name: selectedClass.name }]} />
 
       {/* Main Content Details Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-12 lg:px-8">
 
         {/* Left Column: Image, Description, subjects, Activities */}
         <div className="lg:col-span-8 space-y-10">
@@ -52,10 +52,10 @@ export default function ClassDetails() {
           </div>
 
           {/* Subjects and Activities Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+          <div className="grid grid-cols-2 gap-3 pt-2 sm:gap-8 sm:pt-4 md:grid-cols-2">
 
             {/* Subjects List */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm space-y-4">
+            <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-6 md:p-8">
               <h3 className="text-lg font-extrabold text-blue-950 flex items-center gap-2">
                 <GraduationCap className="w-5 h-5 text-blue-600" /> Core Subjects Handled
               </h3>
@@ -71,7 +71,7 @@ export default function ClassDetails() {
             </div>
 
             {/* Activities List */}
-            <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm space-y-4">
+            <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-6 md:p-8">
               <h3 className="text-lg font-extrabold text-blue-950 flex items-center gap-2">
                 <Award className="w-5 h-5 text-yellow-500" /> Classroom Activities
               </h3>

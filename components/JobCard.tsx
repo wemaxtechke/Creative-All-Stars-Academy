@@ -10,7 +10,7 @@ export const JobCard: React.FC<{ job: Job }> = ({ job }) => {
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:shadow-md transition-all duration-300"
+      className="flex flex-col justify-between gap-4 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md sm:rounded-3xl sm:p-6 md:flex-row md:items-center md:gap-6 md:p-8"
     >
       <div className="space-y-3 max-w-2xl">
         <div className="flex flex-wrap items-center gap-2">
@@ -22,7 +22,7 @@ export const JobCard: React.FC<{ job: Job }> = ({ job }) => {
           </span>
         </div>
 
-        <h3 className="text-xl font-extrabold text-blue-950 hover:text-blue-600 transition-colors">
+        <h3 className="text-base font-extrabold text-blue-950 transition-colors hover:text-blue-600 sm:text-xl">
           <Link href={`/careers/${job.id}`}>
             {job.title}
           </Link>
@@ -40,16 +40,16 @@ export const JobCard: React.FC<{ job: Job }> = ({ job }) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="grid grid-cols-2 items-center gap-2 sm:gap-3">
         <Link
           href={`/careers/${job.id}`}
-          className="w-full md:w-auto px-6 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold text-sm rounded-xl transition-colors text-center"
+          className="w-full rounded-xl border-2 border-blue-600 px-3 py-3 text-center text-xs font-bold text-blue-600 transition-colors hover:bg-blue-50 sm:px-6 sm:text-sm md:w-auto"
         >
           View Details
         </Link>
         <Link
           href={`/careers/${job.id}?apply=true`}
-          className="w-full md:w-auto px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-blue-950 font-extrabold text-sm rounded-xl shadow-sm transition-all text-center flex items-center justify-center gap-1.5"
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-yellow-400 px-3 py-3 text-center text-xs font-extrabold text-blue-950 shadow-sm transition-all hover:bg-yellow-500 sm:px-6 sm:text-sm md:w-auto"
         >
           Apply Now
           <ArrowRight className="w-4 h-4" />

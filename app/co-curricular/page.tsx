@@ -25,7 +25,7 @@ export default function CoCurricular() {
           badge="ACTIVE CLUBS"
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
           {coCurricularActivities.map((club, idx) => {
             const assignedImage=getSiteImage(`activity-${idx+1}`);
             if(!assignedImage)return null;
@@ -37,10 +37,10 @@ export default function CoCurricular() {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.05 }}
               whileHover={{ y: -6, scale: 1.01 }}
-              className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md border border-gray-100 flex flex-col h-full transition-all duration-300"
+              className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md sm:rounded-3xl"
             >
               {/* Image Block */}
-              <div className="relative h-48 bg-gray-100 overflow-hidden">
+              <div className="relative h-32 overflow-hidden bg-gray-100 sm:h-48">
                 <img
                   src={assignedImage.url}
                   alt={assignedImage.alt}
@@ -49,8 +49,8 @@ export default function CoCurricular() {
               </div>
 
               {/* Content */}
-              <div className="p-6 flex flex-col flex-grow">
-                <h3 className="text-xl font-black text-blue-950 mb-2">{club.name}</h3>
+              <div className="flex flex-grow flex-col p-4 sm:p-6">
+                <h3 className="mb-2 text-base font-black leading-tight text-blue-950 sm:text-xl">{club.name}</h3>
                 <p className="text-gray-500 text-xs leading-relaxed mb-6 flex-grow">
                   {club.description}
                 </p>
@@ -74,7 +74,7 @@ export default function CoCurricular() {
 
       {/* Dynamic CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <div className="bg-blue-950 text-white rounded-3xl p-8 md:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 items-center gap-6 rounded-2xl bg-blue-950 p-5 text-white shadow-xl sm:gap-8 sm:rounded-3xl sm:p-8 md:p-12 lg:grid-cols-2">
           <div className="space-y-4">
             <span className="inline-block px-4 py-1.5 bg-yellow-400 text-blue-950 font-extrabold text-xs uppercase tracking-widest rounded-full">
               Registration Info

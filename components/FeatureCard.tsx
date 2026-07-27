@@ -18,15 +18,15 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, ic
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       whileHover={{ y: -6, scale: 1.01 }}
-      className="bg-white rounded-3xl p-6 md:p-8 shadow-sm hover:shadow-xl hover:border-blue-200 border border-gray-100 flex flex-col h-full transition-all duration-300"
+      className="flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all duration-300 hover:border-blue-200 hover:shadow-xl sm:rounded-3xl sm:p-6 md:p-8"
     >
-      <div className="w-12 h-12 bg-yellow-50 rounded-2xl flex items-center justify-center text-2xl text-[#d50b12] mb-6 border border-yellow-200">
+      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-yellow-200 bg-yellow-50 text-xl text-[#d50b12] sm:mb-6 sm:h-12 sm:w-12 sm:rounded-2xl sm:text-2xl">
         {icon}
       </div>
-      <h3 className="text-lg md:text-xl font-extrabold text-blue-950 mb-3">
+      <h3 className="mb-2 text-base font-extrabold leading-tight text-blue-950 sm:mb-3 sm:text-lg md:text-xl">
         {title}
       </h3>
-      <p className="text-gray-600 text-sm leading-relaxed flex-grow">
+      <p className="flex-grow text-xs leading-5 text-gray-600 sm:text-sm sm:leading-relaxed">
         {description}
       </p>
     </motion.div>

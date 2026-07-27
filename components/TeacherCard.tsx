@@ -10,14 +10,14 @@ export const TeacherCard: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
   return (
     <motion.div
       whileHover={{ y: -6 }}
-      className="bg-white rounded-3xl overflow-hidden shadow-md border border-gray-100 p-6 flex flex-col items-center text-center transition-all duration-300 h-full"
+      className="flex h-full flex-col items-center overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 text-center shadow-md transition-all duration-300 sm:rounded-3xl sm:p-6"
     >
-      <div className="relative w-32 h-32 rounded-full overflow-hidden mb-5 border-4 border-yellow-400 shadow-inner">
+      <div className="relative mb-3 h-20 w-20 overflow-hidden rounded-full border-[3px] border-yellow-400 shadow-inner sm:mb-5 sm:h-32 sm:w-32 sm:border-4">
         <Image
           src={teacher.image}
           alt={teacher.name}
           fill
-          sizes="128px"
+          sizes="(min-width: 640px) 128px, 80px"
           className="object-cover"
         />
       </div>
@@ -26,7 +26,7 @@ export const TeacherCard: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
         TSC Certified
       </span>
 
-      <h3 className="font-extrabold text-lg text-blue-950 mb-1 leading-tight">
+      <h3 className="mb-1 text-sm font-extrabold leading-tight text-blue-950 sm:text-lg">
         {teacher.name}
       </h3>
       <p className="text-xs text-blue-600 font-bold mb-4">
@@ -34,7 +34,7 @@ export const TeacherCard: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
       </p>
 
       {teacher.bio && (
-        <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-3">
+        <p className="mb-3 line-clamp-3 text-xs leading-5 text-gray-500 sm:mb-4 sm:text-sm sm:leading-relaxed">
           {teacher.bio}
         </p>
       )}
@@ -59,7 +59,7 @@ export const TeacherCard: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
 
       <a
         href={`mailto:${teacher.email}`}
-        className="mt-4 text-xs font-bold text-gray-400 hover:text-blue-600 flex items-center gap-1.5 transition-colors"
+        className="mt-3 flex max-w-full items-center gap-1.5 truncate text-[10px] font-bold text-gray-400 transition-colors hover:text-blue-600 sm:mt-4 sm:text-xs"
       >
         <Mail className="w-3.5 h-3.5" />
         {teacher.email}
