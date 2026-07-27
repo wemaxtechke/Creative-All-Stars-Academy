@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ArrowRight, Clock, Heart, LockKeyhole, Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowRight, Clock, LockKeyhole, Mail, MapPin, Phone } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 
 const navigation = [
@@ -87,9 +87,8 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-7 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-4 text-center text-[10px] text-blue-200 sm:mt-11 sm:gap-4 sm:pt-6 sm:text-xs md:flex-row">
+      <div className="mt-7 border-t border-white/10 pt-4 text-center text-[10px] text-blue-200 sm:mt-11 sm:pt-6 sm:text-xs">
         <p>© {new Date().getFullYear()} {settings.schoolName}. All rights reserved.</p>
-        <p className="flex items-center gap-1.5">Proudly serving families in Nakuru <Heart className="h-3.5 w-3.5 fill-current text-[#d50b12]"/></p>
       </div>
     </div>
   </footer>;
