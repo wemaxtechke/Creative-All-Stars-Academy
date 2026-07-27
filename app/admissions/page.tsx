@@ -3,14 +3,12 @@
 import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
-import { FAQAccordion } from '@/components/FAQAccordion';
-import { CheckCircle, Download, FileText, Send, Sparkles } from 'lucide-react';
+import { Download, FileText, Send } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
 
 export default function Admissions() {
-  const { addAdmissionApplication, downloads, faqs } = useApp();
+  const { addAdmissionApplication, downloads } = useApp();
   const [formData, setFormData] = useState({
     studentName: '',
     dateOfBirth: '',
@@ -65,12 +63,6 @@ export default function Admissions() {
     { title: 'Step 4: Admission & Fees payment', desc: 'Upon successful assessment, receive our official acceptance letter and pay term fees to reserve your child’s star placement.' }
   ];
 
-  const sampleFeeStructure = [
-    { group: 'Early Childhood Development (Playgroup, PP1, PP2)', tuition: 'KES 28,500', inclusive: 'Includes lunch, diary, swimming sessions, basic stationery.' },
-    { group: 'Lower Primary (Grades 1, 2, 3)', tuition: 'KES 35,000', inclusive: 'Includes continuous assessments, computer lessons, swimming classes.' },
-    { group: 'Upper Primary (Grades 4, 5, 6)', tuition: 'KES 38,500', inclusive: 'Includes agriculture projects, computer codes, science practical resources.' },
-    { group: 'Junior Secondary School (Grade 7 - 9)', tuition: 'KES 42,500', inclusive: 'Includes laboratory experiments, ICT coding resources, strategic chess.' }
-  ];
   const admissionDownloads = downloads
     .filter((item) => item.category === 'Admission' || item.category === 'Uniform')
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -296,44 +288,6 @@ export default function Admissions() {
         </div>
       </section>
 
-      {/* 3. Fee Structure block */}
-      <section className="bg-gray-100/50 py-16 border-y border-gray-100 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            title="Indicative Fee Guide"
-            subtitle="Use this guide for your initial planning. The admissions team will confirm the current fee schedule and what is included."
-            badge="Fees and planning"
-          />
-
-          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-4">
-            {sampleFeeStructure.map((fee, idx) => (
-              <div key={idx} className="relative space-y-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-6 md:p-8">
-                <div className="absolute top-0 left-6 w-12 h-1.5 bg-green-500 rounded-b-full" />
-                <h4 className="text-base font-extrabold leading-snug text-blue-950">{fee.group}</h4>
-                <div className="pt-2">
-                  <span className="text-2xl font-black text-blue-900 sm:text-3xl">{fee.tuition}</span>
-                  <span className="text-gray-500 text-[10px] uppercase font-bold block mt-1">Per Term Tuition</span>
-                </div>
-                <p className="text-gray-500 text-xs leading-relaxed border-t border-gray-50 pt-3">{fee.inclusive}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 text-center bg-yellow-100 text-blue-950 border border-yellow-200 p-4 rounded-2xl max-w-2xl mx-auto text-xs font-semibold">
-            ⭐ <strong>Important Transport notice:</strong> School bus charges are calculated based on Nakuru residence zones (Milimani, Section 58, Kiamunyi, etc.), billed separately termly.
-          </div>
-        </div>
-      </section>
-
-      {/* FAQs on Admissions */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <SectionHeader
-          title="Admission Frequently Asked Questions"
-          subtitle="Explore quick solutions and guide structures to clarify queries about placement assessments and transfers."
-          badge="Helpful answers"
-        />
-        <FAQAccordion items={faqs.filter(f => f.category === 'Admissions' || f.category === 'Fees')} />
-      </section>
     </div>
   );
 }
