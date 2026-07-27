@@ -54,7 +54,7 @@ export default function Gallery() {
         </div>
 
         {/* Masonry-like dynamic Grid */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           <AnimatePresence mode="popLayout">
             {filteredImages.map((img) => (
               <motion.div

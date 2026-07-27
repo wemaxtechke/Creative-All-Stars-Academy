@@ -93,7 +93,7 @@ export default function Admissions() {
             <p className="text-gray-600 text-sm md:text-base">We welcome parents throughout the academic year. Here is how you can register your child with us:</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-6">
+          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6">
             {steps.map((step, idx) => (
               <div key={idx} className="relative space-y-2 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:space-y-3 sm:rounded-3xl sm:p-6">
                 <span className="absolute -top-3 left-6 px-3 py-1 bg-yellow-400 text-blue-950 font-black text-xs rounded-full shadow-sm">
@@ -113,7 +113,7 @@ export default function Admissions() {
             <p className="text-gray-600 text-xs leading-relaxed">
               Prefer manual submission? Download our registration bio-data PDFs or print our comprehensive uniform guidelines to bring to our Ngata campus.
             </p>
-            <div className="grid grid-cols-2 gap-3 pt-2 sm:gap-4">
+            <div className="grid grid-cols-1 gap-3 pt-2 min-[520px]:grid-cols-2 sm:gap-4">
               {admissionDownloads.map((item) => (
                 <div key={item.id} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center justify-between gap-3">
                   <div>
@@ -137,7 +137,7 @@ export default function Admissions() {
 
         {/* Right column: Form */}
         <div className="lg:col-span-5">
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-6 relative overflow-hidden">
+          <div className="relative space-y-6 overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:rounded-3xl sm:p-8">
             <div className="absolute top-0 left-0 w-full h-2 bg-yellow-400" />
             <div className="space-y-2">
               <span className="inline-block px-3 py-1 bg-green-100 text-green-700 font-extrabold text-[10px] uppercase tracking-wider rounded-full">
@@ -180,7 +180,7 @@ export default function Admissions() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2">
                   <div className="space-y-1">
                     <label className="text-gray-700 font-bold">Date of Birth *</label>
                     <input
@@ -237,7 +237,7 @@ export default function Admissions() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2">
                   <div className="space-y-1">
                     <label className="text-gray-700 font-bold">Email Address *</label>
                     <input
@@ -305,13 +305,13 @@ export default function Admissions() {
             badge="Fees and planning"
           />
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-4">
             {sampleFeeStructure.map((fee, idx) => (
               <div key={idx} className="relative space-y-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-6 md:p-8">
                 <div className="absolute top-0 left-6 w-12 h-1.5 bg-green-500 rounded-b-full" />
-                <h4 className="font-extrabold text-blue-950 text-base leading-tight h-10">{fee.group}</h4>
+                <h4 className="text-base font-extrabold leading-snug text-blue-950">{fee.group}</h4>
                 <div className="pt-2">
-                  <span className="text-3xl font-black text-blue-900">{fee.tuition}</span>
+                  <span className="text-2xl font-black text-blue-900 sm:text-3xl">{fee.tuition}</span>
                   <span className="text-gray-500 text-[10px] uppercase font-bold block mt-1">Per Term Tuition</span>
                 </div>
                 <p className="text-gray-500 text-xs leading-relaxed border-t border-gray-50 pt-3">{fee.inclusive}</p>

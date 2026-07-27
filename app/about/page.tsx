@@ -98,7 +98,7 @@ export default function About() {
         </div>
 
         {/* Principal message card */}
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-6 relative overflow-hidden">
+        <div className="relative space-y-5 overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:space-y-6 sm:rounded-3xl sm:p-8">
           <div className="absolute top-0 left-0 w-3 h-full bg-yellow-400" />
           <div className="flex items-center gap-4">
             {leadershipImage&&<div className="w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400 flex-shrink-0">
@@ -132,7 +132,7 @@ export default function About() {
             subtitle="These key tenets guide our daily classroom schedules, extracurricular behavior, and staff interactions."
             badge="Cultural Pillars"
           />
-          <div className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-5">
+          <div className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:gap-6 lg:grid-cols-5">
             {coreValues.map((val, idx) => (
               <div key={idx} className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-center space-y-3">
                 <div className="text-3xl">{val.icon}</div>
@@ -161,7 +161,7 @@ export default function About() {
           subtitle="We hire highly certified, TSC registered teachers specialized in Early Learning and Primary Competency-Based Curriculum frameworks."
           badge="FACULTY TEAM"
         />
-        <div className="grid grid-cols-2 gap-3 sm:gap-8 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-4">
           {teachers.map((teacher) => (
             <TeacherCard key={teacher.id} teacher={teacher} />
           ))}

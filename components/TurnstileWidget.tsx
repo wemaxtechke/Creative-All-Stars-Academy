@@ -15,7 +15,10 @@ declare global {
 export function TurnstileWidget({ onToken }: { onToken: (token: string) => void }) {
   // Turnstile site keys are public. Keep the environment override for local
   // testing while ensuring Cloudflare builds receive the production key.
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAAD7PawXOFdXkKOsZ';
+  const productionSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAAD7PawXOFdXkKOsZ';
+  const siteKey = process.env.NODE_ENV === 'development'
+    ? '1x00000000000000000000AA'
+    : productionSiteKey;
   const container = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -26,6 +29,7 @@ export function TurnstileWidget({ onToken }: { onToken: (token: string) => void 
       sitekey: siteKey,
       action: 'turnstile-spin-v2',
       theme: 'light',
+      size: 'flexible',
       callback: (token: string) => onToken(token),
       'expired-callback': () => onToken(''),
       'error-callback': () => onToken(''),
@@ -48,7 +52,7 @@ export function TurnstileWidget({ onToken }: { onToken: (token: string) => void 
 
   return <>
     <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onReady={() => { setLoaded(true); renderWidget(); }} />
-    <div ref={container} data-action="turnstile-spin-v2" aria-label="Security verification" />
+    <div ref={container} data-action="turnstile-spin-v2" aria-label="Security verification" className="min-w-0 max-w-full overflow-hidden" />
     {loaded && <span className="sr-only">Security verification loaded</span>}
   </>;
 }

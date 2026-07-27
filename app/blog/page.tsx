@@ -92,7 +92,7 @@ function BlogContent() {
           </div>
 
           {/* Posts Grid */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-8">
+          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8">
             {currentPosts.map((post) => (
               <BlogCard key={post.id} post={post} />
             ))}

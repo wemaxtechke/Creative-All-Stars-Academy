@@ -52,7 +52,7 @@ export default function ClassDetails() {
           </div>
 
           {/* Subjects and Activities Grid */}
-          <div className="grid grid-cols-2 gap-3 pt-2 sm:gap-8 sm:pt-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 pt-2 min-[520px]:grid-cols-2 sm:gap-8 sm:pt-4">
 
             {/* Subjects List */}
             <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-6 md:p-8">

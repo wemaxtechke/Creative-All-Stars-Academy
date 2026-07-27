@@ -10,6 +10,8 @@
   --brand-white: #ffffff;
 }
 
+*, *::before, *::after { box-sizing: border-box; }
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -21,16 +23,19 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  overflow-x: clip;
   text-rendering: optimizeLegibility;
 }
 
 html { scroll-behavior: smooth; }
 
 button, a, input, select, textarea { outline-offset: 3px; }
+.site-main { overflow-wrap: break-word; }
+.site-main :where(section, article, div) { min-width: 0; }
 
 ::selection { background: var(--brand-yellow); color: var(--brand-blue-dark); }
 
-.container-shell { width: 100%; max-width: 80rem; margin-inline: auto; padding-inline: 1rem; }
+.container-shell { box-sizing: border-box; width: 100%; max-width: 80rem; margin-inline: auto; padding-inline: 1rem; }
 @media (min-width: 640px) { .container-shell { padding-inline: 1.5rem; } }
 @media (min-width: 1024px) { .container-shell { padding-inline: 2rem; } }
 
@@ -45,6 +50,19 @@ button, a, input, select, textarea { outline-offset: 3px; }
 @keyframes activity-scroll { from { transform: translateX(0); } to { transform: translateX(calc(-50% - .625rem)); } }
 @keyframes hero-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .brand-float { animation: brand-float 6s ease-in-out infinite; }
+.mobile-card-rail {
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-blue) #dbe6f7;
+  scrollbar-gutter: stable;
+  overscroll-behavior-inline: contain;
+}
+.mobile-card-rail::-webkit-scrollbar { height: .45rem; }
+.mobile-card-rail::-webkit-scrollbar-track { background: #dbe6f7; border-radius: 999px; }
+.mobile-card-rail::-webkit-scrollbar-thumb { background: var(--brand-blue); border-radius: 999px; }
+@media (min-width: 1024px) {
+  .mobile-card-rail { scrollbar-width: auto; }
+  .mobile-card-rail::-webkit-scrollbar { display: none; }
+}
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 
 @media (max-width: 639px) {

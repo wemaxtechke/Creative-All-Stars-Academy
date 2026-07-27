@@ -68,7 +68,7 @@ export default function Academics() {
             badge="SUBJECT BLOCKS"
           />
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-3">
             {subjects.map((subj) => (
               <div key={subj.id} className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm flex flex-col justify-between h-full">
                 <div className="space-y-4">
@@ -106,18 +106,18 @@ export default function Academics() {
           badge="FACULTY DEPARTMENTS"
         />
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-3">
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-4 text-center">
+        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 md:grid-cols-3">
+          <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-8">
             <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto">🎨</div>
             <h3 className="text-xl font-extrabold text-blue-950">Early Years Education (EYE)</h3>
             <p className="text-gray-500 text-sm leading-relaxed">Coordinating Playgroup, PP1, and PP2 classes. Focusing on play-based motor coordination, language baselines, and emotional growth.</p>
           </div>
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-4 text-center">
+          <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-8">
             <div className="w-12 h-12 bg-green-100 text-green-700 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto">🌱</div>
             <h3 className="text-xl font-extrabold text-blue-950">Primary School Wing</h3>
             <p className="text-gray-500 text-sm leading-relaxed">Coordinating Grades 1 through 6. Deepening scientific concepts, mathematics operations, physical education, and preparatory KPSEA exams.</p>
           </div>
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-4 text-center">
+          <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-8">
             <div className="w-12 h-12 bg-yellow-100 text-yellow-700 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto">💻</div>
             <h3 className="text-xl font-extrabold text-blue-950">Junior Secondary Block</h3>
             <p className="text-gray-500 text-sm leading-relaxed">Coordinating Grades 7 through 9. Introducing pre-technical skills, integrated lab sciences, advanced computing loops, and career counseling.</p>

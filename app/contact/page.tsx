@@ -70,11 +70,11 @@ export default function Contact() {
           </div>
 
           {/* Details list */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-6">
+          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6">
 
             <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:gap-4 sm:rounded-3xl sm:p-6">
               <MapPin className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-              <div className="space-y-1">
+              <div className="min-w-0 space-y-1">
                 <h4 className="font-extrabold text-blue-950 text-sm">Our Location</h4>
                 <p className="text-gray-500 text-xs leading-relaxed">{settings.address}</p>
               </div>
@@ -82,7 +82,7 @@ export default function Contact() {
 
             <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:gap-4 sm:rounded-3xl sm:p-6">
               <Clock className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-              <div className="space-y-1">
+              <div className="min-w-0 space-y-1">
                 <h4 className="font-extrabold text-blue-950 text-sm">Working Hours</h4>
                 <p className="text-gray-500 text-xs leading-relaxed">{settings.officeHours}</p>
               </div>
@@ -90,7 +90,7 @@ export default function Contact() {
 
             <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:gap-4 sm:rounded-3xl sm:p-6">
               <Phone className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-              <div className="space-y-1">
+              <div className="min-w-0 space-y-1">
                 <h4 className="font-extrabold text-blue-950 text-sm">Call Center</h4>
                 <p className="text-gray-500 text-xs leading-relaxed">{settings.phone}</p>
               </div>
@@ -98,9 +98,9 @@ export default function Contact() {
 
             <div className="flex items-start gap-3 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:gap-4 sm:rounded-3xl sm:p-6">
               <Mail className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-              <div className="space-y-1">
+              <div className="min-w-0 space-y-1">
                 <h4 className="font-extrabold text-blue-950 text-sm">Email Mailbox</h4>
-                <p className="text-gray-500 text-xs leading-relaxed">{settings.email}</p>
+                <p className="break-words text-xs leading-relaxed text-gray-500">{settings.email}</p>
               </div>
             </div>
 
@@ -132,7 +132,7 @@ export default function Contact() {
 
         {/* Right Column: Large Contact Form */}
         <div className="lg:col-span-6">
-          <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-6 relative overflow-hidden">
+          <div className="relative space-y-6 overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:rounded-3xl sm:p-8">
             <div className="absolute top-0 left-0 w-full h-2 bg-yellow-400" />
 
             <div className="space-y-2">

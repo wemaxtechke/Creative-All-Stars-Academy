@@ -37,7 +37,7 @@ function AnimatedStat({value,suffix,label,index}:{value:number;suffix:string;lab
   const ref=useRef<HTMLDivElement>(null);
   const inView=useInView(ref,{once:true,amount:.6});
   const reduceMotion=useReducedMotion();
-  const [displayValue,setDisplayValue]=useState(0);
+  const [displayValue,setDisplayValue]=useState(value);
 
   useEffect(()=>{
     if(!inView||reduceMotion)return;
@@ -47,7 +47,7 @@ function AnimatedStat({value,suffix,label,index}:{value:number;suffix:string;lab
 
   return <motion.div
     ref={ref}
-    initial={reduceMotion?false:{opacity:0,y:18}}
+    initial={false}
     whileInView={{opacity:1,y:0}}
     viewport={{once:true,amount:.6}}
     transition={{duration:reduceMotion?0:.55,delay:reduceMotion?0:index*.12,ease:[.22,1,.36,1]}}
@@ -173,10 +173,10 @@ export default function Home() {
         <div className="hidden sm:block"><PurposeRibbons/></div>
         <div className="container-shell relative z-10">
           <div className="mx-auto max-w-3xl text-center"><p className="eyebrow">Driven by purpose</p><h2 id="purpose-heading" className="brand-title mt-3 text-3xl font-extrabold text-[#031f66] sm:mt-4 sm:text-4xl md:text-5xl">Endeavour to Succeed.</h2><p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-slate-600 sm:mt-5 sm:text-lg sm:leading-8">Our motto, mission and vision shape every learning experience and every relationship within our school community.</p></div>
-          <div className="mt-7 grid grid-cols-2 gap-3 sm:mt-14 sm:gap-6 lg:grid-cols-3">
+          <div className="mt-7 grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:mt-14 sm:gap-6 lg:grid-cols-3">
             <article className="group relative overflow-hidden rounded-2xl bg-[#d50b12] p-4 text-white shadow-lg transition duration-300 hover:-translate-y-2 sm:rounded-3xl sm:p-8 sm:shadow-xl"><Flag className="h-6 w-6 text-[#ffc400] sm:h-8 sm:w-8"/><p className="mt-6 text-[9px] font-black uppercase tracking-[.14em] text-red-100 sm:mt-10 sm:text-xs sm:tracking-[.18em]">Our motto</p><h3 className="mt-2 text-lg font-extrabold leading-tight sm:mt-3 sm:text-3xl">Endeavour to Succeed</h3></article>
             <article className="group relative overflow-hidden rounded-2xl bg-[#ffc400] p-4 text-[#031f66] shadow-lg transition duration-300 hover:-translate-y-2 sm:rounded-3xl sm:p-8 sm:shadow-xl"><Rocket className="h-6 w-6 text-[#d50b12] sm:h-8 sm:w-8"/><p className="mt-6 text-[9px] font-black uppercase tracking-[.14em] text-[#8a3600] sm:mt-10 sm:text-xs sm:tracking-[.18em]">Our mission</p><h3 className="mt-2 text-[13px] font-extrabold leading-5 sm:mt-3 sm:text-xl sm:leading-8">To provide holistic development and education that helps every learner realise their full potential.</h3></article>
-            <article className="group relative col-span-2 overflow-hidden rounded-2xl bg-[#0739a6] p-4 text-white shadow-lg transition duration-300 hover:-translate-y-2 sm:rounded-3xl sm:p-8 sm:shadow-xl lg:col-span-1"><Eye className="h-6 w-6 text-[#ffc400] sm:h-8 sm:w-8"/><p className="mt-5 text-[9px] font-black uppercase tracking-[.14em] text-blue-100 sm:mt-10 sm:text-xs sm:tracking-[.18em]">Our vision</p><h3 className="mt-2 text-base font-extrabold leading-6 sm:mt-3 sm:text-xl sm:leading-8">To be an inclusive education centre that develops learners in every aspect of growth.</h3></article>
+            <article className="group relative overflow-hidden rounded-2xl bg-[#0739a6] p-4 text-white shadow-lg transition duration-300 hover:-translate-y-2 min-[520px]:col-span-2 sm:rounded-3xl sm:p-8 sm:shadow-xl lg:col-span-1"><Eye className="h-6 w-6 text-[#ffc400] sm:h-8 sm:w-8"/><p className="mt-5 text-[9px] font-black uppercase tracking-[.14em] text-blue-100 sm:mt-10 sm:text-xs sm:tracking-[.18em]">Our vision</p><h3 className="mt-2 text-base font-extrabold leading-6 sm:mt-3 sm:text-xl sm:leading-8">To be an inclusive education centre that develops learners in every aspect of growth.</h3></article>
           </div>
           <div className="mt-8 text-center"><Link href="/about" className="inline-flex items-center gap-2 font-extrabold text-[#0739a6] hover:text-[#d50b12]">Discover who we are <ArrowRight className="h-4 w-4"/></Link></div>
         </div>
@@ -184,7 +184,7 @@ export default function Home() {
 
       <section className="relative overflow-hidden bg-[#f2f6f8] py-12 sm:py-20">
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
-        <div className="container-shell relative z-10 grid items-center gap-14 lg:grid-cols-2">
+        <div className={`container-shell relative z-10 grid items-center gap-10 lg:gap-14 ${learningImage?'lg:grid-cols-2':'max-w-6xl'}`}>
           {learningImage&&<div className="relative h-[310px] sm:h-[520px]">
             <div aria-hidden="true" className="absolute -bottom-3 -left-3 h-28 w-28 rounded-bl-[2.25rem] border-b-4 border-l-4 border-[#d50b12]"/>
             <div aria-hidden="true" className="absolute -right-3 -top-3 h-28 w-28 rounded-tr-[2.25rem] border-r-4 border-t-4 border-[#ffc400]"/>
@@ -198,11 +198,11 @@ export default function Home() {
               </Link>
             </div>
           </div>}
-          <div>
+          <div className={learningImage?'':'mx-auto w-full max-w-5xl text-center'}>
             <p className="eyebrow inline-flex items-center gap-3">Learning that comes alive<span aria-hidden="true" className="h-0.5 w-12 bg-[#ffc400]"/></p>
             <h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold tracking-tight text-[#031f66] sm:mt-4 sm:text-4xl md:text-5xl">More than lessons. A childhood full of possibility.</h2>
             <p className="mt-3 text-sm leading-6 text-slate-600 sm:mt-5 sm:text-lg sm:leading-8">From practical classroom projects to music, swimming, sport and digital discovery, learners build skills they can use far beyond school.</p>
-            <ul className="mt-5 grid grid-cols-2 gap-3 sm:mt-7">{learningHighlights.map(item=><li key={item.text} className="relative overflow-hidden rounded-xl border border-blue-100 bg-white/85 p-3 shadow-[0_10px_25px_rgba(3,31,102,.06)] sm:rounded-2xl sm:p-4"><span aria-hidden="true" className={`absolute inset-y-0 left-0 w-1 ${item.accent}`}/><span className="flex items-start gap-2 sm:gap-3"><span className={`mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg sm:h-8 sm:w-8 ${item.icon}`}><CheckCircle2 className="h-4 w-4"/></span><span className="text-xs font-bold leading-5 text-slate-700 sm:text-sm sm:leading-6">{item.text}</span></span></li>)}</ul>
+            <ul className={`mt-5 grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:mt-7 ${learningImage?'':'lg:grid-cols-4'}`}>{learningHighlights.map(item=><li key={item.text} className="relative overflow-hidden rounded-xl border border-blue-100 bg-white/85 p-3 text-left shadow-[0_10px_25px_rgba(3,31,102,.06)] sm:rounded-2xl sm:p-4"><span aria-hidden="true" className={`absolute inset-y-0 left-0 w-1 ${item.accent}`}/><span className="flex items-center gap-3"><span className={`grid h-8 w-8 shrink-0 place-items-center rounded-lg ${item.icon}`}><CheckCircle2 className="h-4 w-4"/></span><span className="text-xs font-bold leading-5 text-slate-700 sm:text-sm sm:leading-6">{item.text}</span></span></li>)}</ul>
             <Link href="/academics" className="group relative mt-8 inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#0739a6] px-6 py-3.5 font-extrabold text-white shadow-lg transition-transform hover:-translate-y-0.5">
               <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-1 bg-[#ffc400] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
               <span className="relative z-10 transition-colors group-hover:text-[#031f66]">Explore our learning approach</span><ArrowRight className="relative z-10 h-4 w-4 transition-[color,transform] group-hover:translate-x-1 group-hover:text-[#031f66]" />
@@ -221,8 +221,8 @@ export default function Home() {
           <div className="mx-auto max-w-3xl text-center"><p className="eyebrow">Your admission journey</p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold text-[#031f66] sm:mt-4 sm:text-4xl">A simple, welcoming way to get started.</h2><p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:mt-5 sm:text-base sm:leading-7">From your first look at the school to submitting an enquiry, our admissions team will guide your family at every stage.</p></div>
           <div className="relative mt-12 sm:mt-20">
             <div aria-hidden="true" className="absolute -top-4 left-[16.66%] right-[16.66%] hidden h-1 rounded-full bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6] lg:block"/>
-            <div className="relative grid grid-cols-2 gap-x-3 gap-y-11 sm:gap-14 md:grid-cols-3 md:gap-6">
-              {journey.map(({icon:Icon,...step})=><article key={step.number} className={`group relative rounded-2xl border border-blue-100 bg-white px-4 pb-5 pt-10 shadow-[0_12px_30px_rgba(3,31,102,.09)] transition duration-300 hover:-translate-y-1 sm:rounded-3xl sm:px-7 sm:pb-8 sm:pt-14 sm:shadow-[0_18px_45px_rgba(3,31,102,.09)] sm:hover:shadow-[0_26px_60px_rgba(3,31,102,.15)] ${step.number==='03'?'col-span-2 md:col-span-1':''}`}>
+            <div className="relative grid grid-cols-1 gap-x-3 gap-y-11 min-[520px]:grid-cols-2 sm:gap-14 md:grid-cols-3 md:gap-6">
+              {journey.map(({icon:Icon,...step})=><article key={step.number} className={`group relative rounded-2xl border border-blue-100 bg-white px-4 pb-5 pt-10 text-center shadow-[0_12px_30px_rgba(3,31,102,.09)] transition duration-300 hover:-translate-y-1 sm:rounded-3xl sm:px-7 sm:pb-8 sm:pt-14 sm:shadow-[0_18px_45px_rgba(3,31,102,.09)] sm:hover:shadow-[0_26px_60px_rgba(3,31,102,.15)] ${step.number==='03'?'min-[520px]:col-span-2 md:col-span-1':''}`}>
                 <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 rounded-t-3xl ${step.accent}`}/>
                 <div className={`absolute -top-7 left-1/2 z-10 grid h-14 w-14 -translate-x-1/2 place-items-center rounded-full border-[5px] border-[#f5f8ff] shadow-lg sm:-top-8 sm:h-16 sm:w-16 sm:border-[6px] ${step.iconStyle}`}><Icon className="h-5 w-5 sm:h-6 sm:w-6"/></div>
                 <span aria-hidden="true" className="absolute right-3 top-6 font-[var(--font-heading)] text-4xl font-black text-slate-100 transition-colors group-hover:text-blue-50 sm:right-6 sm:top-8 sm:text-6xl">{step.number}</span>
@@ -261,11 +261,11 @@ export default function Home() {
           <div className="mt-8 space-y-7">
             <div>
               <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#d50b12]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Upcoming events</h3></div>
-              <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{schoolEvents.slice(0,4).map(event=><div key={event.id} className="w-[84vw] max-w-[32rem] shrink-0 snap-start"><EventCard event={event} compact/></div>)}</div>
+              <div className="mobile-card-rail -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">{schoolEvents.slice(0,4).map(event=><div key={event.id} className="w-[84vw] max-w-[32rem] shrink-0 snap-start lg:w-auto lg:max-w-none"><EventCard event={event} compact/></div>)}</div>
             </div>
             <div>
               <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#ffc400]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Latest stories</h3></div>
-              <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{blogPosts.slice(0,5).map(post=><div key={post.id} className="w-[82vw] max-w-[26rem] shrink-0 snap-start"><BlogCard post={post} compact/></div>)}</div>
+              <div className="mobile-card-rail -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0 lg:pb-0">{blogPosts.slice(0,5).map(post=><div key={post.id} className="w-[82vw] max-w-[26rem] shrink-0 snap-start lg:w-auto lg:max-w-none"><BlogCard post={post} compact/></div>)}</div>
             </div>
           </div>
         </div>

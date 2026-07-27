@@ -31,7 +31,7 @@ export function Navbar() {
       </div>
     </div>
     <div className="container-shell flex h-16 items-center justify-between sm:h-20">
-      <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3" onClick={()=>setOpen(false)}>
+      <Link href="/" className="flex min-w-0 max-w-[calc(100%-3.5rem)] flex-1 items-center gap-2.5 sm:gap-3 xl:max-w-none xl:flex-none" onClick={()=>setOpen(false)}>
         {logo&&<Image src={logo.url} alt={logo.alt} width={58} height={58} priority className="h-11 w-11 shrink-0 rounded-full object-contain sm:h-14 sm:w-14"/>}
         <div className="min-w-0"><span className="block truncate font-[var(--font-heading)] text-[13px] font-extrabold leading-tight text-[#031f66] min-[380px]:text-sm sm:text-lg">{settings.schoolName}</span><span className="block truncate text-[8px] font-black uppercase tracking-[.13em] text-[#d50b12] min-[380px]:text-[9px] sm:text-[10px] sm:tracking-[.16em]">Endeavour to Succeed</span></div>
       </Link>

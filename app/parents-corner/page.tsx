@@ -41,7 +41,7 @@ export default function ParentsCorner() {
           badge="DOWNLOADS CENTRE"
         />
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {orderedDownloads.map((item) => (
             <div
               key={item.id}
@@ -98,7 +98,7 @@ export default function ParentsCorner() {
             <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
               We maintain absolute standard brand colors. Official star-embroidered sweaters are purchasable from official Nakuru vendors:
             </p>
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:gap-4">
               {uniformGuides.map((guide, idx) => (
                 <div key={idx} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 space-y-2">
                   <h5 className="font-extrabold text-xs text-blue-950 uppercase tracking-tight">{guide.item}</h5>

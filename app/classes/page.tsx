@@ -26,7 +26,7 @@ export default function Classes() {
           badge={`${classes.length} LEARNING PATHWAYS`}
         />
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-3">
           {classes.map((cls, idx) => {
             const assignedImage=getSiteImage(`class-${cls.id}`);
             return (
