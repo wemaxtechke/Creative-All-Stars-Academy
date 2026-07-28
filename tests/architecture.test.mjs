@@ -135,6 +135,23 @@ test('teachers and class lead assignments are fully administered through D1 CMS 
   assert.doesNotMatch(context, /schoolClasses as initialSchoolClasses/);
 });
 
+test('all director-confirmed teacher profiles are preloaded without invented contact details', async () => {
+  const classTeachers = await read('migrations/0013_verified_school_history_and_class_teachers.sql');
+  const remainingTeachers = await read('migrations/0014_add_remaining_confirmed_teachers.sql');
+  const combined = `${classTeachers}\n${remainingTeachers}`;
+
+  for (const teacher of [
+    'Esther Muhemo', 'Charity Achieng', 'Angeline Masana', 'Priscilla Mwende',
+    'Lucy Kwamboka', 'Lavender David', 'Sheila Matachi', 'Lilian Kamau',
+    'Rispa J. Korir', 'Sarah Lucas Nafula', 'Mercy Chepkoech', 'Esther Bosibori',
+    'Mercy Chebii', 'Viola Minayo', 'Vivian Nafula', 'Millicent Kezia',
+    'Collins Wainaina',
+  ]) {
+    assert.match(combined, new RegExp(teacher.replace('.', '\\.')));
+  }
+  assert.doesNotMatch(remainingTeachers, /@creativeallstars|images\.unsplash\.com/);
+});
+
 test('School Life gallery media and page presentation are fully controlled by the D1 CMS', async () => {
   const types = await read('types/index.ts');
   const defaults = await read('lib/site-content.ts');

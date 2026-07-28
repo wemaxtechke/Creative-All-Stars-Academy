@@ -21,7 +21,7 @@ export default function About() {
         title="A school built around every learner."
         description="Discover the history, purpose and people behind an inclusive education centre committed to every learner’s growth."
         imageSlot="page-about"
-        cta={{ label: 'Meet our class teachers', href: '#teachers' }}
+        cta={{ label: 'Meet our teachers', href: '#teachers' }}
       />
 
       <Breadcrumbs items={[{ name: 'About Us' }]} />
@@ -96,8 +96,8 @@ export default function About() {
 
       <section id="teachers" className="mx-auto mt-16 max-w-7xl scroll-mt-28 px-4 sm:mt-20 sm:px-6 lg:px-8">
         <SectionHeader
-          title="Meet Our Class Teachers"
-          subtitle="The lead educators responsible for each class from Playgroup through Grade 7."
+          title="Meet Our Teachers"
+          subtitle="Confirmed class teachers and teaching team members from Playgroup through Grade 7."
           badge="Teaching Team"
         />
         <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-4">

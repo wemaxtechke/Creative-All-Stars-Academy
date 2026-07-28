@@ -23,7 +23,7 @@ export const TeacherCard: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
       </div>
 
       <span className="px-3 py-1 bg-red-50 text-[#d50b12] font-extrabold text-[10px] uppercase tracking-wider rounded-full mb-2">
-        Class Teacher
+        Teacher
       </span>
 
       <h3 className="mb-1 text-sm font-extrabold leading-tight text-blue-950 sm:text-lg">
