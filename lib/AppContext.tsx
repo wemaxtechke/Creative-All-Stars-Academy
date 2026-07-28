@@ -111,8 +111,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   useEffect(() => {
     let active = true;
     if (!pathname.startsWith('/admin/dashboard')) return () => { active = false; };
-    jsonRequest<Record<string, unknown>>('/api/admin/state')
-      .then((data) => {
+
+    async function refreshAdminState() {
+      try {
+        const data = await jsonRequest<Record<string, unknown>>('/api/admin/state', { cache: 'no-store' });
         if (!active) return;
         if (Array.isArray(data.heroSlides)) setHeroSlides(data.heroSlides as HeroSlide[]);
         if (Array.isArray(data.siteImages)) setSiteImages(data.siteImages as SiteImage[]);
@@ -128,9 +130,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
         if (Array.isArray(data.jobApplications)) setJobApplications(data.jobApplications as JobApplication[]);
         if (Array.isArray(data.admissions)) setAdmissions(data.admissions as AdmissionApplication[]);
         if (Array.isArray(data.messages)) setMessages(data.messages as ContactMessage[]);
-      })
-      .catch((error) => console.error('Unable to load live website content', error));
-    return () => { active = false; };
+      } catch (error) {
+        console.error('Unable to load live website content', error);
+      }
+    }
+
+    void refreshAdminState();
+    const refreshInterval = window.setInterval(refreshAdminState, 30_000);
+    const refreshWhenVisible = () => {
+      if (document.visibilityState === 'visible') void refreshAdminState();
+    };
+    document.addEventListener('visibilitychange', refreshWhenVisible);
+
+    return () => {
+      active = false;
+      window.clearInterval(refreshInterval);
+      document.removeEventListener('visibilitychange', refreshWhenVisible);
+    };
   }, [pathname]);
 
   async function createRecord<T extends { id: string }>(collection: ContentCollection, value: Omit<T, 'id'>, setter: React.Dispatch<React.SetStateAction<T[]>>) {

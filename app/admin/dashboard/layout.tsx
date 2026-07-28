@@ -28,6 +28,15 @@ import {
   GraduationCap
 } from 'lucide-react';
 
+type AdminAlert = {
+  id: string;
+  kind: 'admission' | 'message' | 'application';
+  title: string;
+  description: string;
+  date: string;
+  href: string;
+};
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { messages, admissions, jobApplications } = useApp();
@@ -35,6 +44,39 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  const activeAlerts: AdminAlert[] = [
+    ...admissions
+      .filter((application) => application.status === 'Pending')
+      .map((application) => ({
+        id: `admission-${application.id}`,
+        kind: 'admission' as const,
+        title: 'New admission application',
+        description: `${application.studentName} applied for ${application.gradeApplied}.`,
+        date: application.dateSubmitted,
+        href: '/admin/dashboard/admissions',
+      })),
+    ...messages
+      .filter((message) => message.status === 'Unread')
+      .map((message) => ({
+        id: `message-${message.id}`,
+        kind: 'message' as const,
+        title: 'Unread contact message',
+        description: `${message.name}: ${message.subject}`,
+        date: message.dateSubmitted,
+        href: '/admin/dashboard/messages',
+      })),
+    ...jobApplications
+      .filter((application) => application.status === 'Pending')
+      .map((application) => ({
+        id: `application-${application.id}`,
+        kind: 'application' as const,
+        title: 'New job application',
+        description: `${application.applicantName} applied for ${application.jobTitle}.`,
+        date: application.dateApplied,
+        href: '/admin/dashboard/applications',
+      })),
+  ].sort((first, second) => second.date.localeCompare(first.date));
 
   const handleLogout = () => {
     window.location.assign('/cdn-cgi/access/logout');
@@ -198,29 +240,57 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
                 className="p-2.5 rounded-xl text-gray-400 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative"
-                title="Notifications"
+                title={activeAlerts.length ? `${activeAlerts.length} active notification${activeAlerts.length === 1 ? '' : 's'}` : 'No active notifications'}
+                aria-label={activeAlerts.length ? `Notifications, ${activeAlerts.length} active` : 'Notifications, none active'}
+                aria-expanded={notificationsOpen}
+                aria-haspopup="dialog"
               >
                 <Bell className="w-4.5 h-4.5" />
-                <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
+                {activeAlerts.length > 0 && <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />}
               </button>
 
               {/* Notification Drawer */}
               {notificationsOpen && (
-                <div className={`fixed left-3 right-3 top-16 z-50 rounded-2xl border p-4 text-xs font-semibold shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-3 sm:w-80 ${darkMode ? 'bg-gray-900 border-gray-800 text-gray-100' : 'bg-white border-gray-100 text-gray-800'}`}>
-                  <div className="flex items-center justify-between border-b pb-2 mb-3">
-                    <span className="font-extrabold text-blue-950 dark:text-white">Active Alerts</span>
+                <div role="dialog" aria-label="Active alerts" className={`fixed left-3 right-3 top-16 z-50 rounded-2xl border p-4 text-xs font-semibold shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-auto sm:mt-3 sm:w-80 ${darkMode ? 'bg-gray-900 border-gray-800 text-gray-100' : 'bg-white border-gray-100 text-gray-800'}`}>
+                  <div className="mb-3 flex items-center justify-between border-b pb-2">
+                    <span className="font-extrabold text-blue-950 dark:text-white">
+                      Active Alerts {activeAlerts.length > 0 && `(${activeAlerts.length})`}
+                    </span>
                     <button className="text-[10px] text-blue-600 font-extrabold uppercase hover:underline" onClick={() => setNotificationsOpen(false)}>Close</button>
                   </div>
-                  <div className="space-y-3">
-                    <div className="p-2 bg-blue-50 dark:bg-blue-950/20 rounded-xl leading-normal border border-blue-100/50">
-                      <p className="text-[10px] text-blue-600 dark:text-blue-400 font-bold uppercase">New Admission Application</p>
-                      <p className="text-gray-500 dark:text-gray-400 font-medium">Shadrack Kipkoech applied for PP2 block.</p>
+                  {activeAlerts.length > 0 ? (
+                    <div className="max-h-[min(28rem,65vh)] space-y-3 overflow-y-auto pr-1">
+                      {activeAlerts.map((alert) => (
+                        <Link
+                          key={alert.id}
+                          href={alert.href}
+                          onClick={() => setNotificationsOpen(false)}
+                          className={`block rounded-xl border p-3 leading-normal transition hover:-translate-y-0.5 hover:shadow-sm ${
+                            alert.kind === 'admission'
+                              ? 'border-blue-100/50 bg-blue-50 dark:bg-blue-950/20'
+                              : alert.kind === 'message'
+                                ? 'border-yellow-200/50 bg-yellow-50 dark:bg-yellow-950/20'
+                                : 'border-emerald-200/50 bg-emerald-50 dark:bg-emerald-950/20'
+                          }`}
+                        >
+                          <p className={`text-[10px] font-bold uppercase ${
+                            alert.kind === 'admission'
+                              ? 'text-blue-600 dark:text-blue-400'
+                              : alert.kind === 'message'
+                                ? 'text-yellow-700 dark:text-yellow-400'
+                                : 'text-emerald-700 dark:text-emerald-400'
+                          }`}>{alert.title}</p>
+                          <p className="mt-1 font-medium text-gray-600 dark:text-gray-300">{alert.description}</p>
+                          <p className="mt-1 text-[10px] font-semibold text-gray-400">{alert.date}</p>
+                        </Link>
+                      ))}
                     </div>
-                    <div className="p-2 bg-yellow-50 dark:bg-yellow-950/20 rounded-xl leading-normal border border-yellow-200/50">
-                      <p className="text-[10px] text-yellow-600 dark:text-yellow-400 font-bold uppercase">Spontaneous Contact Message</p>
-                      <p className="text-gray-500 dark:text-gray-400 font-medium">Josephine Njoroge inquired on bus transport schedules.</p>
+                  ) : (
+                    <div className="rounded-xl border border-gray-100 bg-gray-50 p-5 text-center dark:border-gray-800 dark:bg-gray-950/40">
+                      <p className="font-extrabold text-gray-600 dark:text-gray-300">No active alerts</p>
+                      <p className="mt-1 text-[10px] font-medium leading-relaxed text-gray-400">New admissions, contact messages, and job applications will appear here automatically.</p>
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
             </div>
