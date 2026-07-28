@@ -13,7 +13,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstarsaca
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: 'Creative All Stars Academy | School in Ngata, Nakuru', template: '%s | Creative All Stars Academy' },
+  title: { default: 'Creative All Stars Academy | Pre-Primary, Primary & JSS', template: '%s | Creative All Stars Academy' },
   description: 'Creative All Stars Academy is an inclusive school in Ngata, Nakuru, providing competency-based education that helps every learner realise their full potential.',
   keywords: ['Creative All Stars Academy', 'school in Nakuru', 'CBE school Nakuru', 'CBC school Nakuru', 'private school Nakuru', 'primary school Nakuru', 'pre-primary school Nakuru', 'Ngata school', 'inclusive education Kenya'],
   authors: [{ name: 'Creative All Stars Academy' }],
