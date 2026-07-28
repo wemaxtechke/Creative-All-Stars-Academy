@@ -1,124 +1,94 @@
 'use client';
 
-import React from 'react';
+import { Download, Shirt } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { FAQAccordion } from '@/components/FAQAccordion';
-import { FileText, Download, ShieldCheck, CheckCircle } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
+import { uniformSections } from '@/lib/verified-school-content';
 
 export default function ParentsCorner() {
   const { downloads, faqs } = useApp();
   const orderedDownloads = [...downloads].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-  const rules = [
-    'Punctuality is critical. Students must be settled in classrooms by 7:45 AM daily.',
-    'Official uniform guides must be strictly followed. Sweaters must feature the embroidered star logo.',
-    'Bullying, bad language, or physical aggression will guarantee instant suspension.',
-    'Mobile phones, iPads, or electronic toys are strictly banned on our campus blocks.',
-    'No learner is allowed off campus during hours without verified parent permissions.'
-  ];
-
-  const uniformGuides = [
-    { item: 'Boys Primary Set', details: 'Royal Blue shorts, Sky Blue shirts, Navy Blue socks with yellow bands, and black leather shoes.' },
-    { item: 'Girls Primary Set', details: 'Royal Blue pinafores / skirts, Sky Blue blouses, white socks, and black leather shoes.' },
-    { item: 'Early Years (EYE)', details: 'Custom colorful checkered sweaters, elastic blue trousers / skirts, and velcro shoes.' },
-    { item: 'Physical PE Days', details: 'Official white tracksuits, custom yellow star sports polo, and rubber running trainers.' }
-  ];
-
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Families are part of the team" title="Everything parents need, in one welcoming place." description="Find school documents, calendars, uniform guidance and practical information that keeps home and school connected." imageSlot="page-parents"/>
+      <PageHero
+        eyebrow="Families are part of the team"
+        title="Everything parents need, in one welcoming place."
+        description="Find official documents, uniform guidance and practical information that keeps home and school connected."
+        imageSlot="page-parents"
+      />
 
       <Breadcrumbs items={[{ name: 'Parents Corner' }]} />
 
-      {/* Only administrator-uploaded R2 documents are returned by the CMS. */}
-      {orderedDownloads.length > 0 && <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-        <SectionHeader
-          title="Instant Documents & Holiday Assignments"
-          subtitle="Download official files directly. These resources are compiled termly by the school directorate."
-          badge="DOWNLOADS CENTRE"
-        />
-
-        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {orderedDownloads.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md sm:rounded-3xl sm:p-6"
-            >
-              <div className="space-y-4">
-                <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 font-extrabold text-[10px] uppercase rounded-lg tracking-wider">
-                  Category: {item.category}
-                </span>
-                <h4 className="font-extrabold text-blue-950 text-sm md:text-base leading-snug">{item.title}</h4>
-              </div>
-
-              <div className="border-t border-gray-50 pt-4 mt-6 flex items-center justify-between">
-                <span className="text-[10px] text-gray-400 font-bold uppercase">{item.fileType} • {item.fileSize}</span>
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl flex items-center gap-1.5 transition-colors"
-                >
-                  <Download className="w-3.5 h-3.5" /> Download File
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>}
-
-      {/* Rules and Uniform Grid */}
-      <section className="bg-gray-100/50 py-16 border-y border-gray-100 mt-20">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
-
-          {/* Rules Block */}
-          <div className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:space-y-6 sm:rounded-3xl sm:p-8">
-            <h3 className="text-2xl font-black text-blue-950 flex items-center gap-2">
-              <ShieldCheck className="w-6 h-6 text-blue-600" /> Non-Negotiable School Rules
-            </h3>
-            <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
-              To support an elite discipline block at our Ngata campus, parents must guide children on these core code rules daily:
-            </p>
-            <div className="space-y-4 pt-2">
-              {rules.map((rule, idx) => (
-                <div key={idx} className="flex items-start gap-2.5 text-sm text-gray-700 font-medium">
-                  <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span>{rule}</span>
+      {orderedDownloads.length > 0 && (
+        <section className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            title="School Documents and Parent Resources"
+            subtitle="Download the current files published by the school administration."
+            badge="Downloads Centre"
+          />
+          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+            {orderedDownloads.map((item) => (
+              <div key={item.id} className="flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:rounded-3xl sm:p-6">
+                <div className="space-y-4">
+                  <span className="inline-block rounded-lg bg-blue-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-blue-600">{item.category}</span>
+                  <h3 className="text-sm font-extrabold leading-snug text-blue-950 md:text-base">{item.title}</h3>
                 </div>
-              ))}
-            </div>
+                <div className="mt-6 flex items-center justify-between border-t border-gray-50 pt-4">
+                  <span className="text-[10px] font-bold uppercase text-gray-400">{item.fileType} · {item.fileSize}</span>
+                  <a href={item.url} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2 text-xs font-extrabold text-white transition-colors hover:bg-blue-700">
+                    <Download className="h-3.5 w-3.5" /> Download
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="mt-16 border-y border-gray-100 bg-gray-100/50 py-16 sm:mt-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeader
+            title="Official School Uniform"
+            subtitle="Use this guide when purchasing ECDE, Primary and Junior School uniform."
+            badge="Uniform Guide"
+          />
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {uniformSections.map((section) => (
+              <article key={section.title} className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:rounded-3xl sm:p-6">
+                <div className="flex items-center gap-2">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-700"><Shirt className="h-5 w-5" /></span>
+                  <h3 className="text-base font-black text-blue-950">{section.title}</h3>
+                </div>
+                <ul className="mt-5 space-y-2">
+                  {section.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm leading-5 text-gray-600">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#d50b12]" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
 
-          {/* Uniform Guide Block */}
-          <div className="space-y-5 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:space-y-6 sm:rounded-3xl sm:p-8">
-            <h3 className="text-2xl font-black text-blue-950">Uniform & Dressing Standards</h3>
-            <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
-              We maintain absolute standard brand colors. Official star-embroidered sweaters are purchasable from official Nakuru vendors:
-            </p>
-            <div className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:gap-4">
-              {uniformGuides.map((guide, idx) => (
-                <div key={idx} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 space-y-2">
-                  <h5 className="font-extrabold text-xs text-blue-950 uppercase tracking-tight">{guide.item}</h5>
-                  <p className="text-gray-500 text-[11px] leading-relaxed font-semibold">{guide.details}</p>
-                </div>
-              ))}
-            </div>
+          <div className="mt-6 rounded-2xl border border-yellow-200 bg-yellow-50 p-5 text-center">
+            <p className="text-sm font-extrabold text-blue-950">All official school uniforms are available from Woolshop.</p>
           </div>
-
         </div>
       </section>
 
-      {/* Parents FAQs */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
+      <section className="mx-auto mt-16 max-w-7xl px-4 sm:mt-20 sm:px-6 lg:px-8">
         <SectionHeader
-          title="Parents General Frequently Asked Questions"
-          subtitle="Quick answers to transport buses, continuous CBC assessments, and swimming schedules."
-          badge="FAQ ACCORDION"
+          title="Frequently Asked Questions"
+          subtitle="Quick answers about admissions, learning, activities and parent support."
+          badge="Parent Information"
         />
-        <FAQAccordion items={faqs.filter(f => f.category === 'General' || f.category === 'Parents')} />
+        <FAQAccordion items={faqs} />
       </section>
     </div>
   );

@@ -13,10 +13,10 @@ export interface Teacher {
   mediaId?: string;
   name: string;
   role: string;
-  image: string;
+  image?: string;
   bio?: string;
   subjects?: string[];
-  email: string;
+  email?: string;
 }
 
 export interface BlogPost {

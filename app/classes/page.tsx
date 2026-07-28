@@ -22,7 +22,7 @@ export default function Classes() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
         <SectionHeader
           title="Browse Early Childhood, Primary & Junior School Blocks"
-          subtitle="Click on any card to view detailed learning schedules, certified classroom teachers, specialized subjects, and active co-curriculars."
+          subtitle="Select a class to view its current description, assigned class teacher and available learning information."
           badge={`${classes.length} LEARNING PATHWAYS`}
         />
 
@@ -79,7 +79,7 @@ export default function Classes() {
                 <div className="border-t border-gray-50 pt-4 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <UserCheck className="w-4 h-4 text-green-500" />
-                    <span className="text-xs font-bold text-gray-500">TSC Certified Lead</span>
+                    <span className="text-xs font-bold text-gray-500">Assigned class teacher</span>
                   </div>
 
                   <Link

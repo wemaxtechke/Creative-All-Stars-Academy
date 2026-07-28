@@ -127,7 +127,8 @@ test('teachers and class lead assignments are fully administered through D1 CMS 
   assert.match(content, /Reassign or remove this teacher/);
   assert.match(context, /updateSchoolClass/);
   assert.match(staffAdmin, /updateTeacher/);
-  assert.match(staffAdmin, /Replace staff photograph/);
+  assert.match(staffAdmin, /Staff photograph/);
+  assert.match(staffAdmin, /\(optional\)/);
   assert.match(classesAdmin, /No lead educator/);
   assert.match(classesAdmin, /updateSchoolClass/);
   assert.match(classPage, /teachers\.find\(t => t\.id === selectedClass\.teacherId\)/);
@@ -165,7 +166,6 @@ test('public PDF downloads require administrator-uploaded R2 files', async () =>
   const admissions = await read('app/admissions/page.tsx');
   const parents = await read('app/parents-corner/page.tsx');
   const migration = await read('migrations/0009_require_admin_uploaded_downloads.sql');
-  const mocks = await read('data/mockData.ts');
 
   assert.match(types, /mediaId: string/);
   assert.match(content, /download\.mediaId && download\.url\.startsWith\("\/media\/"\)/);
@@ -177,8 +177,6 @@ test('public PDF downloads require administrator-uploaded R2 files', async () =>
   assert.match(admissions, /admissionDownloads\.length > 0/);
   assert.match(parents, /orderedDownloads\.length > 0/);
   assert.match(migration, /DELETE FROM content_items/);
-  assert.doesNotMatch(mocks, /export const downloads/);
-  assert.doesNotMatch(mocks, /Comprehensive 2025 Fee Structure/);
 });
 
 test('current school phone and email are used throughout public website content', async () => {

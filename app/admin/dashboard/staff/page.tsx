@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Edit3, Mail, Plus, Trash, Upload, X } from 'lucide-react';
+import { Edit3, Mail, Plus, Trash, Upload, UserRound, X } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 import type { Teacher } from '@/types';
 
@@ -42,7 +42,7 @@ export default function AdminStaff() {
     setForm({
       name: teacher.name,
       role: teacher.role,
-      email: teacher.email,
+      email: teacher.email ?? '',
       bio: teacher.bio ?? '',
       subjects: (teacher.subjects ?? []).join('\n'),
     });
@@ -65,8 +65,8 @@ export default function AdminStaff() {
 
   async function saveTeacher(event: React.FormEvent) {
     event.preventDefault();
-    if (!form.name.trim() || !form.role.trim() || !form.email.trim() || (!editing && !image)) {
-      setError('Complete the required details and choose a staff photo for a new profile.');
+    if (!form.name.trim() || !form.role.trim()) {
+      setError('Complete the staff member’s name and role.');
       return;
     }
 
@@ -151,13 +151,13 @@ export default function AdminStaff() {
       <div className="grid gap-4 sm:grid-cols-3">
         <label className="space-y-1">Full Name *<input value={form.name} onChange={(event) => updateField('name', event.target.value)} className="w-full rounded-xl border border-gray-200 p-3 text-sm font-medium focus:border-blue-600 focus:outline-none" required/></label>
         <label className="space-y-1">Faculty Role *<input value={form.role} onChange={(event) => updateField('role', event.target.value)} className="w-full rounded-xl border border-gray-200 p-3 text-sm font-medium focus:border-blue-600 focus:outline-none" required/></label>
-        <label className="space-y-1">Email Address *<input type="email" value={form.email} onChange={(event) => updateField('email', event.target.value)} className="w-full rounded-xl border border-gray-200 p-3 text-sm font-medium focus:border-blue-600 focus:outline-none" required/></label>
+        <label className="space-y-1">Email Address <span className="font-medium text-gray-400">(optional)</span><input type="email" value={form.email} onChange={(event) => updateField('email', event.target.value)} className="w-full rounded-xl border border-gray-200 p-3 text-sm font-medium focus:border-blue-600 focus:outline-none"/></label>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="space-y-1">Professional Biography<textarea value={form.bio} onChange={(event) => updateField('bio', event.target.value)} rows={5} className="w-full rounded-xl border border-gray-200 p-3 text-sm font-medium focus:border-blue-600 focus:outline-none"/></label>
         <label className="space-y-1">Subjects and Specialities <span className="font-medium text-gray-400">(one per line)</span><textarea value={form.subjects} onChange={(event) => updateField('subjects', event.target.value)} rows={5} className="w-full rounded-xl border border-gray-200 p-3 text-sm font-medium focus:border-blue-600 focus:outline-none"/></label>
       </div>
-      <div className="space-y-1"><span>{editing ? 'Replace staff photograph' : 'Staff photograph *'}</span><label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{image ? image.name : editing ? 'Keep the current photo, or choose a replacement' : 'Choose an image (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" required={!editing} onChange={(event) => setImage(event.target.files?.[0] ?? null)}/></label></div>
+      <div className="space-y-1"><span>Staff photograph <span className="font-medium text-gray-400">(optional)</span></span><label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{image ? image.name : editing?.image ? 'Keep the current photo, or choose a replacement' : 'Choose an image now or add one later (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" onChange={(event) => setImage(event.target.files?.[0] ?? null)}/></label></div>
       <button type="submit" disabled={saving} className="rounded-xl bg-green-600 px-6 py-3 text-xs font-extrabold text-white transition-colors hover:bg-green-700 disabled:bg-slate-400">{saving ? 'Saving…' : editing ? 'Save Profile Changes' : 'Publish Faculty Member'}</button>
     </form>}
 
@@ -170,12 +170,12 @@ export default function AdminStaff() {
             <button onClick={() => removeTeacher(teacher)} className="rounded-xl bg-red-50 p-2 text-red-500 transition-colors hover:bg-red-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-40" title={assigned.length ? `Assigned to ${assigned.join(', ')}` : `Delete ${teacher.name}`} disabled={assigned.length > 0}><Trash className="h-4 w-4"/></button>
           </div>
           <div className="space-y-4">
-            <div className="mx-auto h-24 w-20 overflow-hidden rounded-2xl border-2 border-yellow-400"><img src={teacher.image} alt={teacher.name} className="h-full w-full object-cover"/></div>
+            <div className="mx-auto grid h-24 w-20 place-items-center overflow-hidden rounded-2xl border-2 border-yellow-400 bg-blue-50">{teacher.image ? <img src={teacher.image} alt={teacher.name} className="h-full w-full object-cover"/> : <UserRound className="h-8 w-8 text-blue-300"/>}</div>
             <div><h2 className="text-sm font-extrabold leading-tight text-blue-950 md:text-base">{teacher.name}</h2><p className="mt-1 text-[10px] font-bold uppercase text-blue-600">{teacher.role}</p></div>
             <p className="text-xs leading-relaxed text-gray-500">{teacher.bio || 'No professional bio configured.'}</p>
             {assigned.length > 0 && <div className="flex flex-wrap justify-center gap-1">{assigned.map((name) => <span key={name} className="rounded-full bg-yellow-50 px-2 py-1 text-[9px] font-extrabold uppercase text-yellow-700">Lead: {name}</span>)}</div>}
           </div>
-          <div className="flex items-center justify-center gap-1.5 border-t border-gray-50 pt-3 text-xs font-bold text-gray-400"><Mail className="h-3.5 w-3.5 text-blue-500"/><span className="max-w-[180px] truncate">{teacher.email}</span></div>
+          {teacher.email && <div className="flex items-center justify-center gap-1.5 border-t border-gray-50 pt-3 text-xs font-bold text-gray-400"><Mail className="h-3.5 w-3.5 text-blue-500"/><span className="max-w-[180px] truncate">{teacher.email}</span></div>}
         </article>;
       })}
     </div>

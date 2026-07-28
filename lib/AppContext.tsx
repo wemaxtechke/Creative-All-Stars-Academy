@@ -7,7 +7,7 @@ import type {
   Testimonial, DownloadItem, FAQ, AdmissionApplication, ContactMessage, SchoolClass,
   HeroSlide, SiteImage,
 } from '@/types';
-import { faqs as initialFaqs } from '@/data/mockData';
+import { schoolFaqs as initialFaqs } from '@/lib/verified-school-content';
 import {
   defaultPublicContent,
   type ContentCollection,

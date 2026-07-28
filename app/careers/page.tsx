@@ -23,7 +23,7 @@ export default function Careers() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-10">
         <SectionHeader
           title="Explore Our Active Openings & Support Positions"
-          subtitle="All teaching applicants must be fully registered with the Teachers Service Commission (TSC). Support cleaners and operators must possess Certificate of Good Conduct."
+          subtitle="Review the requirements listed for each current vacancy and submit the requested application documents."
           badge="VETTED CAREERS"
         />
 

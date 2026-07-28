@@ -47,7 +47,7 @@ function BlogContent() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="News, ideas and celebrations" title="Stories from a school that never stops growing." description="Follow learner achievements, school events, thoughtful parent guidance and practical insights into CBC learning." imageSlot="page-blog"/>
+      <PageHero eyebrow="News, ideas and celebrations" title="Stories from a school that never stops growing." description="Follow learner achievements, school events, thoughtful parent guidance and practical insights into competency-based learning." imageSlot="page-blog"/>
 
       <Breadcrumbs items={[{ name: 'News & Blog' }]} />
 

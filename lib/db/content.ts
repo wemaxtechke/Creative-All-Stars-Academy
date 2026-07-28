@@ -156,7 +156,7 @@ export class ContentConflictError extends Error {}
 const requiredFields: Record<ContentCollection, string[]> = {
   heroSlides: ["mediaId", "image", "alt"],
   siteImages: ["mediaId", "url", "alt"],
-  teachers: ["name", "role", "image", "email"],
+  teachers: ["name", "role"],
   classes: ["name", "ageGroup", "description"],
   blogPosts: ["title", "summary", "content", "featuredImage", "category", "date", "author"],
   schoolEvents: ["title", "description", "date", "time", "location", "category"],

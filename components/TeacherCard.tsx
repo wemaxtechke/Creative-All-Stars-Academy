@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Mail, GraduationCap } from 'lucide-react';
+import { Mail, GraduationCap, UserRound } from 'lucide-react';
 import { Teacher } from '@/types';
 import { motion } from 'framer-motion';
 
@@ -12,18 +12,18 @@ export const TeacherCard: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
       whileHover={{ y: -6 }}
       className="flex h-full flex-col items-center overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 text-center shadow-md transition-all duration-300 sm:rounded-3xl sm:p-6"
     >
-      <div className="relative mb-3 h-20 w-20 overflow-hidden rounded-full border-[3px] border-yellow-400 shadow-inner sm:mb-5 sm:h-32 sm:w-32 sm:border-4">
-        <Image
+      <div className="relative mb-3 grid h-20 w-20 place-items-center overflow-hidden rounded-full border-[3px] border-yellow-400 bg-blue-50 text-blue-300 shadow-inner sm:mb-5 sm:h-32 sm:w-32 sm:border-4">
+        {teacher.image ? <Image
           src={teacher.image}
           alt={teacher.name}
           fill
           sizes="(min-width: 640px) 128px, 80px"
           className="object-cover"
-        />
+        /> : <UserRound className="h-9 w-9 sm:h-14 sm:w-14" />}
       </div>
 
       <span className="px-3 py-1 bg-red-50 text-[#d50b12] font-extrabold text-[10px] uppercase tracking-wider rounded-full mb-2">
-        TSC Certified
+        Class Teacher
       </span>
 
       <h3 className="mb-1 text-sm font-extrabold leading-tight text-blue-950 sm:text-lg">
@@ -57,13 +57,13 @@ export const TeacherCard: React.FC<{ teacher: Teacher }> = ({ teacher }) => {
         </div>
       )}
 
-      <a
+      {teacher.email && <a
         href={`mailto:${teacher.email}`}
         className="mt-3 flex max-w-full items-center gap-1.5 truncate text-[10px] font-bold text-gray-400 transition-colors hover:text-blue-600 sm:mt-4 sm:text-xs"
       >
         <Mail className="w-3.5 h-3.5" />
         {teacher.email}
-      </a>
+      </a>}
     </motion.div>
   );
 };

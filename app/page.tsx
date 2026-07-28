@@ -12,9 +12,10 @@ import { BlogCard } from '@/components/BlogCard';
 import { EventCard } from '@/components/EventCard';
 import { TestimonialsCarousel } from '@/components/TestimonialsCarousel';
 import { ActivityMarquee, HomeHeroSlider } from '@/components/ActivityShowcase';
+import { schoolStats } from '@/lib/verified-school-content';
 
 const learningHighlights = [
-  { text:'Purposeful, practical CBC experiences', accent:'bg-[#d50b12]', icon:'text-[#d50b12] bg-red-50' },
+  { text:'Purposeful, practical CBE experiences', accent:'bg-[#d50b12]', icon:'text-[#d50b12] bg-red-50' },
   { text:'Small moments of progress celebrated', accent:'bg-[#ffc400]', icon:'text-[#9b6500] bg-yellow-50' },
   { text:'Clubs and activities for varied interests', accent:'bg-[#0739a6]', icon:'text-[#0739a6] bg-blue-50' },
   { text:'Close partnership with parents and guardians', accent:'bg-[#d50b12]', icon:'text-[#d50b12] bg-red-50' },
@@ -24,13 +25,6 @@ const journey = [
   { number: '01', icon:Eye, accent:'bg-[#d50b12]', iconStyle:'bg-[#d50b12] text-white', labelStyle:'text-[#d50b12]', title: 'Discover the school', text: 'Explore our learning approach, classes, activities and campus life.' },
   { number: '02', icon:MapPin, accent:'bg-[#ffc400]', iconStyle:'bg-[#ffc400] text-[#031f66]', labelStyle:'text-[#9b6500]', title: 'Plan your visit', text: 'Talk to our admissions team and experience the school in person.' },
   { number: '03', icon:Rocket, accent:'bg-[#0739a6]', iconStyle:'bg-[#0739a6] text-white', labelStyle:'text-[#0739a6]', title: 'Apply with confidence', text: 'Submit a simple enquiry and our team will guide you through the next steps.' },
-];
-
-const schoolStats = [
-  { value:800, suffix:'+', label:'Learners' },
-  { value:35, suffix:'', label:'Qualified educators' },
-  { value:18, suffix:'', label:'Learning spaces' },
-  { value:100, suffix:'%', label:'CBC aligned' },
 ];
 
 function AnimatedStat({value,suffix,label,index}:{value:number;suffix:string;label:string;index:number}) {
@@ -191,7 +185,7 @@ export default function Home() {
             <div className="group relative h-full overflow-hidden rounded-[2rem] border border-white/70 shadow-[0_28px_65px_rgba(3,31,102,.16)]">
               <Image src={learningImage.url} alt={learningImage.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.025]" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#031f66]/35 via-transparent to-transparent"/>
-              <span className="absolute left-5 top-5 rounded-full border border-white/30 bg-[#031f66]/80 px-4 py-2 text-[10px] font-black uppercase tracking-[.16em] text-white backdrop-blur-sm">CBC learning in action</span>
+              <span className="absolute left-5 top-5 rounded-full border border-white/30 bg-[#031f66]/80 px-4 py-2 text-[10px] font-black uppercase tracking-[.16em] text-white backdrop-blur-sm">CBE learning in action</span>
               <Link href="/gallery" className="group/link absolute bottom-5 left-5 right-5 flex items-center justify-between overflow-hidden rounded-2xl bg-white/95 p-5 font-bold text-[#031f66] shadow-lg backdrop-blur">
                 <span className="absolute inset-y-0 left-0 z-0 w-1 bg-[#ffc400] transition-[width] duration-500 group-hover/link:w-full"/>
                 <span className="relative z-10">See life at Creative All Stars</span><PlayCircle className="relative z-10 h-6 w-6 text-[#d50b12] transition-transform group-hover/link:scale-110" />

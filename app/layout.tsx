@@ -13,9 +13,9 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstarsaca
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: 'Creative All Stars Academy | CBC School in Nakuru', template: '%s | Creative All Stars Academy' },
-  description: 'Creative All Stars Academy is an inclusive CBC school in Ngata, Nakuru, providing holistic education that helps every learner realize their full potential.',
-  keywords: ['Creative All Stars Academy', 'school in Nakuru', 'CBC school Nakuru', 'private school Nakuru', 'primary school Nakuru', 'pre-primary school Nakuru', 'Ngata school', 'inclusive education Kenya'],
+  title: { default: 'Creative All Stars Academy | School in Ngata, Nakuru', template: '%s | Creative All Stars Academy' },
+  description: 'Creative All Stars Academy is an inclusive school in Ngata, Nakuru, providing competency-based education that helps every learner realise their full potential.',
+  keywords: ['Creative All Stars Academy', 'school in Nakuru', 'CBE school Nakuru', 'CBC school Nakuru', 'private school Nakuru', 'primary school Nakuru', 'pre-primary school Nakuru', 'Ngata school', 'inclusive education Kenya'],
   authors: [{ name: 'Creative All Stars Academy' }],
   creator: 'Creative All Stars Academy',
   publisher: 'Creative All Stars Academy',
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     type: 'website', locale: 'en_KE', url: siteUrl,
     siteName: 'Creative All Stars Academy',
     title: 'Creative All Stars Academy — Endeavour to Succeed',
-    description: 'Holistic, inclusive CBC education in Ngata, Nakuru, helping every learner realize their full potential.',
+    description: 'Holistic, inclusive competency-based education in Ngata, Nakuru, helping every learner realise their full potential.',
   },
-  twitter: { card: 'summary', title: 'Creative All Stars Academy — Endeavour to Succeed', description: 'Holistic, inclusive CBC education in Nakuru.' },
+  twitter: { card: 'summary', title: 'Creative All Stars Academy — Endeavour to Succeed', description: 'Holistic, inclusive competency-based education in Nakuru.' },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
   manifest: '/manifest.webmanifest',
 };
@@ -37,7 +37,7 @@ const schoolSchema = {
   '@context': 'https://schema.org', '@type': ['School', 'EducationalOrganization'],
   name: 'Creative All Stars Academy', alternateName: 'CASA', url: siteUrl,
   slogan: 'Endeavour to Succeed',
-  description: 'An inclusive CBC education centre in Nakuru providing holistic development and education that enables every learner to realize their full potential.',
+  description: 'An inclusive education centre in Nakuru providing holistic, competency-based education that enables every learner to realise their full potential.',
   address: { '@type': 'PostalAddress', streetAddress: 'Ngata Area', addressLocality: 'Nakuru', addressCountry: 'KE' },
   email: 'info@creativeallstarsacademy.sc.ke', telephone: '+254724838674',
 };

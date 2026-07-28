@@ -46,7 +46,7 @@ export const Footer: React.FC = () => {
               <p className="mt-1 text-[10px] font-black uppercase tracking-[.18em] text-[#ffc400]">Endeavour to Succeed</p>
             </div>
           </div>
-          <p className="mt-3 max-w-md text-xs leading-5 text-blue-100 sm:mt-5 sm:text-sm sm:leading-7">An inclusive education centre in Nakuru nurturing confident, creative and future-ready learners through holistic CBC education.</p>
+          <p className="mt-3 max-w-md text-xs leading-5 text-blue-100 sm:mt-5 sm:text-sm sm:leading-7">An inclusive education centre in Nakuru nurturing confident, creative and future-ready learners through holistic competency-based education.</p>
           <div className="mt-4 flex items-center gap-2.5 sm:mt-6 sm:gap-3">
             <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className={socialButtonClass} aria-label="Facebook">
               <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M9 8H7v3h2v9h4v-9h3.6l.4-3H13V6c0-.5.5-1 1-1h3V1H13c-3.3 0-4 1.7-4 4v3z"/></svg>

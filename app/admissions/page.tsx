@@ -40,7 +40,7 @@ export default function Admissions() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.studentName || !formData.dateOfBirth || !formData.parentName || !formData.parentEmail || !formData.parentPhone || !acceptedPrivacy) {
+    if (!formData.studentName || !formData.dateOfBirth || !formData.parentName || !formData.parentPhone || !acceptedPrivacy) {
       setError('Please fill in all the required fields correctly.');
       return;
     }
@@ -58,9 +58,9 @@ export default function Admissions() {
 
   const steps = [
     { title: 'Step 1: Send an enquiry', desc: 'Share a few details about your child so our admissions team can guide you personally.' },
-    { title: 'Step 2: Submit Documents', desc: 'Present copy of child’s Birth Certificate, previous school progress report card (where applicable), and immunization booklet copies.' },
+    { title: 'Step 2: Submit Documents', desc: 'Provide the child’s birth certificate, previous progress report and school clearance form for transfers, plus an immunisation booklet for ECDE applicants where applicable.' },
     { title: 'Step 3: Learner Assessment', desc: 'Schedule a friendly interactive placement interview for the child to evaluate literacy and baseline numeracy.' },
-    { title: 'Step 4: Admission & Fees payment', desc: 'Upon successful assessment, receive our official acceptance letter and pay term fees to reserve your child’s star placement.' }
+    { title: 'Step 4: Admission & Fee Payment', desc: 'After a successful assessment, receive an official acceptance letter and pay the term fees to reserve your child’s class placement.' }
   ];
 
   const admissionDownloads = downloads
@@ -82,7 +82,7 @@ export default function Admissions() {
               Admission Steps
             </span>
             <h2 className="text-3xl font-extrabold text-blue-950">Simple Step-by-Step Pathway</h2>
-            <p className="text-gray-600 text-sm md:text-base">We welcome parents throughout the academic year. Here is how you can register your child with us:</p>
+            <p className="text-gray-600 text-sm md:text-base">We welcome parents throughout the academic year. School Secretary Celestin Akinyi and the admissions team can guide you through each step:</p>
           </div>
 
           <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6">
@@ -103,7 +103,7 @@ export default function Admissions() {
               <FileText className="w-5 h-5 text-blue-600" /> Printable Documentation (PDFs)
             </h3>
             <p className="text-gray-600 text-xs leading-relaxed">
-              Prefer manual submission? Download our registration bio-data PDFs or print our comprehensive uniform guidelines to bring to our Ngata campus.
+              Prefer a printed document? Download any current forms or guides uploaded by the school, then contact the admissions team if you need help completing them.
             </p>
             <div className="grid grid-cols-1 gap-3 pt-2 min-[520px]:grid-cols-2 sm:gap-4">
               {admissionDownloads.map((item) => (
@@ -231,7 +231,7 @@ export default function Admissions() {
 
                 <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2">
                   <div className="space-y-1">
-                    <label className="text-gray-700 font-bold">Email Address *</label>
+                    <label className="text-gray-700 font-bold">Email Address <span className="font-medium text-gray-400">(optional)</span></label>
                     <input
                       type="email"
                       name="parentEmail"
@@ -239,7 +239,6 @@ export default function Admissions() {
                       onChange={handleInputChange}
                       placeholder="e.g. parent@gmail.com"
                       className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                      required
                     />
                   </div>
                   <div className="space-y-1">

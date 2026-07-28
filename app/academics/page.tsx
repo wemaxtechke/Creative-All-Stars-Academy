@@ -1,160 +1,150 @@
 'use client';
 
 import React from 'react';
+import { BookOpen, Brain, GraduationCap, HeartHandshake, Languages, Palette, Sigma } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
-import { BookOpen, Calendar, HelpCircle, GraduationCap, Laptop, Sparkles, Award } from 'lucide-react';
-import { subjects } from '@/data/mockData';
 import { PageHero } from '@/components/PageHero';
+import { SectionHeader } from '@/components/SectionHeader';
+
+const learningAreas = [
+  {
+    name: 'Mathematics',
+    description: 'Learners develop numerical understanding, logical thinking and practical problem-solving skills.',
+    icon: Sigma,
+  },
+  {
+    name: 'English and Kiswahili',
+    description: 'Language learning builds listening, speaking, reading and writing confidence.',
+    icon: Languages,
+  },
+  {
+    name: 'Science and Technology',
+    description: 'Learners explore their environment, investigate ideas and apply scientific and technological thinking.',
+    icon: Brain,
+  },
+  {
+    name: 'Social Studies',
+    description: 'Learning supports an understanding of community, citizenship, culture and the wider world.',
+    icon: BookOpen,
+  },
+  {
+    name: 'Religious Education',
+    description: 'Age-appropriate learning supports values, character development and respect for others.',
+    icon: HeartHandshake,
+  },
+  {
+    name: 'Creative Arts',
+    description: 'Creative experiences encourage imagination, expression, collaboration and appreciation of the arts.',
+    icon: Palette,
+  },
+];
+
+const schoolSections = [
+  {
+    title: 'Early Years',
+    description: 'Playgroup, PP1 and PP2 provide supportive, play-based foundations for language, numeracy, creativity, social development and independence.',
+  },
+  {
+    title: 'Primary School',
+    description: 'Grades 1 to 6 build knowledge, skills and values through learner-centred classroom experiences and practical application.',
+  },
+  {
+    title: 'Junior School',
+    description: 'The school introduced Grade 7 in 2026, extending its competency-based learning pathway into Junior School.',
+  },
+];
 
 export default function Academics() {
-  const { getSiteImage }=useApp();
-  const supportImage=getSiteImage('academics-support');
-  const academicTerms = [
-    { name: 'Term 1 (Opening & Foundation)', span: 'Early January - Early April', focus: 'Literacy baselines, swimming initiations, introductory science modules.' },
-    { name: 'Term 2 (Athletics & Mid-Year)', span: 'May - Early August', focus: 'Annual Track & Field Sports Day, Music Drama Galas, continuous assessments.' },
-    { name: 'Term 3 (KPSEA & Transition)', span: 'September - Late November', focus: 'Grade 6 KPSEA Exams prep, PP2 transitions, end of year project defense.' }
-  ];
+  const { getSiteImage } = useApp();
+  const supportImage = getSiteImage('academics-support');
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Learning at CASA" title="Knowledge becomes something learners can use." description="Our CBC learning approach turns curiosity into practical skills, confident communication and meaningful progress." imageSlot="page-academics" cta={{label:'Explore our classes',href:'/classes'}}/>
+      <PageHero
+        eyebrow="Learning at CASA"
+        title="Knowledge becomes something learners can use."
+        description="Our competency-based education approach develops practical skills, confident communication, values and meaningful progress."
+        imageSlot="page-academics"
+        cta={{ label: 'Explore our classes', href: '/classes' }}
+      />
 
       <Breadcrumbs items={[{ name: 'Academics' }]} />
 
-      {/* 1. CBC philosophy */}
       <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-center gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="space-y-6">
-          <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 font-extrabold text-xs uppercase tracking-widest rounded-full">
-            CBC Methodology
+          <span className="inline-block rounded-full bg-blue-100 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-blue-700">
+            Competency-Based Education
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-blue-950 leading-tight">
-            Nurturing Core Competencies for the Future
+          <h2 className="text-3xl font-extrabold leading-tight text-blue-950 md:text-4xl">
+            Learning that develops the whole learner
           </h2>
-          <p className="text-gray-600 text-base leading-relaxed">
-            The Competency-Based Curriculum (CBC) shifts classroom focus from memorizing textbooks to acquiring practical life skills. Our pedagogical philosophy at Creative All Stars emphasizes visual, auditory, and kinesthetic styles, ensuring that no child is left behind.
+          <p className="text-base leading-relaxed text-gray-600">
+            Creative All Stars Academy follows Kenya&apos;s competency-based education approach. Teaching and learning focus on helping learners build knowledge, skills, values and attitudes that they can apply in school and everyday life.
           </p>
-
-          <div className="grid grid-cols-2 gap-3 pt-2 sm:gap-6">
-            <div className="p-5 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-2">
-              <Laptop className="w-6 h-6 text-blue-600" />
-              <h4 className="font-extrabold text-blue-950 text-sm">Digital Literacy</h4>
-              <p className="text-gray-500 text-xs">Coding, basic Scratch scripts, and interactive software modules are taught starting in Grade 1.</p>
-            </div>
-            <div className="p-5 bg-white rounded-2xl border border-gray-100 shadow-sm space-y-2">
-              <GraduationCap className="w-6 h-6 text-green-600" />
-              <h4 className="font-extrabold text-blue-950 text-sm">Critical Analysis</h4>
-              <p className="text-gray-500 text-xs">Students defend projects, debate logic, and design solutions to community problems.</p>
-            </div>
-          </div>
+          <p className="text-base leading-relaxed text-gray-600">
+            The curriculum is delivered through age-appropriate, learner-centred experiences. Parents can contact the school for the current curriculum designs and the learning areas offered at a particular grade.
+          </p>
         </div>
 
-        {supportImage&&<div className="relative">
-          <img
-            src={supportImage.url}
-            alt={supportImage.alt}
-            className="h-[230px] w-full rounded-2xl object-cover shadow-lg sm:h-[350px] sm:rounded-3xl"
-          />
-        </div>}
+        {supportImage && (
+          <div className="relative">
+            <img
+              src={supportImage.url}
+              alt={supportImage.alt}
+              className="h-[230px] w-full rounded-2xl object-cover shadow-lg sm:h-[350px] sm:rounded-3xl"
+            />
+          </div>
+        )}
       </section>
 
-      {/* 2. Subjects Grid */}
-      <section className="bg-gray-100/50 py-16 border-y border-gray-100 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="mt-20 border-y border-gray-100 bg-gray-100/50 py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeader
-            title="Subjects Offered Under CBC"
-            subtitle="Explore our comprehensive list of academic disciplines taught by TSC certified subject specialists."
-            badge="SUBJECT BLOCKS"
+            title="Core Learning Areas"
+            subtitle="The school supports balanced academic, practical, creative and values-based development. Exact learning areas vary by level and current curriculum design."
+            badge="LEARNING"
           />
 
-          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-3">
-            {subjects.map((subj) => (
-              <div key={subj.id} className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm flex flex-col justify-between h-full">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 bg-blue-100 text-blue-700 font-extrabold text-xs rounded-lg uppercase">
-                      {subj.code}
-                    </span>
-                  </div>
-                  <h3 className="text-lg md:text-xl font-extrabold text-blue-950">{subj.name}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{subj.description}</p>
-                </div>
-
-                <div className="border-t border-gray-50 pt-4 mt-6">
-                  <p className="text-[10px] font-extrabold uppercase text-gray-400 tracking-wider mb-2">Key Outcomes</p>
-                  <ul className="space-y-1.5">
-                    {subj.learningOutcomes.map((out, idx) => (
-                      <li key={idx} className="text-xs text-gray-500 flex items-start gap-1.5 leading-tight">
-                        <span className="text-green-500 font-extrabold mt-0.5">✓</span>
-                        {out}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+            {learningAreas.map(({ name, description, icon: Icon }) => (
+              <article key={name} className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+                <Icon className="h-7 w-7 text-blue-600" />
+                <h3 className="mt-5 text-xl font-extrabold text-blue-950">{name}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-gray-600">{description}</p>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 3. Departments */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
+      <section className="mx-auto mt-20 max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          title="Academic Departments"
-          subtitle="Our curriculum is carefully streamlined into three main operational branches to assure focused pedagogical instruction."
-          badge="FACULTY DEPARTMENTS"
+          title="Learning Pathway"
+          subtitle="A continuous journey from the early years through primary and into Junior School."
+          badge="SCHOOL SECTIONS"
         />
-
-        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 md:grid-cols-3">
-          <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-8">
-            <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto">🎨</div>
-            <h3 className="text-xl font-extrabold text-blue-950">Early Years Education (EYE)</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">Coordinating Playgroup, PP1, and PP2 classes. Focusing on play-based motor coordination, language baselines, and emotional growth.</p>
-          </div>
-          <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-8">
-            <div className="w-12 h-12 bg-green-100 text-green-700 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto">🌱</div>
-            <h3 className="text-xl font-extrabold text-blue-950">Primary School Wing</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">Coordinating Grades 1 through 6. Deepening scientific concepts, mathematics operations, physical education, and preparatory KPSEA exams.</p>
-          </div>
-          <div className="space-y-3 rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:space-y-4 sm:rounded-3xl sm:p-8">
-            <div className="w-12 h-12 bg-yellow-100 text-yellow-700 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto">💻</div>
-            <h3 className="text-xl font-extrabold text-blue-950">Junior Secondary Block</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">Coordinating Grades 7 through 9. Introducing pre-technical skills, integrated lab sciences, advanced computing loops, and career counseling.</p>
-          </div>
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3">
+          {schoolSections.map((section, index) => (
+            <article key={section.title} className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm sm:p-8">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-blue-700">
+                <GraduationCap className="h-6 w-6" />
+              </div>
+              <p className="mt-5 text-xs font-black uppercase tracking-widest text-blue-600">Stage {index + 1}</p>
+              <h3 className="mt-2 text-xl font-extrabold text-blue-950">{section.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-gray-600">{section.description}</p>
+            </article>
+          ))}
         </div>
       </section>
 
-      {/* 4. Assessment */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <div className="grid grid-cols-1 items-center gap-6 rounded-2xl bg-gradient-to-r from-blue-900 to-indigo-950 p-5 text-white shadow-xl sm:gap-12 sm:rounded-3xl sm:p-8 md:p-12 lg:grid-cols-2">
-          <div className="space-y-6">
-            <span className="inline-block px-4 py-1.5 bg-yellow-400 text-blue-950 font-extrabold text-xs uppercase tracking-widest rounded-full">
-              Assessment Standards
-            </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white">How We Measure Student Competency</h2>
-            <p className="text-gray-300 text-sm leading-relaxed">
-              We abandon standard final-exam pressure. Under CBC, children are continuously evaluated throughout the term using visual, oral, and project-based milestones.
-            </p>
-            <div className="space-y-3 pt-2 text-sm text-gray-300">
-              <p><strong>EE (Exceeding Expectation)</strong>: Demonstrates complete mastery and innovates beyond the task.</p>
-              <p><strong>ME (Meeting Expectation)</strong>: Performs and completes the task requirements correctly.</p>
-              <p><strong>AE (Approaching Expectation)</strong>: Developing skill baselines, needs minor supervision.</p>
-            </div>
-          </div>
-
-          <div className="space-y-6 bg-white/5 rounded-2xl p-6 md:p-8 border border-white/10">
-            <h3 className="text-xl font-extrabold text-yellow-400">Academic Calendar Span</h3>
-            <div className="space-y-4">
-              {academicTerms.map((term, idx) => (
-                <div key={idx} className="border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
-                  <span className="text-xs text-green-400 font-extrabold uppercase tracking-wider">{term.span}</span>
-                  <h4 className="font-bold text-sm text-white mt-1">{term.name}</h4>
-                  <p className="text-xs text-gray-300 leading-normal mt-0.5">{term.focus}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+      <section className="mx-auto mt-20 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="rounded-3xl bg-gradient-to-r from-blue-900 to-indigo-950 p-6 text-white shadow-xl sm:p-10">
+          <p className="text-xs font-extrabold uppercase tracking-widest text-yellow-400">Assessment and Progress</p>
+          <h2 className="mt-3 text-2xl font-extrabold md:text-3xl">Supporting progress throughout the learning journey</h2>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-blue-100 sm:text-base">
+            Teachers use ongoing classroom observation, learner tasks, projects and other age-appropriate assessment methods to understand progress and guide the next steps in learning. The school presented its first KPSEA candidates in 2025.
+          </p>
         </div>
       </section>
     </div>

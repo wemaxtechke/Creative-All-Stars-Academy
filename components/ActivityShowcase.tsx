@@ -80,7 +80,7 @@ export function HomeHeroSlider() {
     alt:'',
     kicker:'Welcome to Creative All Stars Academy',
     title:'A confident start. A future full of possibility.',
-    description:'Inclusive, holistic CBC education that helps every learner discover their strengths and realise their full potential.',
+    description:'Inclusive, holistic competency-based education that helps every learner discover their strengths and realise their full potential.',
     primary:'Discover our school',
     primaryHref:'/about',
   };
@@ -128,7 +128,7 @@ export function HomeHeroSlider() {
 
     <div className="absolute inset-x-0 bottom-5 z-[60] lg:bottom-0 lg:z-40 lg:border-t lg:border-white/15 lg:bg-[#020d2b]/55 lg:backdrop-blur-md">
       <div className="container-shell flex min-h-0 flex-col justify-center gap-0 py-0 lg:min-h-20 lg:flex-row lg:items-center lg:justify-between lg:gap-2">
-        <div className="hidden items-center gap-8 text-xs font-bold text-blue-100 lg:flex"><span>Ngata, Nakuru</span><span className="h-4 w-px bg-white/25"/><span>CBC-aligned education</span><span className="h-4 w-px bg-white/25"/><span className="text-[#ffc400]">Endeavour to Succeed</span></div>
+        <div className="hidden items-center gap-8 text-xs font-bold text-blue-100 lg:flex"><span>Ngata, Nakuru</span><span className="h-4 w-px bg-white/25"/><span>Competency-based education</span><span className="h-4 w-px bg-white/25"/><span className="text-[#ffc400]">Endeavour to Succeed</span></div>
         {heroSlides.length>0&&<div className="flex items-center gap-2 sm:gap-3">{heroSlides.map((item,index)=><button key={item.id} onClick={()=>showSlide(index)} aria-label={`Show slide ${index+1}: ${item.alt}`} className={`group flex items-center gap-2 py-1.5 sm:py-2 ${index===safeActive?'text-white':'text-blue-200/70'}`}><span className={`relative h-2 overflow-hidden rounded-full transition-all duration-300 sm:h-2.5 ${index===safeActive?'w-7 bg-white/20 sm:w-9':'w-2 bg-white/50 group-hover:bg-white sm:w-2.5'}`}>{index===safeActive&&<span key={`progress-${safeActive}`} className="absolute inset-0 origin-left bg-[#ffc400] will-change-transform" style={{animation:`hero-progress ${HERO_SLIDE_DURATION_MS}ms linear forwards`,animationPlayState:paused?'paused':'running'}}/>}</span><span className="hidden text-[10px] font-black tabular-nums sm:block">0{index+1}</span></button>)}</div>}
       </div>
     </div>

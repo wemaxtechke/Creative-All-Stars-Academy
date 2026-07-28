@@ -1,195 +1,107 @@
 'use client';
 
-import React from 'react';
 import Image from 'next/image';
+import { Award, ShieldCheck } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { TeacherCard } from '@/components/TeacherCard';
 import { Timeline } from '@/components/Timeline';
 import { PageHero } from '@/components/PageHero';
-import { ShieldCheck, Award, CheckCircle } from 'lucide-react';
+import { schoolHistory, schoolStats } from '@/lib/verified-school-content';
 
 export default function About() {
   const { teachers, getSiteImage } = useApp();
-  const leadershipImage=getSiteImage('about-leadership');
-  const missionImage=getSiteImage('about-mission-board');
-
-  const historyPoints = [
-    {
-      year: '2016',
-      title: 'Academy Foundation',
-      description: 'Creative All Stars Academy co-founded in Ngata, Nakuru, starting with just 2 preschool blocks, 12 playgroup children, and 3 teachers under Mrs. Bevalyne.'
-    },
-    {
-      year: '2018',
-      title: 'CBC Curriculum Pioneer Adopt',
-      description: 'Became one of the pioneer private institutions in Nakuru County to adopt Kenya’s new Competency-Based Curriculum, introducing music and environmental projects.'
-    },
-    {
-      year: '2021',
-      title: 'Primary Wing Completion',
-      description: 'Inaugurated our Grade 1 to 6 primary classroom blocks, state-of-the-art ICT computer labs, and sand playgrounds.'
-    },
-    {
-      year: '2023',
-      title: 'Water Heated Pool & Sports',
-      description: 'Completed our fully heated medium-sized swimming pool block and co-curricular sports complex, clinching county athletic medals.'
-    },
-    {
-      year: '2025',
-      title: 'Junior Secondary Launch',
-      description: 'Launched our modern Junior Secondary school block, integrating advanced pre-technical sciences, coding libraries, and creative arts congresses.'
-    }
-  ];
-
-  const coreValues = [
-    { title: 'Creativity', desc: 'Unlocking raw artistic and logical imagination to solve challenging, multi-faceted problems.', icon: '🎨' },
-    { title: 'Academic Excellence', desc: 'Fostering disciplined mastery in science, languages, and technical computations under CBC.', icon: '⭐' },
-    { title: 'Integrity', desc: 'Nurturing honest, highly-vetted community actions and responsible citizens of Nakuru.', icon: '🤝' },
-    { title: 'Inclusivity', desc: 'Accepting and supporting child growth pathways with warmth and individualized learning.', icon: '❤️' },
-    { title: 'Leadership', desc: 'Mentoring young stars to speak up, coordinate teams, and drive social positive change.', icon: '👑' }
-  ];
-
-  const achievements = [
-    'Ranked among the Top 5 Best Performing CBC Schools in Nakuru County.',
-    'Championship soccer trophy winners (Under-11 Academy Stars FC).',
-    'National Drama and Music Festival finalists (2023 and 2024 seasons).',
-    '100% Transition records for Pre-Primary to Primary transitions.',
-    'Highly praised for our safe, heated, and child-safe swimming program.'
-  ];
+  const missionImage = getSiteImage('about-mission-board');
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Who we are" title="A school built around every learner." description="Discover the purpose, people and learning philosophy behind an inclusive education centre committed to every learner’s growth." imageSlot="page-about" cta={{label:'Meet our learning community',href:'#leadership'}}/>
+      <PageHero
+        eyebrow="Who we are"
+        title="A school built around every learner."
+        description="Discover the history, purpose and people behind an inclusive education centre committed to every learner’s growth."
+        imageSlot="page-about"
+        cta={{ label: 'Meet our class teachers', href: '#teachers' }}
+      />
 
       <Breadcrumbs items={[{ name: 'About Us' }]} />
 
-      {/* History and Director section */}
-      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-center gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-start gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="space-y-6">
-          <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 font-extrabold text-xs uppercase tracking-widest rounded-full">
+          <span className="inline-block rounded-full bg-blue-100 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-blue-700">
             Our Foundation
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-blue-950 leading-tight">
-            Co-founded with a Clear Mission
+          <h2 className="text-3xl font-extrabold leading-tight text-blue-950 md:text-4xl">
+            Growing with our learners since 2017
           </h2>
-          <p className="text-gray-600 text-base leading-relaxed">
-            Founded in the beautiful city of Nakuru in 2016, <strong>Creative All Stars Academy</strong> was born out of a desire to break away from standard rote memorization education. We recognized that true talent development requires an intentional merge of solid academics, technology integration, performance arts, and athletics.
+          <p className="text-base leading-relaxed text-gray-600">
+            Creative All Stars Academy began as a preschool in 2017 with 14 learners, three teachers and one driver. In 2020, the school introduced Grade 1 and began its expansion into primary education.
           </p>
-          <div className="p-6 bg-blue-50 border border-blue-100 rounded-3xl space-y-4">
-            <div>
-              <h4 className="text-blue-950 font-extrabold text-lg flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-blue-600" /> Vision Statement
-              </h4>
-              <p className="text-gray-600 text-sm leading-relaxed mt-1">
-                 To be an inclusive Education Centre that develops learners in all aspects of growth.
-              </p>
-            </div>
-            <div className="border-t border-blue-200/50 pt-4">
-              <h4 className="text-blue-950 font-extrabold text-lg flex items-center gap-2">
-                <Award className="w-5 h-5 text-[#d50b12]" /> Mission Statement
-              </h4>
-              <p className="text-gray-600 text-sm leading-relaxed mt-1">
-                To provide holistic development and education to the learner that enable him/her to realize his/her full potential.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Principal message card */}
-        <div className="relative space-y-5 overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:space-y-6 sm:rounded-3xl sm:p-8">
-          <div className="absolute top-0 left-0 w-3 h-full bg-yellow-400" />
-          <div className="flex items-center gap-4">
-            {leadershipImage&&<div className="w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-400 flex-shrink-0">
-              <img
-                src={leadershipImage.url}
-                alt={leadershipImage.alt}
-                className="w-full h-full object-cover"
-              />
-            </div>}
-            <div>
-              <h3 className="font-extrabold text-lg text-blue-950">Mrs. Bevalyne</h3>
-              <p className="text-xs text-blue-600 font-bold">School Director</p>
-            </div>
-          </div>
-          <p className="text-gray-600 text-sm leading-relaxed italic">
-            &ldquo;At Creative All Stars Academy, we believe that education is not about filling a bucket, but about lighting a fire. Every child walking through our Ngata campus is treated as a unique star with distinct capabilities. We provide the labs, the playing fields, the heated pool, and the musical instruments to make sure they shine brightly in academics, technology, and life. We welcome you to our growing family.&rdquo;
+          <p className="text-base leading-relaxed text-gray-600">
+            The school expanded again in 2023 with the introduction of upper primary classes. Our first KPSEA candidates sat the assessment in 2025, and Junior School opened in 2026.
           </p>
         </div>
-      </section>
 
-      <section className="container-shell mt-12 grid items-center gap-7 sm:mt-20 sm:gap-12 lg:grid-cols-12">
-        <div className="lg:col-span-5"><p className="eyebrow">Our guiding board</p><h2 className="brand-title mt-3 text-3xl font-extrabold text-[#031f66] sm:mt-4 sm:text-4xl">A promise we live every day.</h2><p className="mt-3 text-sm leading-6 text-slate-600 sm:mt-5 sm:text-lg sm:leading-8">Our motto, mission and vision keep every decision focused on inclusive, holistic learner development.</p><div className="mt-5 rounded-2xl border-l-4 border-[#d50b12] bg-yellow-50 p-4 sm:mt-8 sm:p-6"><p className="text-[10px] font-black uppercase tracking-[.18em] text-[#d50b12] sm:text-xs">School motto</p><p className="mt-2 text-xl font-extrabold text-[#031f66] sm:text-2xl">“Endeavour to Succeed”</p></div></div>
-        {missionImage&&<div className="lg:col-span-7"><div className="overflow-hidden rounded-3xl border border-blue-100 bg-white p-3 shadow-2xl"><Image src={missionImage.url} alt={missionImage.alt} width={1024} height={1536} className="h-auto w-full rounded-2xl"/></div></div>}
-      </section>
-
-      {/* Core values section */}
-      <section className="bg-gray-100/50 py-16 border-y border-gray-100 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            title="Our Non-Negotiable Core Values"
-            subtitle="These key tenets guide our daily classroom schedules, extracurricular behavior, and staff interactions."
-            badge="Cultural Pillars"
-          />
-          <div className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 sm:gap-6 lg:grid-cols-5">
-            {coreValues.map((val, idx) => (
-              <div key={idx} className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm text-center space-y-3">
-                <div className="text-3xl">{val.icon}</div>
-                <h3 className="font-extrabold text-blue-950 text-base">{val.title}</h3>
-                <p className="text-gray-500 text-xs leading-relaxed">{val.desc}</p>
-              </div>
-            ))}
+        <div className="space-y-4 rounded-3xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
+          <div>
+            <h3 className="flex items-center gap-2 text-lg font-extrabold text-blue-950">
+              <ShieldCheck className="h-5 w-5 text-blue-600" /> Vision
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-gray-600">
+              To be an inclusive education centre that develops learners in all aspects of growth.
+            </p>
+          </div>
+          <div className="border-t border-blue-200/60 pt-4">
+            <h3 className="flex items-center gap-2 text-lg font-extrabold text-blue-950">
+              <Award className="h-5 w-5 text-[#d50b12]" /> Mission
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-gray-600">
+              To provide holistic development and education that enables every learner to realise their full potential.
+            </p>
+          </div>
+          <div className="border-t border-blue-200/60 pt-4">
+            <p className="text-[10px] font-black uppercase tracking-[.18em] text-[#d50b12]">School motto</p>
+            <p className="mt-2 text-xl font-extrabold text-blue-950">“Endeavour to Succeed”</p>
           </div>
         </div>
       </section>
 
-      {/* Timeline Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <SectionHeader
-          title="Our Journey Over the Years"
-          subtitle="Explore the key milestones and expansions we have achieved since we opened our doors in Nakuru."
-          badge="Timeline Milestones"
-        />
-        <Timeline events={historyPoints} />
-      </section>
+      {missionImage && (
+        <section className="container-shell mt-12 sm:mt-20">
+          <div className="overflow-hidden rounded-3xl border border-blue-100 bg-white p-3 shadow-xl">
+            <Image src={missionImage.url} alt={missionImage.alt} width={1400} height={800} className="h-auto max-h-[720px] w-full rounded-2xl object-contain" />
+          </div>
+        </section>
+      )}
 
-      {/* Leadership & Vetted Teachers Section */}
-      <section id="leadership" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 scroll-mt-28">
-        <SectionHeader
-          title="Meet Our Vetted Faculty"
-          subtitle="We hire highly certified, TSC registered teachers specialized in Early Learning and Primary Competency-Based Curriculum frameworks."
-          badge="FACULTY TEAM"
-        />
-        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-4">
-          {teachers.map((teacher) => (
-            <TeacherCard key={teacher.id} teacher={teacher} />
+      <section className="mt-16 border-y border-gray-100 bg-gray-100/50 py-14 sm:mt-20">
+        <div className="container-shell grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
+          {schoolStats.map((stat) => (
+            <div key={stat.label} className="rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:rounded-3xl sm:p-7">
+              <p className="text-2xl font-black text-blue-700 sm:text-3xl">{stat.value}{stat.suffix}</p>
+              <p className="mt-2 text-xs font-bold text-gray-500">{stat.label}</p>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Key Achievements */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <div className="grid grid-cols-1 items-center gap-6 rounded-2xl bg-blue-950 p-5 text-white shadow-xl sm:gap-12 sm:rounded-3xl sm:p-8 md:p-12 lg:grid-cols-2">
-          <div className="space-y-6">
-            <span className="inline-block px-4 py-1.5 bg-yellow-400 text-blue-950 font-extrabold text-xs uppercase tracking-widest rounded-full">
-              Key Achievements
-            </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white">
-              Recognized Excellence in Nakuru County
-            </h2>
-            <p className="text-gray-300 text-sm leading-relaxed">
-              Our commitment to delivering structured, high-end child education has received incredible feedback and trophies. We are recognized as an educational benchmark in the region.
-            </p>
-          </div>
-          <div className="space-y-4">
-            {achievements.map((item, idx) => (
-              <div key={idx} className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                <span className="text-gray-200 text-sm md:text-base leading-relaxed">{item}</span>
-              </div>
-            ))}
-          </div>
+      <section className="mx-auto mt-16 max-w-7xl px-4 sm:mt-20 sm:px-6 lg:px-8">
+        <SectionHeader
+          title="Our Journey Over the Years"
+          subtitle="The verified milestones that shaped Creative All Stars Academy from its preschool beginnings to Junior School."
+          badge="Timeline Milestones"
+        />
+        <Timeline events={schoolHistory} />
+      </section>
+
+      <section id="teachers" className="mx-auto mt-16 max-w-7xl scroll-mt-28 px-4 sm:mt-20 sm:px-6 lg:px-8">
+        <SectionHeader
+          title="Meet Our Class Teachers"
+          subtitle="The lead educators responsible for each class from Playgroup through Grade 7."
+          badge="Teaching Team"
+        />
+        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-4">
+          {teachers.map((teacher) => <TeacherCard key={teacher.id} teacher={teacher} />)}
         </div>
       </section>
     </div>

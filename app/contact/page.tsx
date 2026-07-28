@@ -65,7 +65,7 @@ export default function Contact() {
             </span>
             <h2 className="text-3xl font-black text-blue-950">Official Administrative Office</h2>
             <p className="text-gray-500 text-sm md:text-base leading-relaxed">
-              We operate transparent physical consultations and tour guiding at our quiet, clean campus blocks in Ngata, Nakuru. Drop by or send us an email.
+              Visit the school in Ngata, Nakuru, or contact us by telephone or email to arrange a consultation or school tour.
             </p>
           </div>
 

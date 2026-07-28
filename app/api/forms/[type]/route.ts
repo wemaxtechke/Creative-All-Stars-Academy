@@ -66,7 +66,11 @@ async function parseSubmission(request: Request, leadType: LeadType): Promise<Pa
 
 function validateSubmission(type: LeadType, payload: Record<string, string>) {
   const email = clean(payload.email || payload.parentEmail, 200).toLowerCase();
-  if (!email || !/^\S+@\S+\.\S+$/.test(email)) return "Enter a valid email address.";
+  if (type === "admission") {
+    if (email && !/^\S+@\S+\.\S+$/.test(email)) return "Enter a valid email address or leave the email field blank.";
+  } else if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+    return "Enter a valid email address.";
+  }
   if (!clean(payload.name || payload.parentName || payload.applicantName)) return "Please provide your name.";
   if (type === "contact" && (!clean(payload.subject) || !clean(payload.message))) return "Enter a subject and message.";
   if (type === "admission" && (!clean(payload.studentName) || !clean(payload.parentPhone) || !clean(payload.gradeApplied))) {
