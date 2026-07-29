@@ -21,6 +21,7 @@ export default function AdminStaff() {
   const [editing, setEditing] = useState<Teacher | null>(null);
   const [form, setForm] = useState<TeacherForm>(emptyForm);
   const [image, setImage] = useState<File | null>(null);
+  const [removeImage, setRemoveImage] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -33,6 +34,7 @@ export default function AdminStaff() {
     setEditing(null);
     setForm(emptyForm);
     setImage(null);
+    setRemoveImage(false);
     setError('');
     setFormOpen(true);
   }
@@ -47,6 +49,7 @@ export default function AdminStaff() {
       subjects: (teacher.subjects ?? []).join('\n'),
     });
     setImage(null);
+    setRemoveImage(false);
     setError('');
     setFormOpen(true);
   }
@@ -56,6 +59,7 @@ export default function AdminStaff() {
     setFormOpen(false);
     setEditing(null);
     setImage(null);
+    setRemoveImage(false);
     setError('');
   }
 
@@ -82,13 +86,13 @@ export default function AdminStaff() {
         email: form.email.trim(),
         bio: form.bio.trim(),
         subjects: form.subjects.split(/\r?\n|,/).map((item) => item.trim()).filter(Boolean),
-        image: asset?.url ?? editing?.image ?? '',
-        mediaId: asset?.id ?? editing?.mediaId,
+        image: asset?.url ?? (removeImage ? '' : editing?.image ?? ''),
+        mediaId: asset?.id ?? (removeImage ? undefined : editing?.mediaId),
       };
 
       if (editing) {
         await updateTeacher(editing.id, value);
-        if (asset && editing.mediaId && editing.mediaId !== asset.id) {
+        if ((asset || removeImage) && editing.mediaId && editing.mediaId !== asset?.id) {
           await fetch(`/api/admin/media/${encodeURIComponent(editing.mediaId)}`, {
             method: 'DELETE', credentials: 'same-origin',
           }).catch(() => undefined);
@@ -101,6 +105,7 @@ export default function AdminStaff() {
       setEditing(null);
       setForm(emptyForm);
       setImage(null);
+      setRemoveImage(false);
     } catch (saveError) {
       if (newAssetId) {
         await fetch(`/api/admin/media/${encodeURIComponent(newAssetId)}`, {
@@ -157,7 +162,11 @@ export default function AdminStaff() {
         <label className="space-y-1">Professional Biography<textarea value={form.bio} onChange={(event) => updateField('bio', event.target.value)} rows={5} className="w-full rounded-xl border border-gray-200 p-3 text-sm font-medium focus:border-blue-600 focus:outline-none"/></label>
         <label className="space-y-1">Subjects and Specialities <span className="font-medium text-gray-400">(one per line)</span><textarea value={form.subjects} onChange={(event) => updateField('subjects', event.target.value)} rows={5} className="w-full rounded-xl border border-gray-200 p-3 text-sm font-medium focus:border-blue-600 focus:outline-none"/></label>
       </div>
-      <div className="space-y-1"><span>Staff photograph <span className="font-medium text-gray-400">(optional)</span></span><label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{image ? image.name : editing?.image ? 'Keep the current photo, or choose a replacement' : 'Choose an image now or add one later (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" onChange={(event) => setImage(event.target.files?.[0] ?? null)}/></label></div>
+      <div className="space-y-2">
+        <span>Staff photograph <span className="font-medium text-gray-400">(optional)</span></span>
+        <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{image ? image.name : removeImage ? 'The current photo will be removed when you save' : editing?.image ? 'Keep the current photo, or choose a replacement' : 'Choose an image now or add one later (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" onChange={(event) => { setImage(event.target.files?.[0] ?? null); setRemoveImage(false); }}/></label>
+        {editing?.image && !image && <button type="button" onClick={() => setRemoveImage((current) => !current)} className="text-xs font-bold text-red-600 hover:underline">{removeImage ? 'Keep current photo' : 'Remove current photo'}</button>}
+      </div>
       <button type="submit" disabled={saving} className="rounded-xl bg-green-600 px-6 py-3 text-xs font-extrabold text-white transition-colors hover:bg-green-700 disabled:bg-slate-400">{saving ? 'Saving…' : editing ? 'Save Profile Changes' : 'Publish Faculty Member'}</button>
     </form>}
 
