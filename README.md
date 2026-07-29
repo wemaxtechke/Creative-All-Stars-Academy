@@ -45,6 +45,8 @@ Copy `.dev.vars.example` for local work. Never commit `.dev.vars` or production 
 - `LOCAL_ADMIN_EMAIL`: local-only administrator identity
 - `ACCESS_TEAM_DOMAIN`: Cloudflare Access team URL
 - `ACCESS_AUD`: Access application audience tag
+- `CLOUDFLARE_ZONE_ID`: non-secret zone identifier used by the administrator analytics page
+- `CLOUDFLARE_ANALYTICS_TOKEN`: Worker secret restricted to Analytics Read for the website zone
 - `TURNSTILE_SECRET`: Turnstile secret, set with `wrangler secret put`
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: public Turnstile widget key
 - `NEXT_PUBLIC_SITE_URL`: canonical website origin
@@ -90,3 +92,5 @@ npm run check:cloudflare
 ## Operational boundaries
 
 The dashboard manages website stories, events, staff profiles, gallery media, downloads, vacancies and incoming enquiries. It deliberately does not manage learners, attendance, grades, fees, payroll or academic records.
+
+The Website analytics section remains safely unconfigured until both `CLOUDFLARE_ZONE_ID` and the `CLOUDFLARE_ANALYTICS_TOKEN` Worker secret are set. Analytics are queried server-side and the token is never sent to the browser.

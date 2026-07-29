@@ -22,6 +22,27 @@ test('administrator access verifies Cloudflare Access JWTs and an email allowlis
   assert.doesNotMatch(auth, /localStorage/);
 });
 
+test('website analytics stays server-side, access-controlled and secret-backed', async () => {
+  const config = await read('wrangler.jsonc');
+  const secrets = await read('cloudflare-secrets.d.ts');
+  const service = await read('lib/analytics/cloudflare.ts');
+  const route = await read('app/api/admin/analytics/route.ts');
+  const page = await read('app/admin/dashboard/analytics/page.tsx');
+  const navigation = await read('app/admin/dashboard/layout.tsx');
+
+  assert.match(config, /"CLOUDFLARE_ZONE_ID": ""/);
+  assert.doesNotMatch(config, /"CLOUDFLARE_ANALYTICS_TOKEN"\s*:/);
+  assert.match(secrets, /CLOUDFLARE_ANALYTICS_TOKEN: string/);
+  assert.match(service, /https:\/\/api\.cloudflare\.com\/client\/v4\/graphql/);
+  assert.match(service, /requestSource: "eyeball"/);
+  assert.match(service, /clientRequestHTTPHost: \$hostname/);
+  assert.match(route, /authorizeAdminRequest/);
+  assert.match(route, /private, max-age=300/);
+  assert.match(page, /\/api\/admin\/analytics/);
+  assert.match(navigation, /Website analytics/);
+  assert.doesNotMatch(page, /CLOUDFLARE_ANALYTICS_TOKEN/);
+});
+
 test('public forms render Turnstile before submission', async () => {
   for (const path of ['app/contact/page.tsx', 'app/admissions/page.tsx', 'app/careers/[id]/page.tsx']) {
     const source = await read(path);

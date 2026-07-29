@@ -25,7 +25,8 @@ import {
   FileCheck,
   Star,
   Download,
-  GraduationCap
+  GraduationCap,
+  BarChart3
 } from 'lucide-react';
 
 type AdminAlert = {
@@ -84,6 +85,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const menuItems = [
     { name: 'Overview', href: '/admin/dashboard', icon: Grid },
+    { name: 'Website analytics', href: '/admin/dashboard/analytics', icon: BarChart3 },
     { name: 'Admission enquiries', href: '/admin/dashboard/admissions', icon: FileCheck, count: admissions.filter(a => a.status === 'Pending').length },
     { name: 'Contact messages', href: '/admin/dashboard/messages', icon: Inbox, count: messages.filter(m => m.status === 'Unread').length },
     { name: 'News & stories', href: '/admin/dashboard/blog', icon: FileText },
