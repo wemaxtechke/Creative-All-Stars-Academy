@@ -4,6 +4,7 @@ import './globals.css';
 import { AppProvider } from '@/lib/AppContext';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { ChatWidget } from '@/components/ChatWidget';
 import { getPublicContent } from '@/lib/db/content';
 import { defaultPublicContent } from '@/lib/site-content';
 
@@ -51,7 +52,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   });
   return <html lang="en-KE">
     <body className={`${inter.variable} ${manrope.variable} antialiased bg-slate-50 text-slate-900`}>
-      <AppProvider initialContent={initialContent}><div className="flex min-h-screen min-w-0 flex-col"><Navbar/><main className="site-main min-w-0 flex-grow">{children}</main><Footer/></div></AppProvider>
+      <AppProvider initialContent={initialContent}><div className="flex min-h-screen min-w-0 flex-col"><Navbar/><main className="site-main min-w-0 flex-grow">{children}</main><Footer/><ChatWidget/></div></AppProvider>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolSchema) }} />
     </body>
   </html>;

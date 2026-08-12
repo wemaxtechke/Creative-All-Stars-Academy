@@ -10,6 +10,7 @@ Production-oriented school website and content administration workspace for Crea
 - Cloudflare R2 for gallery images, public PDFs and private candidate CVs
 - Cloudflare Access for `/admin/dashboard/*` and all administrator APIs
 - Cloudflare Turnstile on public contact, admission and career forms
+- Retrieval-grounded OpenAI assistant with D1 abuse controls and a consent-based admissions handoff
 
 Public CMS content is loaded during the server render so page HTML, metadata and the sitemap use the same current D1 records. Candidate documents use private R2 keys and are only streamed through an authenticated administrator route.
 
@@ -48,6 +49,10 @@ Copy `.dev.vars.example` for local work. Never commit `.dev.vars` or production 
 - `CLOUDFLARE_ZONE_ID`: non-secret zone identifier used by the administrator analytics page
 - `CLOUDFLARE_ANALYTICS_TOKEN`: Worker secret restricted to Analytics Read for the website zone
 - `TURNSTILE_SECRET`: Turnstile secret, set with `wrangler secret put`
+- `OPENAI_API_KEY`: OpenAI API key stored as a Worker secret
+- `AI_RATE_LIMIT_SECRET`: independent random secret used to anonymize hourly AI usage buckets
+- `OPENAI_MODEL`: Responses API model ID (defaults to the configured `gpt-5.6-luna` value)
+- `AI_CHAT_HOURLY_LIMIT`: per-visitor hourly chat limit (defaults to `20`)
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: public Turnstile widget key
 - `NEXT_PUBLIC_SITE_URL`: canonical website origin
 
@@ -69,9 +74,19 @@ The production Worker is configured for `creativeallstarsacademy.sc.ke`, and the
 
 ```powershell
 npx wrangler secret put TURNSTILE_SECRET
+npx wrangler secret put OPENAI_API_KEY
+npx wrangler secret put AI_RATE_LIMIT_SECRET
 npx wrangler d1 migrations apply creative-all-stars-cms --remote
 npm run deploy
 ```
+
+Refresh the AI snapshot after public page content or sitemap routes change:
+
+```powershell
+npm run knowledge:build
+```
+
+Published D1 blog posts are retrieved at request time and do not require a snapshot rebuild. Chat transcripts are not stored. Admission contact details are collected only through the separate consent form and saved into the existing protected admissions inbox.
 
 For staging, add `--env staging` to Wrangler commands and supply the staging public URL and Turnstile key during the build.
 

@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "creative-all-stars-academy",
   "main": ".open-next/worker.js",
-  "compatibility_date": "2026-07-15",
+  "compatibility_date": "2026-08-12",
   "compatibility_flags": ["nodejs_compat"],
   "routes": [
     {
@@ -39,6 +39,8 @@
     "ACCESS_TEAM_DOMAIN": "https://autumn-pond-64ad.cloudflareaccess.com",
     "ACCESS_AUD": "13eadd5de2cace7e947fe409920c0f6f50a50e0bb5ad9a02bf78ae13ec0fa58c",
     "CLOUDFLARE_ZONE_ID": "11855cd3c26af7402e0fadc19f5691bb",
+    "OPENAI_MODEL": "gpt-5.6-luna",
+    "AI_CHAT_HOURLY_LIMIT": "20",
     "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAD7PawXOFdXkKOsZ",
     "NEXT_PUBLIC_SITE_URL": "https://creativeallstarsacademy.sc.ke"
   },
@@ -74,6 +76,8 @@
         "ACCESS_TEAM_DOMAIN": "",
         "ACCESS_AUD": "",
         "CLOUDFLARE_ZONE_ID": "",
+        "OPENAI_MODEL": "gpt-5.6-luna",
+        "AI_CHAT_HOURLY_LIMIT": "20",
         "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAD7PawXOFdXkKOsZ",
         "NEXT_PUBLIC_SITE_URL": "https://staging.creativeallstarsacademy.sc.ke"
       }

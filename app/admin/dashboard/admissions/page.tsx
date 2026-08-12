@@ -60,7 +60,10 @@ export default function AdminAdmissions() {
               <tbody className="divide-y divide-gray-50">
                 {filteredApps.map((app) => (
                   <tr key={app.id} className="hover:bg-gray-50/50">
-                    <td className="p-4 font-extrabold text-blue-950">{app.studentName}</td>
+                    <td className="p-4 font-extrabold text-blue-950">
+                      {app.studentName}
+                      {app.source === 'ai-chat-admissions' && <span className="mt-1 block w-fit rounded-full bg-blue-50 px-2 py-1 text-[9px] font-black uppercase tracking-wide text-blue-700">AI assistant</span>}
+                    </td>
                     <td className="p-4">{app.gender}</td>
                     <td className="p-4">{app.gradeApplied}</td>
                     <td className="p-4">{app.parentName}</td>
@@ -107,6 +110,11 @@ export default function AdminAdmissions() {
                 <p className="text-gray-500">Phone: {selectedApp.parentPhone}</p>
                 <p className="text-gray-500">Address: {selectedApp.address}</p>
               </div>
+
+              {selectedApp.message && <div className="p-4 bg-amber-50 rounded-2xl space-y-2 border border-amber-100 leading-normal">
+                <span className="text-[10px] text-amber-700 font-bold block uppercase">Admission notes</span>
+                <p className="whitespace-pre-wrap text-gray-700">{selectedApp.message}</p>
+              </div>}
 
               <div className="border-t border-gray-50 pt-4 flex gap-2">
                 {selectedApp.status === 'Pending' && (

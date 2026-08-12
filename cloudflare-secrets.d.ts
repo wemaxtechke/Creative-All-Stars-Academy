@@ -2,4 +2,6 @@
 interface CloudflareEnv {
   TURNSTILE_SECRET: string;
   CLOUDFLARE_ANALYTICS_TOKEN: string;
+  OPENAI_API_KEY: string;
+  AI_RATE_LIMIT_SECRET: string;
 }

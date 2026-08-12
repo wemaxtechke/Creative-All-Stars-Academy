@@ -183,6 +183,8 @@ export interface AdmissionApplication {
   address: string;
   status: 'Pending' | 'Approved' | 'Rejected';
   dateSubmitted: string;
+  source?: 'ai-chat-admissions' | string;
+  message?: string;
 }
 
 export interface ContactMessage {
