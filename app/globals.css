@@ -34,19 +34,21 @@
 .ai-chat-status { width: 9px; height: 9px; border: 2px solid rgb(255 255 255 / 55%); border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 3px rgb(74 222 128 / 18%); }
 .ai-chat-head button { display: grid; width: 36px; height: 36px; place-items: center; padding: 0; border: 0; border-radius: 50%; background: rgb(255 255 255 / 10%); color: #fff; cursor: pointer; font-size: 1.45rem; }
 .ai-chat-transcript { display: flex; height: 100%; flex-direction: column; gap: 12px; min-height: 0; padding: 17px; overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: contain; scrollbar-gutter: stable; -webkit-overflow-scrolling: touch; touch-action: pan-y; background: linear-gradient(180deg,#eef4ff 0%,#f8fafc 38%); }
-.ai-chat-message { max-width: 89%; padding: 12px 14px; border-radius: 17px; background: #fff; box-shadow: 0 4px 15px rgb(3 31 102 / 8%); color: #24324a; font-size: .84rem; line-height: 1.5; }
+.ai-chat-message { min-width: 0; max-width: 89%; padding: 12px 14px; overflow-wrap: anywhere; word-break: break-word; border-radius: 17px; background: #fff; box-shadow: 0 4px 15px rgb(3 31 102 / 8%); color: #24324a; font-size: .84rem; line-height: 1.5; }
 .ai-chat-message.user { align-self: flex-end; border-bottom-right-radius: 5px; background: #dbeafe; }
 .ai-chat-message.assistant { align-self: flex-start; border-bottom-left-radius: 5px; }
 .ai-chat-message.error { border: 1px solid rgb(213 11 18 / 20%); background: #fff1f2; color: #9f1239; }
 .ai-chat-message > span { display: block; margin-bottom: 5px; color: #64748b; font-size: .58rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.ai-chat-copy { min-width: 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
+.ai-chat-copy :where(p, li, strong, a) { min-width: 0; max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
 .ai-chat-copy p { margin: 0; }
 .ai-chat-copy p + p, .ai-chat-copy p + ul, .ai-chat-copy p + ol, .ai-chat-copy ul + p, .ai-chat-copy ol + p { margin-top: .58rem; }
 .ai-chat-copy ul, .ai-chat-copy ol { display: grid; gap: .34rem; margin: .58rem 0 0; padding-left: 1.15rem; }
 .ai-chat-copy strong { color: var(--brand-blue-dark); font-weight: 800; }
-.ai-chat-sources { margin-top: 10px; padding-top: 8px; border-top: 1px solid rgb(7 57 166 / 12%); font-size: .72rem; }
+.ai-chat-sources { min-width: 0; max-width: 100%; margin-top: 10px; padding-top: 8px; overflow-wrap: anywhere; word-break: break-word; border-top: 1px solid rgb(7 57 166 / 12%); font-size: .72rem; }
 .ai-chat-sources summary { cursor: pointer; color: #475569; font-weight: 800; }
 .ai-chat-sources ul { display: grid; gap: 4px; margin: 7px 0 0; padding-left: 17px; }
-.ai-chat-sources a { color: var(--brand-blue); text-decoration: underline; text-underline-offset: 2px; }
+.ai-chat-sources a { max-width: 100%; overflow-wrap: anywhere; word-break: break-word; color: var(--brand-blue); text-decoration: underline; text-underline-offset: 2px; }
 .ai-chat-suggestions { display: flex; flex-wrap: wrap; gap: 7px; }
 .ai-chat-suggestions button { padding: 8px 10px; border: 1px solid rgb(7 57 166 / 18%); border-radius: 999px; background: #fff; color: var(--brand-blue); cursor: pointer; font-size: .72rem; font-weight: 700; }
 .ai-chat-admission-offer { align-self: stretch; padding: 13px 14px; border: 1px solid rgb(255 196 0 / 45%); border-radius: 16px; background: #fffbeb; color: #334155; box-shadow: 0 4px 15px rgb(3 31 102 / 6%); }
@@ -89,7 +91,7 @@
 
 @media (max-width: 640px) {
   .ai-chat-launcher { right: 12px; bottom: 12px; min-height: 44px; padding-inline: 14px; }
-  .ai-chat-panel { top: calc(var(--ai-chat-visible-top,0px) + 72px); right: 12px; bottom: auto; height: min(620px,calc(var(--ai-chat-visible-height,100dvh) - 84px)); min-height: 0; border-radius: 20px; }
+  .ai-chat-panel { top: calc(var(--ai-chat-visible-top,0px) + 72px); right: 12px; left: 12px; bottom: auto; width: auto; max-width: none; height: min(620px,calc(var(--ai-chat-visible-height,100dvh) - 84px)); min-height: 0; border-radius: 20px; }
   .ai-chat-message { max-width: 92%; }
 }
 

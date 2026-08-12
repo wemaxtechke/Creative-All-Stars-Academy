@@ -17,10 +17,14 @@ test("ships a site-wide retrieval-grounded chat interface", async () => {
 
 test("renders limited Markdown without injecting assistant HTML", async () => {
   const widget = await read("components/ChatWidget.tsx");
+  const styles = await read("app/globals.css");
   assert.match(widget, /renderInlineMarkdown/);
   assert.match(widget, /<strong key=/);
   assert.match(widget, /const List = ordered \? "ol" : "ul"/);
   assert.doesNotMatch(widget, /dangerouslySetInnerHTML/);
+  assert.match(styles, /\.ai-chat-message \{[^}]*min-width: 0;[^}]*overflow-wrap: anywhere;[^}]*word-break: break-word;/);
+  assert.match(styles, /\.ai-chat-copy \{[^}]*overflow-wrap: anywhere;[^}]*word-break: break-word;/);
+  assert.match(styles, /\.ai-chat-sources \{[^}]*overflow-wrap: anywhere;[^}]*word-break: break-word;/);
 });
 
 test("offers a consent-based admission handoff backed by the existing lead inbox", async () => {
