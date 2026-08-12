@@ -20,7 +20,7 @@ function HeroThemeWaves() {
   const redWave='M0 24V17C120 8 240 8 360 17C480 23 600 23 720 17C840 8 960 8 1080 17C1200 23 1320 23 1440 17V24H0Z';
   const yellowWave='M0 24V19C120 13 240 13 360 19C480 23 600 23 720 19C840 13 960 13 1080 19C1200 23 1320 23 1440 19V24H0Z';
 
-  return <div aria-hidden="true" className="hero-theme-waves pointer-events-none absolute inset-x-0 bottom-0 z-50 h-5 overflow-hidden">
+  return <div aria-hidden="true" className="hero-theme-waves pointer-events-none absolute inset-x-0 bottom-0 z-20 h-5 overflow-hidden">
     <svg viewBox="0 0 1440 24" preserveAspectRatio="none" className="h-full w-full">
       <motion.path d={redWave} fill="#d50b12" animate={reduceMotion?undefined:{x:[0,18,0,-18,0],y:[0,-1,0,1,0]}} transition={{duration:5.2,ease:'easeInOut',repeat:Infinity}}/>
       <motion.path d={yellowWave} fill="#ffc400" animate={reduceMotion?undefined:{x:[0,-14,0,14,0],y:[0,1,0,-1,0]}} transition={{duration:4.1,ease:'easeInOut',repeat:Infinity}}/>
@@ -87,7 +87,7 @@ export function HomeHeroSlider() {
   const hasAssignedImage=Boolean(assignedStory?.image);
   const entrance=(delay:number)=>({duration:reduceMotion?0:.5,delay:reduceMotion?0:delay,ease:[.22,1,.36,1] as const});
 
-  return <section aria-label="Creative All Stars Academy highlights" className="relative overflow-hidden bg-[#031f66] text-white lg:min-h-[540px]" onMouseEnter={pauseSlider} onMouseLeave={resumeSlider}>
+  return <section aria-label="Creative All Stars Academy highlights" className="relative isolate overflow-hidden bg-[#031f66] text-white lg:min-h-[540px]" onMouseEnter={pauseSlider} onMouseLeave={resumeSlider}>
     {hasAssignedImage&&<AnimatePresence mode="sync">
       <motion.div key={story.id} initial={reduceMotion?false:{opacity:0,scale:1.025}} animate={reduceMotion?{opacity:1}:{opacity:1,scale:1.07,x:-6}} exit={reduceMotion?{opacity:0}:{opacity:0,scale:1.035}} transition={reduceMotion?{duration:0}:{opacity:{duration:.9,ease:[.22,1,.36,1]},scale:{duration:HERO_SLIDE_DURATION_MS/1000+.4,ease:'linear'},x:{duration:HERO_SLIDE_DURATION_MS/1000+.4,ease:'linear'}}} className="absolute inset-0 transform-gpu will-change-[opacity,transform]">
         <Image src={story.image} alt={story.alt} fill priority={safeActive===0} sizes="100vw" className="object-cover"/>

@@ -23,7 +23,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   if (pathname.startsWith('/admin')) return null;
 
-  return <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 shadow-[0_4px_18px_rgba(3,31,102,.06)] backdrop-blur-xl">
+  return <header className="sticky top-0 z-[100] isolate border-b border-slate-200 bg-white shadow-[0_4px_18px_rgba(3,31,102,.06)]">
     <div className="hidden bg-[#031f66] text-xs text-blue-100 md:block">
       <div className="container-shell flex h-9 items-center justify-between">
         <div className="flex items-center gap-5"><span className="flex items-center gap-2"><Phone className="h-3.5 w-3.5 text-[#ffc400]"/>{settings.phone}</span><span className="flex items-center gap-2"><Mail className="h-3.5 w-3.5 text-[#ffc400]"/>{settings.email}</span></div>

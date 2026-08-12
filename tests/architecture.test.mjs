@@ -250,6 +250,17 @@ test('contact page embeds the administrator-controlled Google Maps location', as
   assert.match(migration, /'\$\.mapUrl'/);
 });
 
+test('homepage decorations remain below the sticky public navigation', async () => {
+  const navbar = await read('components/Navbar.tsx');
+  const showcase = await read('components/ActivityShowcase.tsx');
+
+  assert.match(navbar, /sticky top-0 z-\[100\] isolate/);
+  assert.match(navbar, /border-slate-200 bg-white/);
+  assert.match(showcase, /relative isolate overflow-hidden/);
+  assert.match(showcase, /hero-theme-waves[^\n]+z-20/);
+  assert.doesNotMatch(showcase, /hero-theme-waves[^\n]+z-50/);
+});
+
 test('vacancies are completely controlled by administrators and closed vacancies reject applications', async () => {
   const types = await read('types/index.ts');
   const content = await read('lib/db/content.ts');
