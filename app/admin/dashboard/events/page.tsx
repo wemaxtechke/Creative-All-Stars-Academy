@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Pencil, Plus, Trash, Upload, X } from 'lucide-react';
+import { AlertTriangle, Pencil, Plus, Trash, Upload, X } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
+import { isPastEvent } from '@/lib/events';
+import { useCurrentTime } from '@/lib/use-current-time';
 import type { SchoolEvent } from '@/types';
 
 export default function AdminEvents() {
@@ -21,6 +23,10 @@ export default function AdminEvents() {
   const [existingMediaId, setExistingMediaId] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const now = useCurrentTime();
+  const pastEvents = schoolEvents.filter((event) => isPastEvent(event, now));
+  const pastEventIds = new Set(pastEvents.map((event) => event.id));
+  const orderedEvents = [...pastEvents, ...schoolEvents.filter((event) => !pastEventIds.has(event.id))];
 
   function resetEditor() {
     setTitle('');
@@ -142,6 +148,16 @@ export default function AdminEvents() {
         <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-xs font-semibold text-red-700">{error}</p>
       )}
 
+      {pastEvents.length > 0 && (
+        <div role="alert" className="flex items-start gap-3 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-amber-950">
+          <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
+          <div>
+            <p className="text-sm font-extrabold">{pastEvents.length} past {pastEvents.length === 1 ? 'event needs' : 'events need'} deleting</p>
+            <p className="mt-1 text-xs leading-5 text-amber-800">{pastEvents.length === 1 ? 'It is' : 'They are'} already hidden from the public Upcoming Events section. Delete {pastEvents.length === 1 ? 'it' : 'them'} from the highlighted {pastEvents.length === 1 ? 'row' : 'rows'} below when the record is no longer needed.</p>
+          </div>
+        </div>
+      )}
+
       {editorOpen && (
         <form onSubmit={saveEvent} className="space-y-4 rounded-3xl border border-gray-100 bg-white p-6 text-xs font-semibold text-gray-700 shadow-sm sm:p-8">
           <div>
@@ -223,10 +239,11 @@ export default function AdminEvents() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {schoolEvents.map((event) => (
-                <tr key={event.id} className="hover:bg-gray-50/50">
+              {orderedEvents.map((event) => {
+                const past = pastEventIds.has(event.id);
+                return <tr key={event.id} className={past ? 'bg-amber-50/70 hover:bg-amber-50' : 'hover:bg-gray-50/50'}>
                   <td className="max-w-sm p-4">
-                    <p className="font-extrabold text-blue-950">{event.title}</p>
+                    <div className="flex flex-wrap items-center gap-2"><p className="font-extrabold text-blue-950">{event.title}</p>{past&&<span className="rounded-full bg-amber-200 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-amber-900">Past — delete</span>}</div>
                     <p className="mt-0.5 line-clamp-1 text-[10px] text-gray-400">{event.description}</p>
                   </td>
                   <td className="p-4">
@@ -245,8 +262,8 @@ export default function AdminEvents() {
                       </button>
                     </div>
                   </td>
-                </tr>
-              ))}
+                </tr>;
+              })}
             </tbody>
           </table>
         </div>

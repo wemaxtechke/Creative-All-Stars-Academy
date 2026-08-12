@@ -12,6 +12,8 @@ import { BlogCard } from '@/components/BlogCard';
 import { EventCard } from '@/components/EventCard';
 import { TestimonialsCarousel } from '@/components/TestimonialsCarousel';
 import { ActivityMarquee, HomeHeroSlider } from '@/components/ActivityShowcase';
+import { getUpcomingEvents } from '@/lib/events';
+import { useCurrentTime } from '@/lib/use-current-time';
 import { schoolStats } from '@/lib/verified-school-content';
 
 const learningHighlights = [
@@ -152,6 +154,8 @@ function PurposeRibbons() {
 export default function Home() {
   const { blogPosts, schoolEvents, settings, getSiteImage } = useApp();
   const learningImage=getSiteImage('home-learning');
+  const now=useCurrentTime();
+  const upcomingEvents=getUpcomingEvents(schoolEvents,now).slice(0,4);
 
   return (
     <div className="overflow-hidden bg-white">
@@ -255,7 +259,7 @@ export default function Home() {
           <div className="mt-8 space-y-7">
             <div>
               <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#d50b12]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Upcoming events</h3></div>
-              <div className="mobile-card-rail -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">{schoolEvents.slice(0,4).map(event=><div key={event.id} className="w-[84vw] max-w-[32rem] shrink-0 snap-start lg:w-auto lg:max-w-none"><EventCard event={event} compact/></div>)}</div>
+              {upcomingEvents.length>0?<div className="mobile-card-rail -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">{upcomingEvents.map(event=><div key={event.id} className="w-[84vw] max-w-[32rem] shrink-0 snap-start lg:w-auto lg:max-w-none"><EventCard event={event} compact/></div>)}</div>:<p className="rounded-2xl border border-blue-100 bg-white p-5 text-sm text-slate-500">No upcoming events have been announced yet.</p>}
             </div>
             <div>
               <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#ffc400]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Latest stories</h3></div>

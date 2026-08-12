@@ -261,6 +261,17 @@ test('homepage decorations remain below the sticky public navigation', async () 
   assert.doesNotMatch(showcase, /hero-theme-waves[^\n]+z-50/);
 });
 
+test('past events are hidden publicly and surfaced to administrators for deletion', async () => {
+  const home = await read('app/page.tsx');
+  const eventsAdmin = await read('app/admin/dashboard/events/page.tsx');
+  const dashboard = await read('app/admin/dashboard/page.tsx');
+
+  assert.match(home, /getUpcomingEvents\(schoolEvents,now\)/);
+  assert.match(eventsAdmin, /'event needs' : 'events need'/);
+  assert.match(eventsAdmin, /Past — delete/);
+  assert.match(dashboard, /hidden from the website/);
+});
+
 test('vacancies are completely controlled by administrators and closed vacancies reject applications', async () => {
   const types = await read('types/index.ts');
   const content = await read('lib/db/content.ts');

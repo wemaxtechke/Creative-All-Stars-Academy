@@ -2,12 +2,17 @@
 
 import Link from 'next/link';
 import { useApp } from '@/lib/AppContext';
-import { ArrowRight, Calendar, CheckCircle2, Eye, FileCheck, FileText, Image as ImageIcon, Inbox, Plus, Settings, Sparkles } from 'lucide-react';
+import { AlertTriangle, ArrowRight, Calendar, CheckCircle2, Eye, FileCheck, FileText, Image as ImageIcon, Inbox, Plus, Settings, Sparkles } from 'lucide-react';
+import { getUpcomingEvents, isPastEvent } from '@/lib/events';
+import { useCurrentTime } from '@/lib/use-current-time';
 
 export default function AdminDashboardMain() {
   const { blogPosts, schoolEvents, galleryImages, admissions, messages } = useApp();
   const pendingAdmissions = admissions.filter(a => a.status === 'Pending');
   const unreadMessages = messages.filter(m => m.status === 'Unread');
+  const now = useCurrentTime();
+  const upcomingEvents = getUpcomingEvents(schoolEvents, now);
+  const pastEventCount = schoolEvents.filter((event) => isPastEvent(event, now)).length;
 
   const metrics = [
     { label:'New admission enquiries', value:pendingAdmissions.length, detail:'Waiting for a response', icon:FileCheck, href:'/admin/dashboard/admissions', tone:'bg-amber-50 text-amber-700' },
@@ -46,7 +51,11 @@ export default function AdminDashboardMain() {
     </div>
 
     <section className="grid gap-4 sm:gap-6 md:grid-cols-2">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6"><div className="flex items-center justify-between"><div><p className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">Content snapshot</p><h3 className="mt-2 text-xl font-extrabold text-[#0b1f3a]">Upcoming events</h3></div><Calendar className="h-6 w-6 text-slate-300"/></div><div className="mt-5 space-y-4">{schoolEvents.slice(0,3).map(e=><div key={e.id} className="flex gap-4 border-t border-slate-100 pt-4 first:border-0 first:pt-0"><div className="min-w-14 text-sm font-extrabold text-blue-700">{e.date}</div><div><p className="font-bold text-slate-800">{e.title}</p><p className="mt-1 text-xs text-slate-500">{e.location}</p></div></div>)}</div></div>
+      <div className="rounded-2xl border border-slate-200 bg-white p-6">
+        <div className="flex items-center justify-between"><div><p className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">Content snapshot</p><h3 className="mt-2 text-xl font-extrabold text-[#0b1f3a]">Upcoming events</h3></div><Calendar className="h-6 w-6 text-slate-300"/></div>
+        {pastEventCount>0&&<Link href="/admin/dashboard/events" className="mt-4 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-900"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600"/><span className="text-xs font-bold leading-5">{pastEventCount} past {pastEventCount===1?'event is':'events are'} hidden from the website. Open Events to delete {pastEventCount===1?'it':'them'}.</span></Link>}
+        <div className="mt-5 space-y-4">{upcomingEvents.slice(0,3).map(e=><div key={e.id} className="flex gap-4 border-t border-slate-100 pt-4 first:border-0 first:pt-0"><div className="min-w-14 text-sm font-extrabold text-blue-700">{e.date}</div><div><p className="font-bold text-slate-800">{e.title}</p><p className="mt-1 text-xs text-slate-500">{e.location}</p></div></div>)}{upcomingEvents.length===0&&<p className="text-sm text-slate-500">No upcoming events are currently published.</p>}</div>
+      </div>
       <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6"><p className="text-xs font-extrabold uppercase tracking-wider text-blue-700">Live website operations</p><h3 className="mt-2 text-xl font-extrabold text-[#0b1f3a]">Secure content workspace</h3><p className="mt-3 text-sm leading-6 text-slate-600">Published content is stored in the website database, uploaded files are kept in protected cloud storage, and administrator access is controlled by the schoolâ€™s approved accounts.</p></div>
     </section>
   </div>;
