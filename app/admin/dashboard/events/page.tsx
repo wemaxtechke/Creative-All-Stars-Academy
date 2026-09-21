@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { AlertTriangle, Pencil, Plus, Trash, Upload, X } from 'lucide-react';
+import Link from 'next/link';
+import { AlertTriangle, Eye, Pencil, Plus, Trash, Upload, X } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 import { isPastEvent } from '@/lib/events';
 import { useCurrentTime } from '@/lib/use-current-time';
@@ -18,6 +19,7 @@ export default function AdminEvents() {
   const [time, setTime] = useState('');
   const [location, setLocation] = useState('');
   const [category, setCategory] = useState<SchoolEvent['category']>('Academic');
+  const [showPopup, setShowPopup] = useState(false);
   const [eventImage, setEventImage] = useState<File | null>(null);
   const [existingImage, setExistingImage] = useState('');
   const [existingMediaId, setExistingMediaId] = useState('');
@@ -35,6 +37,7 @@ export default function AdminEvents() {
     setTime('');
     setLocation('');
     setCategory('Academic');
+    setShowPopup(false);
     setEventImage(null);
     setExistingImage('');
     setExistingMediaId('');
@@ -56,6 +59,7 @@ export default function AdminEvents() {
     setTime(event.time);
     setLocation(event.location);
     setCategory(event.category);
+    setShowPopup(Boolean(event.showPopup));
     setEventImage(null);
     setExistingImage(event.image ?? '');
     setExistingMediaId(event.mediaId ?? '');
@@ -87,6 +91,7 @@ export default function AdminEvents() {
         time: time.trim(),
         location: location.trim(),
         category,
+        showPopup,
         ...imageFields,
       };
 
@@ -206,6 +211,11 @@ export default function AdminEvents() {
             <textarea value={description} onChange={(event) => setDescription(event.target.value)} rows={3} placeholder="Provide details on target audiences, guidelines, or items to bring..." className="w-full rounded-xl border border-gray-200 p-3 text-sm font-semibold text-gray-700 focus:border-blue-600 focus:outline-none" required />
           </label>
 
+          <label className="flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm font-bold text-blue-950">
+            <input type="checkbox" checked={showPopup} onChange={(event) => setShowPopup(event.target.checked)} className="mt-0.5 h-4 w-4" />
+            <span>Show this event in a homepage popup after a few seconds<span className="mt-1 block text-xs font-medium text-blue-700">Visitors can close the popup or open the event details. Only upcoming events appear.</span></span>
+          </label>
+
           <div className="space-y-2">
             <p className="text-gray-600">Event image (optional)</p>
             <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4">
@@ -243,7 +253,7 @@ export default function AdminEvents() {
                 const past = pastEventIds.has(event.id);
                 return <tr key={event.id} className={past ? 'bg-amber-50/70 hover:bg-amber-50' : 'hover:bg-gray-50/50'}>
                   <td className="max-w-sm p-4">
-                    <div className="flex flex-wrap items-center gap-2"><p className="font-extrabold text-blue-950">{event.title}</p>{past&&<span className="rounded-full bg-amber-200 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-amber-900">Past — delete</span>}</div>
+                    <div className="flex flex-wrap items-center gap-2"><p className="font-extrabold text-blue-950">{event.title}</p>{event.showPopup && !past && <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-blue-900">Popup on</span>}{past&&<span className="rounded-full bg-amber-200 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-amber-900">Past — delete</span>}</div>
                     <p className="mt-0.5 line-clamp-1 text-[10px] text-gray-400">{event.description}</p>
                   </td>
                   <td className="p-4">
@@ -254,6 +264,7 @@ export default function AdminEvents() {
                   <td className="p-4">{event.location}</td>
                   <td className="p-4">
                     <div className="flex justify-center gap-1">
+                      <Link href={`/events/${event.id}`} target="_blank" className="rounded-lg p-2 text-slate-600 hover:bg-slate-100" title={`View ${event.title}`} aria-label={`View ${event.title}`}><Eye className="h-4 w-4" /></Link>
                       <button type="button" onClick={() => openEditEvent(event)} className="rounded-lg p-2 text-blue-600 transition-colors hover:bg-blue-50" title={`Edit ${event.title}`} aria-label={`Edit ${event.title}`}>
                         <Pencil className="h-4 w-4" />
                       </button>

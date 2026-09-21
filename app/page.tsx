@@ -10,6 +10,7 @@ import {
 import { useApp } from '@/lib/AppContext';
 import { BlogCard } from '@/components/BlogCard';
 import { EventCard } from '@/components/EventCard';
+import { EventPopup } from '@/components/EventPopup';
 import { TestimonialsCarousel } from '@/components/TestimonialsCarousel';
 import { ActivityMarquee, HomeHeroSlider } from '@/components/ActivityShowcase';
 import { getUpcomingEvents } from '@/lib/events';
@@ -159,6 +160,7 @@ export default function Home() {
 
   return (
     <div className="overflow-hidden bg-white">
+      <EventPopup/>
       <HomeHeroSlider/>
 
       <section className="border-b border-slate-200 bg-slate-50 py-4 sm:py-7">
@@ -253,8 +255,8 @@ export default function Home() {
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
         <div className="container-shell relative z-10">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-            <div><p className="eyebrow">What’s happening</p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold text-[#0b1f3a] sm:text-4xl">School life, news and events.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">Upcoming school moments and the latest stories from our classrooms, clubs and community.</p></div>
-            <Link href="/blog" className="group inline-flex items-center justify-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-[#0739a6] shadow-sm transition hover:border-[#0739a6] hover:shadow-md">View all updates <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/></Link>
+            <div><p className="eyebrow">What’s happening</p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold text-[#0b1f3a] sm:text-4xl">Events and blogs from our school.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">Upcoming school moments and the latest stories from our classrooms, clubs and community.</p></div>
+            <div className="flex flex-wrap gap-2"><Link href="/events" className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-[#0739a6] shadow-sm hover:border-[#0739a6]">View all events <ArrowRight className="h-4 w-4"/></Link><Link href="/blog" className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-[#0739a6] shadow-sm hover:border-[#0739a6]">View all blogs <ArrowRight className="h-4 w-4"/></Link></div>
           </div>
           <div className="mt-8 space-y-7">
             <div>

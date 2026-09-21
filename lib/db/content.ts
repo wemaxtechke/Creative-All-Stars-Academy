@@ -180,6 +180,9 @@ export function validateContentInput(collection: ContentCollection, input: Recor
     if (!/^\d{4}-\d{2}-\d{2}$/.test(String(input.deadline))) return "Choose a valid application deadline.";
     if (typeof input.isActive !== "boolean") return "Choose whether the vacancy is published.";
   }
+  if (collection === "schoolEvents" && input.showPopup !== undefined && typeof input.showPopup !== "boolean") {
+    return "Choose whether to show the event popup.";
+  }
   if (collection === "classes") {
     if (!Array.isArray(input.subjects) || !Array.isArray(input.activities)) {
       return "Subjects and activities must be lists.";

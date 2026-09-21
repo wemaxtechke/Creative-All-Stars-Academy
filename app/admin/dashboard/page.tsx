@@ -22,7 +22,7 @@ export default function AdminDashboardMain() {
   ];
 
   const actions = [
-    { label:'Publish a news story', icon:FileText, href:'/admin/dashboard/blog' },
+    { label:'Publish a blog', icon:FileText, href:'/admin/dashboard/blog' },
     { label:'Create an event', icon:Calendar, href:'/admin/dashboard/events' },
     { label:'Upload gallery photos', icon:ImageIcon, href:'/admin/dashboard/gallery' },
     { label:'Update school details', icon:Settings, href:'/admin/dashboard/settings' },

@@ -18,7 +18,8 @@ const navigation = [
 
 const community = [
   ['Parents corner','/parents-corner'],
-  ['School news','/blog'],
+  ['Blogs','/blog'],
+  ['Events','/events'],
   ['Careers','/careers'],
   ['Contact our team','/contact'],
 ];

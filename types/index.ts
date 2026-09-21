@@ -44,6 +44,7 @@ export interface SchoolEvent {
   location: string;
   category: 'Sports' | 'Academic' | 'Arts' | 'Community' | 'Trip';
   image?: string;
+  showPopup?: boolean;
 }
 
 export interface GalleryImage {

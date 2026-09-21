@@ -5,9 +5,8 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
 import { BlogCard } from '@/components/BlogCard';
-import { Search, ChevronLeft, ChevronRight, FileText, ArrowRight } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 
 function BlogContent() {
@@ -47,9 +46,9 @@ function BlogContent() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="News, ideas and celebrations" title="Stories from a school that never stops growing." description="Follow learner achievements, school events, thoughtful parent guidance and practical insights into competency-based learning." imageSlot="page-blog"/>
+      <PageHero eyebrow="School blogs" title="Stories from a school that never stops growing." description="Read learner achievements, parent guidance and practical insights into competency-based learning." imageSlot="page-blog"/>
 
-      <Breadcrumbs items={[{ name: 'News & Blog' }]} />
+      <Breadcrumbs items={[{ name: 'Blogs' }]} />
 
       {/* Main layout: content + sidebar */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">

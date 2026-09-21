@@ -88,7 +88,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { name: 'Website analytics', href: '/admin/dashboard/analytics', icon: BarChart3 },
     { name: 'Admission enquiries', href: '/admin/dashboard/admissions', icon: FileCheck, count: admissions.filter(a => a.status === 'Pending').length },
     { name: 'Contact messages', href: '/admin/dashboard/messages', icon: Inbox, count: messages.filter(m => m.status === 'Unread').length },
-    { name: 'News & stories', href: '/admin/dashboard/blog', icon: FileText },
+    { name: 'Blogs', href: '/admin/dashboard/blog', icon: FileText },
     { name: 'Events', href: '/admin/dashboard/events', icon: Calendar },
     { name: 'Gallery', href: '/admin/dashboard/gallery', icon: ImageIcon },
     { name: 'Website visuals', href: '/admin/dashboard/visuals', icon: ImageIcon },

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import { SchoolEvent } from '@/types';
 import { motion } from 'framer-motion';
@@ -11,8 +12,9 @@ export const EventCard: React.FC<{ event: SchoolEvent; compact?: boolean }> = ({
     return (
       <motion.div
         whileHover={{ y: -3 }}
-        className="flex min-h-[160px] overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-[0_14px_35px_rgba(3,31,102,.08)] transition-all duration-300 hover:border-blue-200 hover:shadow-[0_20px_45px_rgba(3,31,102,.13)]"
+        className="overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-[0_14px_35px_rgba(3,31,102,.08)] transition-all duration-300 hover:border-blue-200 hover:shadow-[0_20px_45px_rgba(3,31,102,.13)]"
       >
+        <Link href={`/events/${event.id}`} aria-label={`View ${event.title}`} className="flex min-h-[160px]">
         {event.image && (
           <div className="relative w-28 shrink-0 overflow-hidden bg-slate-100 sm:w-[34%] sm:min-w-[150px]">
             <Image src={event.image} alt={event.title} fill sizes="(min-width: 640px) 220px, 100vw" className="object-cover"/>
@@ -30,6 +32,7 @@ export const EventCard: React.FC<{ event: SchoolEvent; compact?: boolean }> = ({
             <span className="col-span-2 flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 shrink-0 text-[#d50b12]"/><span className="truncate">{event.location}</span></span>
           </div>
         </div>
+        </Link>
       </motion.div>
     );
   }
@@ -37,8 +40,9 @@ export const EventCard: React.FC<{ event: SchoolEvent; compact?: boolean }> = ({
   return (
     <motion.div
       whileHover={{ scale: 1.01, y: -4 }}
-      className="flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md sm:rounded-3xl md:flex-row"
+      className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md sm:rounded-3xl"
     >
+      <Link href={`/events/${event.id}`} aria-label={`View ${event.title}`} className="flex h-full flex-col md:flex-row">
       {event.image && (
         <div className="relative h-36 flex-shrink-0 overflow-hidden bg-gray-100 sm:h-48 md:h-auto md:w-1/3">
           <Image
@@ -83,6 +87,7 @@ export const EventCard: React.FC<{ event: SchoolEvent; compact?: boolean }> = ({
           </div>
         </div>
       </div>
+      </Link>
     </motion.div>
   );
 };
