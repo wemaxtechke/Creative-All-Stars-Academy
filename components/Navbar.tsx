@@ -11,6 +11,7 @@ import { aboutSectionLinks } from '@/components/AboutSectionNav';
 const desktopLinks = [
   { name: 'About', href: '/about' },
   { name: 'Admissions', href: '/admissions' },
+  { name: 'Contacts', href: '/contact' },
 ];
 
 const mobileLinks = [
@@ -40,7 +41,7 @@ export function Navbar() {
         {logo&&<Image src={logo.url} alt={logo.alt} width={58} height={58} priority className="h-11 w-11 shrink-0 rounded-full object-contain sm:h-14 sm:w-14"/>}
         <div className="min-w-0"><span className="block truncate font-[var(--font-heading)] text-[13px] font-extrabold leading-tight text-[#031f66] min-[380px]:text-sm sm:text-lg">{settings.schoolName}</span><span className="block truncate text-[8px] font-black uppercase tracking-[.13em] text-[#d50b12] min-[380px]:text-[9px] sm:text-[10px] sm:tracking-[.16em]">Endeavour to Succeed</span></div>
       </Link>
-      <nav className="hidden items-center gap-1 xl:flex">{desktopLinks.map(link=>{const active=pathname===link.href||pathname.startsWith(link.href+'/')||(link.href==='/about'&&aboutSectionLinks.some(section=>pathname===section.href||pathname.startsWith(section.href+'/')));return <Link key={link.href} href={link.href} className={`rounded-lg px-3 py-2 text-sm font-bold transition ${active?'bg-blue-50 text-[#0739a6]':'text-slate-600 hover:bg-slate-50 hover:text-[#031f66]'}`}>{link.name}</Link>})}</nav>
+      <nav className="ml-auto mr-3 hidden items-center gap-1 xl:flex">{desktopLinks.map(link=>{const active=pathname===link.href||pathname.startsWith(link.href+'/')||(link.href==='/about'&&aboutSectionLinks.some(section=>pathname===section.href||pathname.startsWith(section.href+'/')));return <Link key={link.href} href={link.href} className={`rounded-lg px-3 py-2 text-sm font-bold transition ${active?'bg-blue-50 text-[#0739a6]':'text-slate-600 hover:bg-slate-50 hover:text-[#031f66]'}`}>{link.name}</Link>})}</nav>
       <div className="hidden items-center gap-3 xl:flex"><Link href="/contact" className="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-[#031f66] hover:border-[#0739a6]">Book a visit</Link><Link href="/admissions" className="inline-flex items-center gap-2 rounded-xl bg-[#d50b12] px-4 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-red-900/10 hover:bg-red-700">Enquire now <ArrowRight className="h-4 w-4"/></Link></div>
       <button className="ml-2 grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-slate-200 bg-slate-50 text-[#031f66] xl:hidden" onClick={()=>setOpen(!open)} aria-label={open?'Close navigation':'Open navigation'} aria-expanded={open}>{open?<X className="h-5 w-5"/>:<Menu className="h-5 w-5"/>}</button>
     </div>
