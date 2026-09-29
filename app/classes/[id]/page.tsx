@@ -8,6 +8,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { UserRound, CheckCircle, GraduationCap, Award, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { PageHero } from '@/components/PageHero';
+import { AboutSectionNav } from '@/components/AboutSectionNav';
 
 export default function ClassDetails() {
   const { id } = useParams() as { id: string };
@@ -24,6 +25,7 @@ export default function ClassDetails() {
 
   return (
     <div className="pb-12 sm:pb-24">
+      <AboutSectionNav />
       <PageHero eyebrow={`${selectedClass.ageGroup} learning pathway`} title={selectedClass.name} description={selectedClass.description} image={classImage?.url} imageAlt={classImage?.alt} cta={{label:'Enquire about this class',href:'/admissions'}}/>
 
       <Breadcrumbs items={[{ name: 'Classes', href: '/classes' }, { name: selectedClass.name }]} />

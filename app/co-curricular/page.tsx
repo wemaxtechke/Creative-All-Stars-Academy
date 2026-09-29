@@ -5,11 +5,13 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { PageHero } from '@/components/PageHero';
+import { AboutSectionNav } from '@/components/AboutSectionNav';
 import { coCurricularActivities } from '@/lib/verified-school-content';
 
 export default function CoCurricular() {
   return (
     <div className="pb-24">
+      <AboutSectionNav />
       <PageHero
         eyebrow="Beyond the classroom"
         title="Talent grows when children get to try."
@@ -18,7 +20,7 @@ export default function CoCurricular() {
         cta={{ label: 'View school life', href: '/gallery' }}
       />
 
-      <Breadcrumbs items={[{ name: 'Co-Curricular' }]} />
+      <Breadcrumbs items={[{ name: 'About', href: '/about' }, { name: 'Activities' }]} />
 
       <section className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader

@@ -8,6 +8,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { TeacherCard } from '@/components/TeacherCard';
 import { Timeline } from '@/components/Timeline';
 import { PageHero } from '@/components/PageHero';
+import { AboutSectionNav } from '@/components/AboutSectionNav';
 import { schoolHistory, schoolStats } from '@/lib/verified-school-content';
 
 export default function About() {
@@ -16,6 +17,7 @@ export default function About() {
 
   return (
     <div className="pb-24">
+      <AboutSectionNav />
       <PageHero
         eyebrow="Who we are"
         title="A school built around every learner."

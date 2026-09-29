@@ -6,6 +6,7 @@ import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { PageHero } from '@/components/PageHero';
 import { SectionHeader } from '@/components/SectionHeader';
+import { AboutSectionNav } from '@/components/AboutSectionNav';
 
 const learningAreas = [
   {
@@ -61,6 +62,7 @@ export default function Academics() {
 
   return (
     <div className="pb-24">
+      <AboutSectionNav />
       <PageHero
         eyebrow="Learning at CASA"
         title="Knowledge becomes something learners can use."
@@ -69,7 +71,7 @@ export default function Academics() {
         cta={{ label: 'Explore our classes', href: '/classes' }}
       />
 
-      <Breadcrumbs items={[{ name: 'Academics' }]} />
+      <Breadcrumbs items={[{ name: 'About', href: '/about' }, { name: 'Learning' }]} />
 
       <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-center gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div className="space-y-6">

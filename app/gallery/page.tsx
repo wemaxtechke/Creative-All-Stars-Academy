@@ -7,6 +7,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { Eye, X, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PageHero } from '@/components/PageHero';
+import { AboutSectionNav } from '@/components/AboutSectionNav';
 
 export default function Gallery() {
   const { galleryImages, settings } = useApp();
@@ -24,9 +25,10 @@ export default function Gallery() {
 
   return (
     <div className="pb-24">
+      <AboutSectionNav />
       <PageHero eyebrow={settings.galleryEyebrow} title={settings.galleryTitle} description={settings.galleryDescription} imageSlot="page-gallery"/>
 
-      <Breadcrumbs items={[{ name: 'Gallery' }]} />
+      <Breadcrumbs items={[{ name: 'About', href: '/about' }, { name: 'School Life' }]} />
 
       {/* Main Grid structure */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">

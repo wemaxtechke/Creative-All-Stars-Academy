@@ -8,15 +8,17 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { GraduationCap, ArrowRight, UserCheck, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { PageHero } from '@/components/PageHero';
+import { AboutSectionNav } from '@/components/AboutSectionNav';
 
 export default function Classes() {
   const { classes, getSiteImage } = useApp();
 
   return (
     <div className="pb-24">
+      <AboutSectionNav />
       <PageHero eyebrow="Every stage matters" title="The right environment for every age." description="Explore thoughtfully designed learning experiences from playful early years through confident primary and junior school pathways." imageSlot="page-classes" cta={{label:'Ask about placement',href:'/admissions'}}/>
 
-      <Breadcrumbs items={[{ name: 'Classes' }]} />
+      <Breadcrumbs items={[{ name: 'About', href: '/about' }, { name: 'Classes' }]} />
 
       {/* Main classes listing section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
