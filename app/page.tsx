@@ -24,12 +24,6 @@ const learningHighlights = [
   { text:'Close partnership with parents and guardians', accent:'bg-[#d50b12]', icon:'text-[#d50b12] bg-red-50' },
 ];
 
-const journey = [
-  { number: '01', icon:Eye, accent:'bg-[#d50b12]', iconStyle:'bg-[#d50b12] text-white', labelStyle:'text-[#d50b12]', title: 'Discover the school', text: 'Explore our learning approach, classes, activities and campus life.' },
-  { number: '02', icon:MapPin, accent:'bg-[#ffc400]', iconStyle:'bg-[#ffc400] text-[#031f66]', labelStyle:'text-[#9b6500]', title: 'Plan your visit', text: 'Talk to our admissions team and experience the school in person.' },
-  { number: '03', icon:Rocket, accent:'bg-[#0739a6]', iconStyle:'bg-[#0739a6] text-white', labelStyle:'text-[#0739a6]', title: 'Apply with confidence', text: 'Submit a simple enquiry and our team will guide you through the next steps.' },
-];
-
 function AnimatedStat({value,suffix,label,index}:{value:number;suffix:string;label:string;index:number}) {
   const ref=useRef<HTMLDivElement>(null);
   const inView=useInView(ref,{once:true,amount:.6});
@@ -213,35 +207,6 @@ export default function Home() {
 
       <ActivityMarquee/>
 
-      <section className="relative overflow-hidden bg-[#f5f8ff] py-12 sm:py-24">
-        <div aria-hidden="true" className="absolute -left-32 top-20 h-80 w-80 rounded-full border-[42px] border-[#0739a6]/5"/>
-        <div aria-hidden="true" className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-[#ffc400]/10 blur-3xl"/>
-        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
-        <div className="container-shell relative z-10">
-          <div className="mx-auto max-w-3xl text-center"><p className="eyebrow">Your admission journey</p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold text-[#031f66] sm:mt-4 sm:text-4xl">A simple, welcoming way to get started.</h2><p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:mt-5 sm:text-base sm:leading-7">From your first look at the school to submitting an enquiry, our admissions team will guide your family at every stage.</p></div>
-          <div className="relative mt-12 sm:mt-20">
-            <div aria-hidden="true" className="absolute -top-4 left-[16.66%] right-[16.66%] hidden h-1 rounded-full bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6] lg:block"/>
-            <div className="relative grid grid-cols-1 gap-x-3 gap-y-11 min-[520px]:grid-cols-2 sm:gap-14 md:grid-cols-3 md:gap-6">
-              {journey.map(({icon:Icon,...step})=><article key={step.number} className={`group relative rounded-2xl border border-blue-100 bg-white px-4 pb-5 pt-10 text-center shadow-[0_12px_30px_rgba(3,31,102,.09)] transition duration-300 hover:-translate-y-1 sm:rounded-3xl sm:px-7 sm:pb-8 sm:pt-14 sm:shadow-[0_18px_45px_rgba(3,31,102,.09)] sm:hover:shadow-[0_26px_60px_rgba(3,31,102,.15)] ${step.number==='03'?'min-[520px]:col-span-2 md:col-span-1':''}`}>
-                <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1.5 rounded-t-3xl ${step.accent}`}/>
-                <div className={`absolute -top-7 left-1/2 z-10 grid h-14 w-14 -translate-x-1/2 place-items-center rounded-full border-[5px] border-[#f5f8ff] shadow-lg sm:-top-8 sm:h-16 sm:w-16 sm:border-[6px] ${step.iconStyle}`}><Icon className="h-5 w-5 sm:h-6 sm:w-6"/></div>
-                <span aria-hidden="true" className="absolute right-3 top-6 font-[var(--font-heading)] text-4xl font-black text-slate-100 transition-colors group-hover:text-blue-50 sm:right-6 sm:top-8 sm:text-6xl">{step.number}</span>
-                <p className={`relative text-[9px] font-black uppercase tracking-[.14em] sm:text-xs sm:tracking-[.18em] ${step.labelStyle}`}>Step {step.number}</p>
-                <h3 className="relative mt-4 text-base font-extrabold leading-tight text-[#031f66] sm:mt-7 sm:text-xl">{step.title}</h3>
-                <p className="relative mt-2 text-xs leading-5 text-slate-600 sm:mt-3 sm:text-base sm:leading-7">{step.text}</p>
-              </article>)}
-            </div>
-          </div>
-          <div className="mt-12 text-center">
-            <Link href="/admissions" className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#d50b12] px-6 py-4 font-extrabold text-white shadow-xl transition-transform duration-300 hover:-translate-y-1">
-              <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-1 bg-[#ffc400] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
-              <span className="relative z-10 transition-colors duration-300 group-hover:text-[#031f66]">View admissions information</span>
-              <ArrowRight className="relative z-10 h-5 w-5 transition-[color,transform] duration-300 group-hover:translate-x-1 group-hover:text-[#031f66]"/>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section className="relative overflow-hidden bg-[#031f66] py-10 text-white sm:py-14">
         <div aria-hidden="true" className="absolute -left-28 -top-28 h-80 w-80 rounded-full border-[52px] border-[#0739a6]/35"/>
         <div aria-hidden="true" className="absolute -bottom-24 right-[8%] h-64 w-64 rounded-full bg-[#d50b12]/10 blur-3xl"/>
@@ -261,7 +226,7 @@ export default function Home() {
           <div className="mt-8 space-y-7">
             <div>
               <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#d50b12]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Upcoming events</h3></div>
-              {upcomingEvents.length>0?<div className="mobile-card-rail -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">{upcomingEvents.map(event=><div key={event.id} className="w-[84vw] max-w-[32rem] shrink-0 snap-start lg:w-auto lg:max-w-none"><EventCard event={event} compact/></div>)}</div>:<p className="rounded-2xl border border-blue-100 bg-white p-5 text-sm text-slate-500">No upcoming events have been announced yet.</p>}
+              {upcomingEvents.length>0?<div className="mobile-card-rail grid grid-cols-2 gap-2 sm:-mx-4 sm:flex sm:snap-x sm:snap-mandatory sm:gap-3 sm:overflow-x-auto sm:px-4 sm:pb-4 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">{upcomingEvents.map(event=><div key={event.id} className="min-w-0 sm:w-[84vw] sm:max-w-[32rem] sm:shrink-0 sm:snap-start lg:w-auto lg:max-w-none"><EventCard event={event} compact/></div>)}</div>:<p className="rounded-2xl border border-blue-100 bg-white p-5 text-sm text-slate-500">No upcoming events have been announced yet.</p>}
             </div>
             <div>
               <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#ffc400]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Latest stories</h3></div>

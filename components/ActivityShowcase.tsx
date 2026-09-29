@@ -15,19 +15,6 @@ function ActivityImage({src,alt}:{src:string;alt:string}) {
   return <Image src={src} alt={alt} fill sizes="390px" onError={()=>setFailed(true)} className="object-cover transition duration-700 group-hover:scale-110"/>;
 }
 
-function HeroThemeWaves() {
-  const reduceMotion=useReducedMotion();
-  const redWave='M0 24V17C120 8 240 8 360 17C480 23 600 23 720 17C840 8 960 8 1080 17C1200 23 1320 23 1440 17V24H0Z';
-  const yellowWave='M0 24V19C120 13 240 13 360 19C480 23 600 23 720 19C840 13 960 13 1080 19C1200 23 1320 23 1440 19V24H0Z';
-
-  return <div aria-hidden="true" className="hero-theme-waves pointer-events-none absolute inset-x-0 bottom-0 z-20 h-5 overflow-hidden">
-    <svg viewBox="0 0 1440 24" preserveAspectRatio="none" className="h-full w-full">
-      <motion.path d={redWave} fill="#d50b12" animate={reduceMotion?undefined:{x:[0,18,0,-18,0],y:[0,-1,0,1,0]}} transition={{duration:5.2,ease:'easeInOut',repeat:Infinity}}/>
-      <motion.path d={yellowWave} fill="#ffc400" animate={reduceMotion?undefined:{x:[0,-14,0,14,0],y:[0,1,0,-1,0]}} transition={{duration:4.1,ease:'easeInOut',repeat:Infinity}}/>
-    </svg>
-  </div>;
-}
-
 export function HomeHeroSlider() {
   const { heroSlides }=useApp();
   const [active,setActive]=useState(0);
@@ -126,13 +113,12 @@ export function HomeHeroSlider() {
     {heroSlides.length>1&&<><button onClick={()=>move(-1)} aria-label="Previous school highlight" className="absolute left-4 top-1/2 z-20 hidden h-20 w-12 -translate-y-1/2 place-items-center border border-white/15 bg-[#031f66]/35 text-white backdrop-blur-sm transition hover:bg-[#d50b12] md:grid lg:left-8"><ChevronLeft className="h-7 w-7"/></button>
     <button onClick={()=>move(1)} aria-label="Next school highlight" className="absolute right-4 top-1/2 z-20 hidden h-20 w-12 -translate-y-1/2 place-items-center border border-white/15 bg-[#031f66]/35 text-white backdrop-blur-sm transition hover:bg-[#d50b12] md:grid lg:right-8"><ChevronRight className="h-7 w-7"/></button></>}
 
-    <div className="absolute inset-x-0 bottom-5 z-[60] lg:bottom-0 lg:z-40 lg:border-t lg:border-white/15 lg:bg-[#020d2b]/55 lg:backdrop-blur-md">
+    <div className="absolute inset-x-0 bottom-0 z-[60] lg:z-40 lg:border-t lg:border-white/15 lg:bg-[#020d2b]/55 lg:backdrop-blur-md">
       <div className="container-shell flex min-h-0 flex-col justify-center gap-0 py-0 lg:min-h-20 lg:flex-row lg:items-center lg:justify-between lg:gap-2">
         <div className="hidden items-center gap-8 text-xs font-bold text-blue-100 lg:flex"><span>Ngata, Nakuru</span><span className="h-4 w-px bg-white/25"/><span>Competency-based education</span><span className="h-4 w-px bg-white/25"/><span className="text-[#ffc400]">Endeavour to Succeed</span></div>
         {heroSlides.length>0&&<div className="flex items-center gap-2 sm:gap-3">{heroSlides.map((item,index)=><button key={item.id} onClick={()=>showSlide(index)} aria-label={`Show slide ${index+1}: ${item.alt}`} className={`group flex items-center gap-2 py-1.5 sm:py-2 ${index===safeActive?'text-white':'text-blue-200/70'}`}><span className={`relative h-2 overflow-hidden rounded-full transition-all duration-300 sm:h-2.5 ${index===safeActive?'w-7 bg-white/20 sm:w-9':'w-2 bg-white/50 group-hover:bg-white sm:w-2.5'}`}>{index===safeActive&&<span key={`progress-${safeActive}`} className="absolute inset-0 origin-left bg-[#ffc400] will-change-transform" style={{animation:`hero-progress ${HERO_SLIDE_DURATION_MS}ms linear forwards`,animationPlayState:paused?'paused':'running'}}/>}</span><span className="hidden text-[10px] font-black tabular-nums sm:block">0{index+1}</span></button>)}</div>}
       </div>
     </div>
-    <HeroThemeWaves/>
   </section>;
 }
 
