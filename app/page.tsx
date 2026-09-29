@@ -8,7 +8,6 @@ import {
   ArrowRight, CheckCircle2, Eye, Flag, MapPin, Phone, PlayCircle, Rocket
 } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
-import { BlogCard } from '@/components/BlogCard';
 import { EventCard } from '@/components/EventCard';
 import { EventPopup } from '@/components/EventPopup';
 import { TestimonialsCarousel } from '@/components/TestimonialsCarousel';
@@ -147,7 +146,7 @@ function PurposeRibbons() {
 }
 
 export default function Home() {
-  const { blogPosts, schoolEvents, settings, getSiteImage } = useApp();
+  const { schoolEvents, settings, getSiteImage } = useApp();
   const learningImage=getSiteImage('home-learning');
   const now=useCurrentTime();
   const upcomingEvents=getUpcomingEvents(schoolEvents,now).slice(0,4);
@@ -220,18 +219,12 @@ export default function Home() {
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#0739a6]"/>
         <div className="container-shell relative z-10">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-            <div><p className="eyebrow">What’s happening</p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold text-[#0b1f3a] sm:text-4xl">Events and blogs from our school.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">Upcoming school moments and the latest stories from our classrooms, clubs and community.</p></div>
-            <div className="flex flex-wrap gap-2"><Link href="/events" className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-[#0739a6] shadow-sm hover:border-[#0739a6]">View all events <ArrowRight className="h-4 w-4"/></Link><Link href="/blog" className="inline-flex items-center gap-2 rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-[#0739a6] shadow-sm hover:border-[#0739a6]">View all blogs <ArrowRight className="h-4 w-4"/></Link></div>
+            <div><p className="eyebrow">What’s happening</p><h2 className="mt-3 font-[var(--font-heading)] text-3xl font-extrabold text-[#0b1f3a] sm:text-4xl">Events at our school.</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">See upcoming moments from our classrooms, clubs and community.</p></div>
+            <Link href="/events" className="inline-flex items-center gap-2 self-start rounded-xl border border-blue-200 bg-white px-5 py-3 text-sm font-extrabold text-[#0739a6] shadow-sm hover:border-[#0739a6]">View all events <ArrowRight className="h-4 w-4"/></Link>
           </div>
-          <div className="mt-8 space-y-7">
-            <div>
-              <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#d50b12]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Upcoming events</h3></div>
-              {upcomingEvents.length>0?<div className="mobile-card-rail grid grid-cols-2 gap-2 sm:-mx-4 sm:flex sm:snap-x sm:snap-mandatory sm:gap-3 sm:overflow-x-auto sm:px-4 sm:pb-4 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">{upcomingEvents.map(event=><div key={event.id} className="min-w-0 sm:w-[84vw] sm:max-w-[32rem] sm:shrink-0 sm:snap-start lg:w-auto lg:max-w-none"><EventCard event={event} compact/></div>)}</div>:<p className="rounded-2xl border border-blue-100 bg-white p-5 text-sm text-slate-500">No upcoming events have been announced yet.</p>}
-            </div>
-            <div>
-              <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#ffc400]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Latest stories</h3></div>
-              <div className="mobile-card-rail -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-4 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0 lg:pb-0">{blogPosts.slice(0,5).map(post=><div key={post.id} className="w-[82vw] max-w-[26rem] shrink-0 snap-start lg:w-auto lg:max-w-none"><BlogCard post={post} compact/></div>)}</div>
-            </div>
+          <div className="mt-8">
+            <div className="mb-4 flex items-center gap-3"><span className="h-2.5 w-2.5 rounded-full bg-[#d50b12]"/><h3 className="text-sm font-black uppercase tracking-[.16em] text-[#031f66]">Upcoming events</h3></div>
+            {upcomingEvents.length>0?<div className="mobile-card-rail grid grid-cols-2 gap-2 sm:-mx-4 sm:flex sm:snap-x sm:snap-mandatory sm:gap-3 sm:overflow-x-auto sm:px-4 sm:pb-4 lg:mx-0 lg:grid lg:grid-cols-2 lg:overflow-visible lg:px-0 lg:pb-0">{upcomingEvents.map(event=><div key={event.id} className="min-w-0 sm:w-[84vw] sm:max-w-[32rem] sm:shrink-0 sm:snap-start lg:w-auto lg:max-w-none"><EventCard event={event} compact/></div>)}</div>:<p className="rounded-2xl border border-blue-100 bg-white p-5 text-sm text-slate-500">No upcoming events have been announced yet.</p>}
           </div>
         </div>
       </section>
