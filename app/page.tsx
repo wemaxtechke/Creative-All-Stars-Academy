@@ -229,32 +229,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="container-shell py-16">
-        <div className="brand-gradient relative overflow-hidden rounded-[2rem] border border-white/10 px-7 py-10 text-white shadow-[0_28px_70px_rgba(3,31,102,.2)] md:px-12">
+      <section className="container-shell py-8 sm:py-16">
+        <div className="brand-gradient relative overflow-hidden rounded-[1.5rem] border border-white/10 px-5 py-6 text-white shadow-[0_28px_70px_rgba(3,31,102,.2)] sm:rounded-[2rem] sm:px-7 sm:py-10 md:px-12">
           <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#3978ff]"/>
           <div aria-hidden="true" className="absolute -bottom-24 -left-20 h-64 w-64 rounded-full border-[38px] border-[#d50b12]/15"/>
           <div aria-hidden="true" className="absolute right-0 top-0 h-64 w-64 rounded-full bg-[#ffc400]/15 blur-3xl"/>
-          <div className="relative grid items-center gap-8 lg:grid-cols-[1.25fr_.75fr] lg:gap-12">
+          <div className="relative grid items-center gap-5 sm:gap-8 lg:grid-cols-[1.25fr_.75fr] lg:gap-12">
             <div className="max-w-2xl">
-              <p className="text-sm font-bold text-[#ffe588]">Come and experience our school</p>
-              <h2 className="mt-3 font-[var(--font-heading)] text-4xl font-extrabold tracking-tight">The best way to know us is to visit.</h2>
-              <p className="mt-4 text-blue-100">Meet our team, explore the learning spaces and ask every question that matters to your family.</p>
-              <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-bold text-blue-100">
-                {['Explore the campus','Meet our educators','Get personal guidance'].map((item,index)=><span key={item} className="flex items-center gap-2"><span className={`h-2 w-2 rounded-full ${index===0?'bg-[#d50b12]':index===1?'bg-[#ffc400]':'bg-[#3978ff]'}`}/>{item}</span>)}
-              </div>
+              <p className="text-xs font-bold text-[#ffe588] sm:text-sm">Come and experience our school</p>
+              <h2 className="mt-2 font-[var(--font-heading)] text-[1.75rem] font-extrabold leading-tight tracking-tight sm:mt-3 sm:text-4xl">The best way to know us is to visit.</h2>
+              <p className="mt-3 text-sm leading-5 text-blue-100 sm:mt-4 sm:text-base sm:leading-6">Meet our team, explore the learning spaces and get your questions answered.</p>
             </div>
-            <div className="rounded-2xl border border-white/15 bg-white/[.07] p-4 backdrop-blur-sm">
-              <p className="mb-3 text-center text-[10px] font-black uppercase tracking-[.18em] text-blue-100">Speak with our admissions team</p>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-                <Link href="/contact" className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-[#ffc400] px-5 py-3.5 font-extrabold text-[#031f66] shadow-lg transition-transform duration-300 hover:-translate-y-0.5">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-1 xl:grid-cols-2">
+                <Link href="/contact" className="group relative inline-flex min-h-11 items-center justify-center gap-1 overflow-hidden rounded-xl bg-[#ffc400] px-2 py-3 text-[11px] font-extrabold text-[#031f66] shadow-lg transition-transform duration-300 hover:-translate-y-0.5 min-[380px]:text-xs sm:gap-2 sm:px-5 sm:py-3.5 sm:text-base">
                   <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-0 bg-[#d50b12] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
-                  <MapPin className="relative z-10 h-5 w-5 transition-colors group-hover:text-white"/><span className="relative z-10 transition-colors group-hover:text-white">Book a visit</span>
+                  <MapPin className="relative z-10 h-4 w-4 shrink-0 transition-colors group-hover:text-white sm:h-5 sm:w-5"/><span className="relative z-10 transition-colors group-hover:text-white">Book a visit</span>
                 </Link>
-                <a href={`tel:${settings.phone}`} className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl border border-white/30 px-5 py-3.5 font-bold text-white transition-transform duration-300 hover:-translate-y-0.5">
+                <a href={`tel:${settings.phone}`} className="group relative inline-flex min-h-11 items-center justify-center gap-1 overflow-hidden rounded-xl border border-white/30 px-2 py-3 text-[11px] font-bold text-white transition-transform duration-300 hover:-translate-y-0.5 min-[380px]:text-xs sm:gap-2 sm:px-5 sm:py-3.5 sm:text-base">
                   <span aria-hidden="true" className="absolute inset-y-0 left-0 z-0 w-0 bg-[#ffc400] transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:w-full"/>
-                  <Phone className="relative z-10 h-5 w-5 transition-colors group-hover:text-[#031f66]"/><span className="relative z-10 transition-colors group-hover:text-[#031f66]">Call admissions</span>
+                  <Phone className="relative z-10 h-4 w-4 shrink-0 transition-colors group-hover:text-[#031f66] sm:h-5 sm:w-5"/><span className="relative z-10 transition-colors group-hover:text-[#031f66]">Call admissions</span>
                 </a>
-              </div>
             </div>
           </div>
         </div>
