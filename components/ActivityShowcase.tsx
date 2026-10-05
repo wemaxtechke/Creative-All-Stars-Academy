@@ -12,7 +12,7 @@ const HERO_SLIDE_DURATION_MS=9000;
 function ActivityImage({src,alt}:{src:string;alt:string}) {
   const [failed,setFailed]=useState(false);
   if(failed)return null;
-  return <Image src={src} alt={alt} fill sizes="390px" onError={()=>setFailed(true)} className="object-cover transition duration-700 group-hover:scale-110"/>;
+  return <Image src={src} alt={alt} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" onError={()=>setFailed(true)} className="object-cover transition duration-700 motion-safe:group-hover:scale-105"/>;
 }
 
 export function HomeHeroSlider() {
@@ -136,29 +136,24 @@ export function ActivityCarousel() {
   </div>;
 }
 
-export function ActivityMarquee() {
-  const { siteImages }=useApp();
-  const activities=siteImages.filter((item)=>item.id.startsWith('activity-')).map((item)=>({title:item.alt,label:item.label||'School life',image:item.url}));
-  if(!activities.length)return null;
-  const repeated=[...activities,...activities];
-  return <section className="relative overflow-hidden bg-[linear-gradient(145deg,#020d2b,#031f66_48%,#0739a6)] py-12 text-white sm:py-16">
-    <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#d50b12] via-[#ffc400] to-[#3978ff]"/>
-    <div aria-hidden="true" className="absolute -left-32 top-16 h-72 w-72 rounded-full border-[44px] border-white/[.035]"/>
-    <div className="container-shell relative z-10 mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-      <div><p className="text-[10px] font-black uppercase tracking-[.18em] text-[#ffc400] sm:text-xs">Every day is different</p><h2 className="brand-title mt-3 text-3xl font-extrabold sm:text-4xl md:text-5xl">See our learners in action.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-blue-100">A glimpse of the learning, creativity, teamwork and discovery that fill each school day.</p></div>
-      <Link href="/gallery" className="group inline-flex items-center justify-center gap-2 rounded-xl border border-[#ffc400]/40 bg-[#ffc400]/10 px-5 py-3 font-extrabold text-[#ffc400] transition hover:bg-[#ffc400] hover:text-[#031f66]">Explore the gallery <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/></Link>
+export function HomeActivityGallery() {
+  const { siteImages } = useApp();
+  const activities = siteImages.filter(item => item.id.startsWith('activity-')).slice(0, 3);
+  if (!activities.length) return null;
+
+  return <section aria-labelledby="school-life-heading" className="border-b border-slate-200/80 py-12 lg:py-20">
+    <div className="container-shell">
+      <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end sm:gap-8">
+        <div><p className="eyebrow">Life beyond lessons</p><h2 id="school-life-heading" className="brand-title mt-3 text-3xl font-extrabold leading-tight text-[#031f66] sm:text-4xl">A little discovery, every day.</h2><p className="mt-4 max-w-xl text-sm leading-7 text-slate-600">Learning, friendships and the moments that make school memorable.</p></div>
+        <Link href="/gallery" className="inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-bold text-[#0739a6] hover:text-[#d50b12]">Explore the gallery <ArrowRight aria-hidden="true" className="h-4 w-4" /></Link>
+      </div>
+      <div className={`mobile-card-rail mt-6 grid snap-x snap-mandatory gap-4 overflow-x-auto pb-3 sm:mt-8 sm:grid-flow-row sm:auto-cols-auto sm:overflow-visible sm:pb-0 ${activities.length > 1 ? 'auto-cols-[85%] grid-flow-col sm:grid-cols-2' : ''} ${activities.length > 2 ? 'lg:grid-cols-3' : ''}`}>
+        {activities.map(item => <Link key={item.id} href="/gallery" className="group relative block aspect-[4/3] snap-start overflow-hidden rounded-2xl bg-[#031f66]">
+          <ActivityImage src={item.url} alt={item.alt} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#020d2b]/95 via-[#031f66]/10 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6"><p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#ffc400]">{item.label || 'School life'}</p><h3 className="mt-2 text-lg font-bold leading-snug text-white">{item.alt}</h3></div>
+        </Link>)}
+      </div>
     </div>
-    <div className="relative z-10">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 z-20 w-20 bg-gradient-to-r from-[#020d2b] to-transparent sm:w-32"/>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-20 w-20 bg-gradient-to-l from-[#0739a6] to-transparent sm:w-32"/>
-      <div className="flex w-max animate-[activity-scroll_42s_linear_infinite] gap-3 py-2 hover:[animation-play-state:paused] sm:gap-5">{repeated.map((item,index)=><article key={`${item.title}-${index}`} className="group relative h-48 w-[230px] shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-[#0739a6] shadow-[0_22px_50px_rgba(0,0,0,.25)] sm:h-64 sm:w-[390px] sm:rounded-[1.75rem]">
-        <ActivityImage src={item.image} alt={item.title}/>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020d2b]/95 via-[#031f66]/20 to-[#020d2b]/10"/>
-        <span className={`absolute inset-x-0 top-0 h-1 ${index%3===0?'bg-[#d50b12]':index%3===1?'bg-[#ffc400]':'bg-[#3978ff]'}`}/>
-        <span className="absolute right-5 top-5 text-4xl font-black text-white/20">0{index%activities.length+1}</span>
-        <div className="absolute bottom-0 p-4 sm:p-6"><p className="text-[9px] font-black uppercase tracking-[.16em] text-[#ffc400] sm:text-[10px]">{item.label}</p><h3 className="mt-1.5 text-base font-extrabold sm:mt-2 sm:text-xl">{item.title}</h3><span className="mt-3 block h-0.5 w-10 bg-[#d50b12] transition-[width] duration-300 group-hover:w-20 sm:mt-4"/></div>
-      </article>)}</div>
-    </div>
-    <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-[#3978ff] via-[#ffc400] to-[#d50b12]"/>
   </section>;
 }
