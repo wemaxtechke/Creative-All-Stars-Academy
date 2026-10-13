@@ -13,7 +13,6 @@ const navigation = [
   ['Admissions and fees','/admissions'],
   ['Classes and age groups','/classes'],
   ['Clubs and activities','/co-curricular'],
-  ['Life at our school','/gallery'],
 ];
 
 const community = [

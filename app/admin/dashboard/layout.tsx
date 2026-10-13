@@ -90,7 +90,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { name: 'Contact messages', href: '/admin/dashboard/messages', icon: Inbox, count: messages.filter(m => m.status === 'Unread').length },
     { name: 'Blogs', href: '/admin/dashboard/blog', icon: FileText },
     { name: 'Events', href: '/admin/dashboard/events', icon: Calendar },
-    { name: 'Gallery', href: '/admin/dashboard/gallery', icon: ImageIcon },
     { name: 'Website visuals', href: '/admin/dashboard/visuals', icon: ImageIcon },
     { name: 'Staff profiles', href: '/admin/dashboard/staff', icon: Users },
     { name: 'Classes & leads', href: '/admin/dashboard/classes', icon: GraduationCap },

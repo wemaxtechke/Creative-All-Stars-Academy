@@ -7,7 +7,7 @@ Production-oriented school website and content administration workspace for Crea
 - Next.js App Router, React and TypeScript
 - OpenNext deployed as a Cloudflare Worker
 - Cloudflare D1 for public content, enquiries, job applications and audit records
-- Cloudflare R2 for gallery images, public PDFs and private candidate CVs
+- Cloudflare R2 for website images, public PDFs and private candidate CVs
 - Cloudflare Access for `/admin/dashboard/*` and all administrator APIs
 - Cloudflare Turnstile on public contact, admission and career forms
 - Retrieval-grounded OpenAI assistant with D1 abuse controls and a consent-based admissions handoff
@@ -106,6 +106,6 @@ npm run check:cloudflare
 
 ## Operational boundaries
 
-The dashboard manages website stories, events, staff profiles, gallery media, downloads, vacancies and incoming enquiries. It deliberately does not manage learners, attendance, grades, fees, payroll or academic records.
+The dashboard manages website stories, events, staff profiles, website visuals, downloads, vacancies and incoming enquiries. It deliberately does not manage learners, attendance, grades, fees, payroll or academic records.
 
 The Website analytics section remains safely unconfigured until both `CLOUDFLARE_ZONE_ID` and the `CLOUDFLARE_ANALYTICS_TOKEN` Worker secret are set. Analytics are queried server-side and the token is never sent to the browser.

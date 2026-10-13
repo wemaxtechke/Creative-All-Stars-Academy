@@ -7,7 +7,7 @@ import { getUpcomingEvents, isPastEvent } from '@/lib/events';
 import { useCurrentTime } from '@/lib/use-current-time';
 
 export default function AdminDashboardMain() {
-  const { blogPosts, schoolEvents, galleryImages, admissions, messages } = useApp();
+  const { blogPosts, schoolEvents, admissions, messages } = useApp();
   const pendingAdmissions = admissions.filter(a => a.status === 'Pending');
   const unreadMessages = messages.filter(m => m.status === 'Unread');
   const now = useCurrentTime();
@@ -18,13 +18,13 @@ export default function AdminDashboardMain() {
     { label:'New admission enquiries', value:pendingAdmissions.length, detail:'Waiting for a response', icon:FileCheck, href:'/admin/dashboard/admissions', tone:'bg-amber-50 text-amber-700' },
     { label:'Unread messages', value:unreadMessages.length, detail:'From website visitors', icon:Inbox, href:'/admin/dashboard/messages', tone:'bg-violet-50 text-violet-700' },
     { label:'Published stories', value:blogPosts.length, detail:'Visible on the website', icon:FileText, href:'/admin/dashboard/blog', tone:'bg-blue-50 text-blue-700' },
-    { label:'Gallery items', value:galleryImages.length, detail:'Showing school life', icon:ImageIcon, href:'/admin/dashboard/gallery', tone:'bg-red-50 text-[#d50b12]' },
+    { label:'Upcoming events', value:upcomingEvents.length, detail:'Visible on the website', icon:Calendar, href:'/admin/dashboard/events', tone:'bg-red-50 text-[#d50b12]' },
   ];
 
   const actions = [
     { label:'Publish a blog', icon:FileText, href:'/admin/dashboard/blog' },
     { label:'Create an event', icon:Calendar, href:'/admin/dashboard/events' },
-    { label:'Upload gallery photos', icon:ImageIcon, href:'/admin/dashboard/gallery' },
+    { label:'Update website visuals', icon:ImageIcon, href:'/admin/dashboard/visuals' },
     { label:'Update school details', icon:Settings, href:'/admin/dashboard/settings' },
   ];
 

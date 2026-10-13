@@ -146,7 +146,6 @@ export function ActivityMarquee() {
     <div aria-hidden="true" className="absolute -left-32 top-16 h-72 w-72 rounded-full border-[44px] border-white/[.035]"/>
     <div className="container-shell relative z-10 mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
       <div><p className="text-[10px] font-black uppercase tracking-[.18em] text-[#ffc400] sm:text-xs">Every day is different</p><h2 className="brand-title mt-3 text-3xl font-extrabold sm:text-4xl md:text-5xl">See our learners in action.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-blue-100">A glimpse of the learning, creativity, teamwork and discovery that fill each school day.</p></div>
-      <Link href="/gallery" className="group inline-flex items-center justify-center gap-2 rounded-xl border border-[#ffc400]/40 bg-[#ffc400]/10 px-5 py-3 font-extrabold text-[#ffc400] transition hover:bg-[#ffc400] hover:text-[#031f66]">Explore the gallery <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1"/></Link>
     </div>
     <div className="relative z-10">
       <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 z-20 w-20 bg-gradient-to-r from-[#020d2b] to-transparent sm:w-32"/>

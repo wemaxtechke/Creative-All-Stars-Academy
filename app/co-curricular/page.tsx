@@ -17,7 +17,6 @@ export default function CoCurricular() {
         title="Talent grows when children get to try."
         description="Our co-curricular programme creates space for wellbeing, creativity, teamwork, leadership and confident expression."
         imageSlot="page-activities"
-        cta={{ label: 'View school life', href: '/gallery' }}
       />
 
       <Breadcrumbs items={[{ name: 'About', href: '/about' }, { name: 'Activities' }]} />

@@ -173,29 +173,6 @@ test('all director-confirmed teacher profiles are preloaded without invented con
   assert.doesNotMatch(remainingTeachers, /@creativeallstars|images\.unsplash\.com/);
 });
 
-test('School Life gallery media and page presentation are fully controlled by the D1 CMS', async () => {
-  const types = await read('types/index.ts');
-  const defaults = await read('lib/site-content.ts');
-  const content = await read('lib/db/content.ts');
-  const context = await read('lib/AppContext.tsx');
-  const galleryAdmin = await read('app/admin/dashboard/gallery/page.tsx');
-  const galleryPage = await read('app/gallery/page.tsx');
-
-  assert.match(types, /category: string/);
-  assert.match(types, /order\?: number/);
-  assert.match(defaults, /galleryCategories/);
-  assert.match(content, /\.\.\.defaultPublicContent\.settings/);
-  assert.match(context, /updateGalleryImage/);
-  assert.match(galleryAdmin, /Replace image \(optional\)/);
-  assert.match(galleryAdmin, /Display order/);
-  assert.match(galleryAdmin, /updateSettings/);
-  assert.match(galleryAdmin, /removeCategory/);
-  assert.match(galleryPage, /settings\.galleryCategories/);
-  assert.match(galleryPage, /settings\.galleryTitle/);
-  assert.match(galleryPage, /a\.order \?\? 0/);
-  assert.doesNotMatch(galleryPage, /const categories = \['All', 'School Events'/);
-});
-
 test('public PDF downloads require administrator-uploaded R2 files', async () => {
   const types = await read('types/index.ts');
   const content = await read('lib/db/content.ts');
@@ -265,7 +242,7 @@ test('past events are hidden publicly and surfaced to administrators for deletio
   const eventsAdmin = await read('app/admin/dashboard/events/page.tsx');
   const dashboard = await read('app/admin/dashboard/page.tsx');
 
-  assert.match(home, /getUpcomingEvents\(schoolEvents,now\)/);
+  assert.match(home, /getUpcomingEvents\(schoolEvents,\s*now\)/);
   assert.match(eventsAdmin, /'event needs' : 'events need'/);
   assert.match(eventsAdmin, /Past — delete/);
   assert.match(dashboard, /hidden from the website/);

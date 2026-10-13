@@ -15,7 +15,6 @@ const imageSlots = [
   ['page-careers', 'Careers page banner'],
   ['page-classes', 'Classes page banner'],
   ['page-contact', 'Contact page banner'],
-  ['page-gallery', 'Gallery page banner'],
   ['page-parents', 'Parents corner banner'],
   ['home-learning', 'Homepage learning section'],
   ['about-leadership', 'About leadership section'],

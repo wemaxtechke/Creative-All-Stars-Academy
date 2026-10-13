@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, CheckCircle2, Eye, Flag, MapPin, Phone, PlayCircle, Rocket } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Eye, Flag, MapPin, Phone, Rocket } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 import { EventCard } from '@/components/EventCard';
 import { EventPopup } from '@/components/EventPopup';
@@ -186,10 +186,6 @@ export default function Home() {
               <Image src={learningImage.url} alt={learningImage.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.025]" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#031f66]/35 via-transparent to-transparent"/>
               <span className="absolute left-5 top-5 rounded-full border border-white/30 bg-[#031f66]/80 px-4 py-2 text-[10px] font-black uppercase tracking-[.16em] text-white backdrop-blur-sm">CBE learning in action</span>
-              <Link href="/gallery" className="group/link absolute bottom-5 left-5 right-5 flex items-center justify-between overflow-hidden rounded-2xl bg-white/95 p-5 font-bold text-[#031f66] shadow-lg backdrop-blur">
-                <span className="absolute inset-y-0 left-0 z-0 w-1 bg-[#ffc400] transition-[width] duration-500 group-hover/link:w-full"/>
-                <span className="relative z-10">See life at Creative All Stars</span><PlayCircle className="relative z-10 h-6 w-6 text-[#d50b12] transition-transform group-hover/link:scale-110" />
-              </Link>
             </div>
           </div>}
           <div className={learningImage?'':'mx-auto w-full max-w-5xl text-center'}>

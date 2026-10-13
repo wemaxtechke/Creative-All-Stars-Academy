@@ -8,7 +8,6 @@ export const aboutSectionLinks = [
   { name: 'Learning', href: '/academics' },
   { name: 'Classes', href: '/classes' },
   { name: 'Activities', href: '/co-curricular' },
-  { name: 'School Life', href: '/gallery' },
 ];
 
 export function AboutSectionNav() {
