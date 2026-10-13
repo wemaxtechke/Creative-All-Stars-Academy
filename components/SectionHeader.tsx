@@ -4,6 +4,7 @@ import React from 'react';
 
 interface SectionHeaderProps {
   title: string;
+  as?: 'h1' | 'h2';
   subtitle?: string;
   badge?: string;
   centered?: boolean;
@@ -11,6 +12,7 @@ interface SectionHeaderProps {
 
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
   title,
+  as: Heading = 'h2',
   subtitle,
   badge,
   centered = true
@@ -22,9 +24,9 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           {badge}
         </span>
       )}
-      <h2 className="brand-title mb-3 text-[1.7rem] font-extrabold leading-tight tracking-tight text-[#031f66] sm:mb-4 sm:text-3xl md:text-4xl">
+      <Heading className="brand-title mb-3 text-[1.7rem] font-extrabold leading-tight tracking-tight text-[#031f66] sm:mb-4 sm:text-3xl md:text-4xl">
         {title}
-      </h2>
+      </Heading>
       {subtitle && (
         <p className="text-sm leading-6 text-gray-600 sm:text-base md:text-lg md:leading-relaxed">
           {subtitle}

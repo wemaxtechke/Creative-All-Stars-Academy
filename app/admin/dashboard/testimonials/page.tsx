@@ -83,7 +83,7 @@ export default function AdminTestimonials() {
 
           <div className="space-y-1">
             <label className="text-gray-600">Detailed Feedback Statement *</label>
-            <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={3} placeholder="The academic support swimming and computer labs have been stellar..." className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-semibold text-gray-700" required />
+            <textarea value={content} onChange={(e) => setContent(e.target.value)} rows={3} placeholder="The academic support and creative activities have been stellar..." className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 text-sm font-semibold text-gray-700" required />
           </div>
 
           <div className="space-y-1"><label className="text-gray-600">Profile photograph *</label><label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-gray-300 bg-gray-50 p-4"><Upload className="h-4 w-4"/><span>{avatar ? avatar.name : 'Choose an image (max 8MB)'}</span><input type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="sr-only" required onChange={(event) => setAvatar(event.target.files?.[0] ?? null)} /></label></div>

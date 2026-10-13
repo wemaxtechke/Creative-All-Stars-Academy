@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { BookOpen, Brain, GraduationCap, HeartHandshake, Languages, Palette, Sigma } from 'lucide-react';
-import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { PageHero } from '@/components/PageHero';
 import { SectionHeader } from '@/components/SectionHeader';
 import { AboutSectionNav } from '@/components/AboutSectionNav';
 
@@ -57,52 +55,15 @@ const schoolSections = [
 ];
 
 export default function Academics() {
-  const { getSiteImage } = useApp();
-  const supportImage = getSiteImage('academics-support');
-
   return (
     <div className="pb-24">
       <AboutSectionNav />
-      <PageHero
-        eyebrow="Learning at CASA"
-        title="Knowledge becomes something learners can use."
-        description="Our competency-based education approach develops practical skills, confident communication, values and meaningful progress."
-        imageSlot="page-academics"
-        cta={{ label: 'Explore our classes', href: '/classes' }}
-      />
-
       <Breadcrumbs items={[{ name: 'About', href: '/about' }, { name: 'Learning' }]} />
 
-      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-center gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
-        <div className="space-y-6">
-          <span className="inline-block rounded-full bg-blue-100 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-blue-700">
-            Competency-Based Education
-          </span>
-          <h2 className="text-3xl font-extrabold leading-tight text-blue-950 md:text-4xl">
-            Learning that develops the whole learner
-          </h2>
-          <p className="text-base leading-relaxed text-gray-600">
-            Creative All Stars Academy follows Kenya&apos;s competency-based education approach. Teaching and learning focus on helping learners build knowledge, skills, values and attitudes that they can apply in school and everyday life.
-          </p>
-          <p className="text-base leading-relaxed text-gray-600">
-            The curriculum is delivered through age-appropriate, learner-centred experiences. Parents can contact the school for the current curriculum designs and the learning areas offered at a particular grade.
-          </p>
-        </div>
-
-        {supportImage && (
-          <div className="relative">
-            <img
-              src={supportImage.url}
-              alt={supportImage.alt}
-              className="h-[230px] w-full rounded-2xl object-cover shadow-lg sm:h-[350px] sm:rounded-3xl"
-            />
-          </div>
-        )}
-      </section>
-
-      <section className="mt-20 border-y border-gray-100 bg-gray-100/50 py-16">
+      <section className="border-b border-gray-100 bg-gray-100/50 pb-10 pt-6 sm:pb-14 sm:pt-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeader
+            as="h1"
             title="Core Learning Areas"
             subtitle="The school supports balanced academic, practical, creative and values-based development. Exact learning areas vary by level and current curriculum design."
             badge="LEARNING"
@@ -112,7 +73,7 @@ export default function Academics() {
             {learningAreas.map(({ name, description, icon: Icon }) => (
               <article key={name} className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
                 <Icon className="h-7 w-7 text-blue-600" />
-                <h3 className="mt-5 text-xl font-extrabold text-blue-950">{name}</h3>
+                <h2 className="mt-5 text-xl font-extrabold text-blue-950">{name}</h2>
                 <p className="mt-3 text-sm leading-relaxed text-gray-600">{description}</p>
               </article>
             ))}

@@ -41,10 +41,6 @@ export const coCurricularActivities = [
     description: 'Age-appropriate guidance that supports learners’ wellbeing, responsible choices and personal development.',
   },
   {
-    name: 'Swimming',
-    description: 'Swimming activities help learners develop confidence, coordination, fitness and water awareness.',
-  },
-  {
     name: 'Journalism',
     description: 'Learners practise observation, interviewing, writing and clear communication through school stories.',
   },
@@ -67,10 +63,6 @@ export const coCurricularActivities = [
   {
     name: 'Health Club',
     description: 'The Health Club promotes hygiene, healthy choices and learner-led wellbeing awareness.',
-  },
-  {
-    name: 'Modelling and Dance Club',
-    description: 'Learners build confidence, rhythm, coordination and creative expression through modelling and dance.',
   },
 ];
 
@@ -174,7 +166,7 @@ export const schoolFaqs: FAQ[] = [
   {
     id: 'f6',
     question: 'Which co-curricular activities are offered?',
-    answer: 'Activities include guidance and counselling, swimming, journalism, games and sports, drama and music, debate, scouting, Health Club, and Modelling and Dance Club. Contact the school for the current activity schedule.',
+    answer: 'Activities include guidance and counselling, journalism, games and sports, drama and music, debate, scouting and Health Club. Contact the school for the current activity schedule.',
     category: 'Parents',
   },
 ];

@@ -7,7 +7,6 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { TeacherCard } from '@/components/TeacherCard';
 import { Timeline } from '@/components/Timeline';
-import { PageHero } from '@/components/PageHero';
 import { AboutSectionNav } from '@/components/AboutSectionNav';
 import { schoolHistory, schoolStats } from '@/lib/verified-school-content';
 
@@ -18,14 +17,6 @@ export default function About() {
   return (
     <div className="pb-24">
       <AboutSectionNav />
-      <PageHero
-        eyebrow="Who we are"
-        title="A school built around every learner."
-        description="Discover the history, purpose and people behind an inclusive education centre committed to every learner’s growth."
-        imageSlot="page-about"
-        cta={{ label: 'Meet our teachers', href: '#teachers' }}
-      />
-
       <Breadcrumbs items={[{ name: 'About Us' }]} />
 
       <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-start gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
@@ -33,9 +24,9 @@ export default function About() {
           <span className="inline-block rounded-full bg-blue-100 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-blue-700">
             Our Foundation
           </span>
-          <h2 className="text-3xl font-extrabold leading-tight text-blue-950 md:text-4xl">
+          <h1 className="text-3xl font-extrabold leading-tight text-blue-950 md:text-4xl">
             Growing with our learners since 2017
-          </h2>
+          </h1>
           <p className="text-base leading-relaxed text-gray-600">
             Creative All Stars Academy began as a preschool in 2017 with 14 learners, three teachers and one driver. In 2020, the school introduced Grade 1 and began its expansion into primary education.
           </p>
