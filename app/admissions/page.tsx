@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Download, FileText, Send } from 'lucide-react';
-import { PageHero } from '@/components/PageHero';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
 
 export default function Admissions() {
@@ -69,9 +68,7 @@ export default function Admissions() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Your journey starts here" title="A warm welcome from the very first enquiry." description="Learn about placement, plan a school visit and let our admissions team guide your family through each next step." imageSlot="page-admissions"/>
-
-      <Breadcrumbs items={[{ name: 'Admissions' }]} />
+       <Breadcrumbs items={[{ name: 'Admissions' }]} />
 
       {/* Grid: Process and PDF downloads */}
       <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-12 lg:px-8">
@@ -81,7 +78,7 @@ export default function Admissions() {
             <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 font-extrabold text-xs uppercase tracking-widest rounded-full">
               Admission Steps
             </span>
-            <h2 className="text-3xl font-extrabold text-blue-950">Simple Step-by-Step Pathway</h2>
+            <h1 className="text-3xl font-extrabold text-blue-950">Simple Step-by-Step Pathway</h1>
             <p className="text-gray-600 text-sm md:text-base">We welcome parents throughout the academic year. School Secretary Celestin Akinyi and the admissions team can guide you through each step:</p>
           </div>
 

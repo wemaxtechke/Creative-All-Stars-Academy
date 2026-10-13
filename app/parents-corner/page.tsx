@@ -5,7 +5,6 @@ import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { FAQAccordion } from '@/components/FAQAccordion';
-import { PageHero } from '@/components/PageHero';
 import { uniformSections } from '@/lib/verified-school-content';
 
 export default function ParentsCorner() {
@@ -14,18 +13,12 @@ export default function ParentsCorner() {
 
   return (
     <div className="pb-24">
-      <PageHero
-        eyebrow="Families are part of the team"
-        title="Everything parents need, in one welcoming place."
-        description="Find official documents, uniform guidance and practical information that keeps home and school connected."
-        imageSlot="page-parents"
-      />
-
-      <Breadcrumbs items={[{ name: 'Parents Corner' }]} />
+       <Breadcrumbs items={[{ name: 'Parents Corner' }]} />
 
       {orderedDownloads.length > 0 && (
         <section className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeader
+            as="h1"
             title="School Documents and Parent Resources"
             subtitle="Download the current files published by the school administration."
             badge="Downloads Centre"
@@ -49,9 +42,10 @@ export default function ParentsCorner() {
         </section>
       )}
 
-      <section className="mt-16 border-y border-gray-100 bg-gray-100/50 py-16 sm:mt-20">
+      <section className={`border-y border-gray-100 bg-gray-100/50 ${orderedDownloads.length > 0 ? 'mt-16 py-16 sm:mt-20' : 'mt-6 py-8 sm:mt-8 sm:py-12'}`}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeader
+            as={orderedDownloads.length > 0 ? 'h2' : 'h1'}
             title="Official School Uniform"
             subtitle="Use this guide when purchasing ECDE, Primary and Junior School uniform."
             badge="Uniform Guide"

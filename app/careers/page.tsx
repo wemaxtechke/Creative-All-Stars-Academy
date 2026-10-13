@@ -5,8 +5,7 @@ import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { SectionHeader } from '@/components/SectionHeader';
 import { JobCard } from '@/components/JobCard';
-import { Mail, Briefcase, HelpCircle } from 'lucide-react';
-import { PageHero } from '@/components/PageHero';
+import { Mail } from 'lucide-react';
 import { isJobOpen } from '@/lib/jobs';
 
 export default function Careers() {
@@ -15,13 +14,12 @@ export default function Careers() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Build meaningful careers" title="Do work that shapes a child’s future." description="Join a caring, creative team committed to professional excellence and inclusive learner development." imageSlot="page-careers"/>
-
-      <Breadcrumbs items={[{ name: 'Careers' }]} />
+       <Breadcrumbs items={[{ name: 'Careers' }]} />
 
       {/* Main jobs listing section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-10">
         <SectionHeader
+          as="h1"
           title="Explore Our Active Openings & Support Positions"
           subtitle="Review the requirements listed for each current vacancy and submit the requested application documents."
           badge="VETTED CAREERS"

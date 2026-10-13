@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Mail, Phone, MapPin, Clock, Send, ExternalLink } from 'lucide-react';
-import { PageHero } from '@/components/PageHero';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
 
 export default function Contact() {
@@ -49,9 +48,7 @@ export default function Contact() {
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="Let’s start a conversation" title="Come and experience our school for yourself." description="Ask a question, arrange a school visit or speak with our admissions team in Ngata, Nakuru." imageSlot="page-contact"/>
-
-      <Breadcrumbs items={[{ name: 'Contact' }]} />
+       <Breadcrumbs items={[{ name: 'Contact' }]} />
 
       {/* Grid: details and Form */}
       <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-12 lg:px-8">
@@ -63,7 +60,7 @@ export default function Contact() {
             <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 font-extrabold text-xs uppercase tracking-widest rounded-full">
               Reach Us
             </span>
-            <h2 className="text-3xl font-black text-blue-950">Official Administrative Office</h2>
+            <h1 className="text-3xl font-black text-blue-950">Official Administrative Office</h1>
             <p className="text-gray-500 text-sm md:text-base leading-relaxed">
               Visit the school in Ngata, Nakuru, or contact us by telephone or email to arrange a consultation or school tour.
             </p>

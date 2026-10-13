@@ -7,7 +7,6 @@ import { useParams } from 'next/navigation';
 import { ArrowLeft, Calendar, Check, Clock, Copy, Send, Share2 } from 'lucide-react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { PageHero } from '@/components/PageHero';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
 import type { BlogComment } from '@/types';
 
@@ -82,7 +81,6 @@ export default function BlogDetails() {
   }
 
   return <div className="pb-12 sm:pb-24">
-    <PageHero eyebrow={post.category} title={post.title} description={post.summary} image={post.featuredImage} imageAlt={post.title}/>
     <div className="container-shell mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-xs font-semibold text-slate-500 shadow-sm sm:mt-6 sm:gap-6 sm:px-6 sm:py-4 sm:text-sm">
       <Link href={`/blog?author=${encodeURIComponent(post.author)}`} className="font-extrabold text-[#031f66] transition hover:text-[#d50b12]">By {post.author}{post.authorRole ? ` · ${post.authorRole}` : ''}</Link>
       <span className="flex items-center gap-2"><Calendar className="h-4 w-4 text-[#d50b12]"/>{post.date}</span>
@@ -96,6 +94,8 @@ export default function BlogDetails() {
       <div className="relative h-[220px] overflow-hidden rounded-2xl shadow-md sm:h-[480px] sm:rounded-3xl"><Image src={post.featuredImage} alt={post.title} fill priority sizes="(min-width: 1024px) 896px, 100vw" className="object-cover"/></div>
 
       <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-xs sm:rounded-3xl sm:p-10">
+        <h1 className="brand-title mb-5 text-2xl font-extrabold leading-tight text-blue-950 sm:text-3xl">{post.title}</h1>
+        {post.summary && <p className="mb-6 text-sm leading-7 text-slate-600 sm:text-base">{post.summary}</p>}
         <article className="prose prose-blue max-w-none space-y-5 text-sm font-medium leading-relaxed text-gray-700 md:text-base [&_a]:font-bold [&_a]:text-blue-700 [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-yellow-400 [&_blockquote]:pl-4 [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-blue-950 sm:[&_h2]:text-3xl [&_h3]:text-xl [&_h3]:font-extrabold [&_h3]:text-blue-950 sm:[&_h3]:text-2xl [&_img]:my-6 [&_img]:max-h-[560px] [&_img]:w-full [&_img]:rounded-2xl [&_img]:object-cover" dangerouslySetInnerHTML={{ __html: post.content }}/>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-gray-100 pt-6 sm:flex-row">

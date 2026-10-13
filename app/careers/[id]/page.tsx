@@ -5,7 +5,6 @@ import { useParams, notFound, useSearchParams } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import { Calendar, MapPin, Send, ArrowLeft, Paperclip } from 'lucide-react';
 import Link from 'next/link';
-import { PageHero } from '@/components/PageHero';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
 import { isJobOpen } from '@/lib/jobs';
 
@@ -58,9 +57,7 @@ function CareerDetailsContent() {
 
   return (
     <div className="pb-12 sm:pb-24">
-      <PageHero eyebrow={`${job.type} · ${job.department}`} title={job.title} description={job.description} imageSlot="page-careers" cta={{label:'Apply for this role',href:'#apply-form-block'}}/>
-
-      {/* Breadcrumbs */}
+       {/* Breadcrumbs */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
         <Link href="/careers" className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-blue-600">
           <ArrowLeft className="w-4 h-4" /> Back to careers directory
@@ -80,6 +77,11 @@ function CareerDetailsContent() {
             <span className="flex items-center gap-1 text-red-500">
               <Calendar className="w-4 h-4" /> Deadline: {job.deadline}
             </span>
+          </div>
+
+          <div className="space-y-3">
+            <h1 className="brand-title text-2xl font-extrabold leading-tight text-blue-950 sm:text-3xl">{job.title}</h1>
+            <p className="text-sm leading-7 text-slate-600">{job.description}</p>
           </div>
 
           {/* Responsibilities list */}

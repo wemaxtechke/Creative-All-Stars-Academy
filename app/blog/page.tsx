@@ -7,7 +7,6 @@ import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { BlogCard } from '@/components/BlogCard';
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
-import { PageHero } from '@/components/PageHero';
 
 function BlogContent() {
   const { blogPosts } = useApp();
@@ -39,19 +38,18 @@ function BlogContent() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 300, behavior: 'smooth' });
+    document.getElementById('blog-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const popularPosts = blogPosts.filter(p => p.popular).slice(0, 4);
 
   return (
     <div className="pb-24">
-      <PageHero eyebrow="School blogs" title="Stories from a school that never stops growing." description="Read learner achievements, parent guidance and practical insights into competency-based learning." imageSlot="page-blog"/>
-
-      <Breadcrumbs items={[{ name: 'Blogs' }]} />
+       <Breadcrumbs items={[{ name: 'Blogs' }]} />
+      <h1 className="sr-only">School blogs</h1>
 
       {/* Main layout: content + sidebar */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <section id="blog-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 scroll-mt-40 grid grid-cols-1 lg:grid-cols-12 gap-12">
 
         {/* Left Column: Posts Grid and filters */}
         <div className="lg:col-span-8 space-y-10">

@@ -7,11 +7,6 @@ import type { HeroSlide } from '@/types';
 
 const imageSlots = [
   ['brand-logo', 'Website logo'],
-  ['page-admissions', 'Admissions page banner'],
-  ['page-blog', 'Blog page banner'],
-  ['page-careers', 'Careers page banner'],
-  ['page-contact', 'Contact page banner'],
-  ['page-parents', 'Parents corner banner'],
   ['home-learning', 'Homepage learning section'],
   ['about-leadership', 'About leadership section'],
   ['about-mission-board', 'About mission and vision board'],
