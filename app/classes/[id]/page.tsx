@@ -4,10 +4,8 @@ import React from 'react';
 import { useParams, notFound } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
 import { UserRound, CheckCircle, GraduationCap, Award, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { PageHero } from '@/components/PageHero';
 import { AboutSectionNav } from '@/components/AboutSectionNav';
 
 export default function ClassDetails() {
@@ -26,8 +24,6 @@ export default function ClassDetails() {
   return (
     <div className="pb-12 sm:pb-24">
       <AboutSectionNav />
-      <PageHero eyebrow={`${selectedClass.ageGroup} learning pathway`} title={selectedClass.name} description={selectedClass.description} image={classImage?.url} imageAlt={classImage?.alt} cta={{label:'Enquire about this class',href:'/admissions'}}/>
-
       <Breadcrumbs items={[{ name: 'Classes', href: '/classes' }, { name: selectedClass.name }]} />
 
       {/* Main Content Details Grid */}
@@ -47,7 +43,7 @@ export default function ClassDetails() {
 
           {/* Description */}
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-black text-blue-950">Learning Focus & Philosophy</h2>
+            <h1 className="text-2xl md:text-3xl font-black text-blue-950">Learning Focus & Philosophy</h1>
             <p className="text-gray-600 text-base leading-relaxed">
               {selectedClass.description} Learning is delivered through Kenya’s Competency-Based Education framework, with age-appropriate experiences that build knowledge, skills, values and learner agency.
             </p>
