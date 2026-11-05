@@ -140,7 +140,7 @@ test('teachers and class lead assignments are fully administered through D1 CMS 
   const context = await read('lib/AppContext.tsx');
   const staffAdmin = await read('app/admin/dashboard/staff/page.tsx');
   const classesAdmin = await read('app/admin/dashboard/classes/page.tsx');
-  const classPage = await read('app/classes/[id]/page.tsx');
+  const classPage = await read('components/LearningStageDetails.tsx');
 
   assert.match(migration, /'classes'/);
   assert.match(migration, /'teacherId', 't4'/);
@@ -152,7 +152,7 @@ test('teachers and class lead assignments are fully administered through D1 CMS 
   assert.match(staffAdmin, /\(optional\)/);
   assert.match(classesAdmin, /No lead educator/);
   assert.match(classesAdmin, /updateSchoolClass/);
-  assert.match(classPage, /teachers\.find\(t => t\.id === selectedClass\.teacherId\)/);
+  assert.match(classPage, /teachers\.find\(t => t\.id === selectedClass\?\.teacherId\)/);
   assert.doesNotMatch(context, /schoolClasses as initialSchoolClasses/);
 });
 
@@ -198,14 +198,13 @@ test('current school phone and email are used throughout public website content'
   const paths = [...await sourceFiles('app'), ...await sourceFiles('components'), ...await sourceFiles('lib')];
   for (const path of paths) {
     const source = await read(path);
-    assert.doesNotMatch(source, /\+254733590116|\+254712345678|@creativeallstars\.ac\.ke/i, `${path} contains old contact details`);
+    assert.doesNotMatch(source, /\+254733590116|\+254712345678|\+254\s*724\s*838\s*674|@creativeallstars\.ac\.ke/i, `${path} contains old contact details`);
   }
   const settings = await read('lib/site-content.ts');
-  const migration = await read('migrations/0010_update_school_contact_details.sql');
-  assert.match(settings, /\+254724838674/);
+  const migration = await read('migrations/0016_confirm_official_phone.sql');
+  assert.match(settings, /\+254114813030/);
   assert.match(settings, /info@creativeallstarsacademy\.sc\.ke/);
-  assert.match(migration, /'\$\.phone', '\+254724838674'/);
-  assert.match(migration, /'\$\.email', 'info@creativeallstarsacademy\.sc\.ke'/);
+  assert.match(migration, /'\$\.phone', '\+254114813030'/);
 });
 
 test('contact page embeds the administrator-controlled Google Maps location', async () => {

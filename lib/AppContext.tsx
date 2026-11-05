@@ -8,6 +8,7 @@ import type {
   HeroSlide, SiteImage,
 } from '@/types';
 import { schoolFaqs as initialFaqs } from '@/lib/verified-school-content';
+import { prepareImageForUpload } from '@/lib/prepare-image';
 import {
   defaultPublicContent,
   type ContentCollection,
@@ -249,7 +250,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   };
   const uploadMedia = async (file: File, altText = '') => {
     const form = new FormData();
-    form.set('file', file);
+    form.set('file', await prepareImageForUpload(file));
     form.set('altText', altText);
     const { asset } = await jsonRequest<{ asset: UploadedMedia }>('/api/admin/media', {
       method: 'POST',

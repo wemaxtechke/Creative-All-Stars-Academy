@@ -1,208 +1,30 @@
 'use client';
 
-import React, { Suspense, useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { PageIntro } from '@/components/PageIntro';
 import { BlogCard } from '@/components/BlogCard';
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
 
 function BlogContent() {
   const { blogPosts } = useApp();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [currentPage, setCurrentPage] = useState(1);
-  const authorFilter = searchParams.get('author') ?? '';
-
-  const postsPerPage = 6;
-  const categories = ['All', 'Learning', 'Arts', 'Sports', 'Trips', 'Campus', 'School Events', 'Graduation'];
-
-  // Filter posts
-  const filteredPosts = blogPosts.filter((post) => {
-    const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          post.summary.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          post.author.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
-    const matchesAuthor = !authorFilter || post.author === authorFilter;
-    return matchesSearch && matchesCategory && matchesAuthor;
-  });
-
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage) || 1;
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    document.getElementById('blog-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  const popularPosts = blogPosts.filter(p => p.popular).slice(0, 4);
-
-  return (
-    <div className="pb-24">
-       <Breadcrumbs items={[{ name: 'Blogs' }]} />
-      <h1 className="sr-only">School blogs</h1>
-
-      {/* Main layout: content + sidebar */}
-      <section id="blog-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 scroll-mt-40 grid grid-cols-1 lg:grid-cols-12 gap-12">
-
-        {/* Left Column: Posts Grid and filters */}
-        <div className="lg:col-span-8 space-y-10">
-
-          {authorFilter && <div className="flex items-center justify-between rounded-2xl border border-blue-100 bg-blue-50 px-5 py-4 text-sm font-bold text-blue-950"><span>Articles by {authorFilter}</span><button type="button" onClick={() => router.replace('/blog')} className="text-xs text-blue-700 underline">Show all authors</button></div>}
-
-          {/* Top Search & Filter bar */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-3xl shadow-xs border border-gray-100">
-            <div className="relative w-full sm:w-2/3">
-              <Search className="absolute top-3.5 left-4 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search blog articles or headlines..."
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl text-sm border-0 focus:outline-none focus:ring-2 focus:ring-blue-600 font-medium"
-              />
-            </div>
-
-            <div className="relative w-full sm:w-1/3">
-              <select
-                value={selectedCategory}
-                onChange={(e) => {
-                  setSelectedCategory(e.target.value);
-                  setCurrentPage(1);
-                }}
-                className="w-full px-4 py-3 bg-gray-50 text-gray-700 text-sm font-extrabold rounded-2xl border-0 focus:outline-none focus:ring-2 focus:ring-blue-600 cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23130210%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22/%3E%3C/svg%3E')] bg-[length:10px] bg-[right_16px_center] bg-no-repeat pr-10"
-              >
-                {categories.map((cat, idx) => (
-                  <option key={idx} value={cat}>{cat} (Category)</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Posts Grid */}
-          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8">
-            {currentPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
-            ))}
-          </div>
-
-          {filteredPosts.length === 0 && (
-            <div className="text-center py-20 bg-white border border-gray-100 rounded-3xl space-y-4">
-              <span className="text-4xl">🔬</span>
-              <h4 className="font-black text-blue-950 text-lg">No matches found</h4>
-              <p className="text-gray-500 text-sm leading-relaxed">We couldn&apos;t find any articles matching your search description. Try broader categories.</p>
-            </div>
-          )}
-
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-center gap-2 pt-6 border-t border-gray-100">
-              <button
-                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="p-3 bg-white border border-gray-100 text-gray-500 rounded-xl hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none transition-all"
-                title="Previous Page"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-
-              {Array.from({ length: totalPages }).map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handlePageChange(idx + 1)}
-                  className={`w-11 h-11 rounded-xl text-sm font-extrabold transition-all ${
-                    currentPage === idx + 1
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/10'
-                      : 'bg-white border border-gray-100 text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  {idx + 1}
-                </button>
-              ))}
-
-              <button
-                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                className="p-3 bg-white border border-gray-100 text-gray-500 rounded-xl hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none transition-all"
-                title="Next Page"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          )}
-
-        </div>
-
-        {/* Right Column: Sidebar */}
-        <div className="lg:col-span-4 space-y-8">
-
-          {/* Categories card list */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm space-y-4">
-            <h3 className="text-lg font-extrabold text-blue-950 border-b border-gray-50 pb-2">Filter Categories</h3>
-            <div className="flex flex-col gap-1 text-sm font-semibold">
-              {categories.map((cat, idx) => {
-                const count = cat === 'All' ? blogPosts.length : blogPosts.filter(p => p.category === cat).length;
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      setSelectedCategory(cat);
-                      setCurrentPage(1);
-                    }}
-                    className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-left transition-colors ${
-                      selectedCategory === cat ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'
-                    }`}
-                  >
-                    <span>{cat}</span>
-                    <span className="text-xs bg-gray-100 px-2 py-0.5 rounded-lg text-gray-500 font-bold">{count}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Popular posts side list */}
-          <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm space-y-4">
-            <h3 className="text-lg font-extrabold text-blue-950 border-b border-gray-50 pb-2">Popular Articles</h3>
-            <div className="space-y-4">
-              {popularPosts.map((post) => (
-                <div key={post.id} className="flex gap-3">
-                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
-                    <img
-                      src={post.featuredImage}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <h4 className="text-xs font-extrabold text-blue-950 line-clamp-2 hover:text-blue-600">
-                      <Link href={`/blog/${post.id}`}>
-                        {post.title}
-                      </Link>
-                    </h4>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase">{post.date}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-
-      </section>
-    </div>
-  );
+  const params = useSearchParams();
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('All');
+  const [page, setPage] = useState(1);
+  const author = params.get('author') ?? '';
+  const categories = ['All', ...new Set(blogPosts.map(post => post.category))];
+  const filtered = [...blogPosts].filter(post => (!author || post.author === author) && (category === 'All' || category === post.category) && `${post.title} ${post.summary} ${post.author}`.toLowerCase().includes(query.toLowerCase())).sort((a, b) => b.date.localeCompare(a.date));
+  const pages = Math.max(1, Math.ceil(filtered.length / 6));
+  const current = Math.min(page, pages);
+  return <div className="public-page"><Breadcrumbs items={[{ name: 'News & stories' }]} /><section className="container-shell"><PageIntro eyebrow="From our community" title="Stories from our school."><p>Learning, discovery and the moments that make school life meaningful.</p></PageIntro>
+    {author && <p className="mb-6 text-sm">Stories by {author}. <Link href="/blog" className="text-link">Show all authors</Link></p>}
+    {blogPosts.length > 1 && <div className="blog-filters"><div className="form-field"><label htmlFor="story-search">Search stories</label><input id="story-search" type="search" value={query} onChange={event => { setQuery(event.target.value); setPage(1); }} /></div>{categories.length > 2 && <div className="form-field"><label htmlFor="story-category">Category</label><select id="story-category" value={category} onChange={event => { setCategory(event.target.value); setPage(1); }}>{categories.map(name => <option key={name}>{name}</option>)}</select></div>}</div>}
+    <div className="blog-grid">{filtered.slice((current - 1) * 6, current * 6).map(post => <BlogCard key={post.id} post={post} />)}</div>
+    {filtered.length === 0 && <p className="empty-state">{blogPosts.length ? 'No stories match this search. Try another phrase or category.' : 'School stories will appear here as they are published.'}</p>}
+    {pages > 1 && <nav className="pagination" aria-label="Story pages"><button type="button" disabled={current === 1} onClick={() => setPage(current - 1)}>Previous</button><span aria-live="polite">Page {current} of {pages}</span><button type="button" disabled={current === pages} onClick={() => setPage(current + 1)}>Next</button></nav>}
+  </section></div>;
 }
-
-export default function Blog() {
-  return <Suspense fallback={<div className="container-shell py-24 text-center text-sm font-semibold text-slate-500">Loading publications…</div>}><BlogContent/></Suspense>;
-}
+export default function Blog() { return <Suspense fallback={<div className="container-shell section-space">Loading stories…</div>}><BlogContent /></Suspense>; }

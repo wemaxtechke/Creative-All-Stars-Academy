@@ -1,102 +1,26 @@
 'use client';
 
 import Image from 'next/image';
-import { Award, ShieldCheck } from 'lucide-react';
+import Link from 'next/link';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
+import { PageIntro } from '@/components/PageIntro';
 import { TeacherCard } from '@/components/TeacherCard';
-import { Timeline } from '@/components/Timeline';
 import { AboutSectionNav } from '@/components/AboutSectionNav';
 import { schoolHistory, schoolStats } from '@/lib/verified-school-content';
+import { uniqueTeachers } from '@/lib/public-content';
 
 export default function About() {
   const { teachers, getSiteImage } = useApp();
-  const missionImage = getSiteImage('about-mission-board');
-
-  return (
-    <div className="pb-24">
-      <AboutSectionNav />
-      <Breadcrumbs items={[{ name: 'About Us' }]} />
-
-      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 items-start gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-2 lg:px-8">
-        <div className="space-y-6">
-          <span className="inline-block rounded-full bg-blue-100 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-blue-700">
-            Our Foundation
-          </span>
-          <h1 className="text-3xl font-extrabold leading-tight text-blue-950 md:text-4xl">
-            Growing with our learners since 2017
-          </h1>
-          <p className="text-base leading-relaxed text-gray-600">
-            Creative All Stars Academy began as a preschool in 2017 with 14 learners, three teachers and one driver. In 2020, the school introduced Grade 1 and began its expansion into primary education.
-          </p>
-          <p className="text-base leading-relaxed text-gray-600">
-            The school expanded again in 2023 with the introduction of upper primary classes. Our first KPSEA candidates sat the assessment in 2025, and Junior School opened in 2026.
-          </p>
-        </div>
-
-        <div className="space-y-4 rounded-3xl border border-blue-100 bg-blue-50 p-6 sm:p-8">
-          <div>
-            <h3 className="flex items-center gap-2 text-lg font-extrabold text-blue-950">
-              <ShieldCheck className="h-5 w-5 text-blue-600" /> Vision
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-gray-600">
-              To be an inclusive education centre that develops learners in all aspects of growth.
-            </p>
-          </div>
-          <div className="border-t border-blue-200/60 pt-4">
-            <h3 className="flex items-center gap-2 text-lg font-extrabold text-blue-950">
-              <Award className="h-5 w-5 text-[#d50b12]" /> Mission
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-gray-600">
-              To provide holistic development and education that enables every learner to realise their full potential.
-            </p>
-          </div>
-          <div className="border-t border-blue-200/60 pt-4">
-            <p className="text-[10px] font-black uppercase tracking-[.18em] text-[#d50b12]">School motto</p>
-            <p className="mt-2 text-xl font-extrabold text-blue-950">“Endeavour to Succeed”</p>
-          </div>
-        </div>
-      </section>
-
-      {missionImage && (
-        <section className="container-shell mt-12 sm:mt-20">
-          <div className="overflow-hidden rounded-3xl border border-blue-100 bg-white p-3 shadow-xl">
-            <Image src={missionImage.url} alt={missionImage.alt} width={1400} height={800} className="h-auto max-h-[720px] w-full rounded-2xl object-contain" />
-          </div>
-        </section>
-      )}
-
-      <section className="mt-16 border-y border-gray-100 bg-gray-100/50 py-14 sm:mt-20">
-        <div className="container-shell grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
-          {schoolStats.map((stat) => (
-            <div key={stat.label} className="rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:rounded-3xl sm:p-7">
-              <p className="text-2xl font-black text-blue-700 sm:text-3xl">{stat.value}{stat.suffix}</p>
-              <p className="mt-2 text-xs font-bold text-gray-500">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto mt-16 max-w-7xl px-4 sm:mt-20 sm:px-6 lg:px-8">
-        <SectionHeader
-          title="Our Journey Over the Years"
-          subtitle="The verified milestones that shaped Creative All Stars Academy from its preschool beginnings to Junior School."
-          badge="Timeline Milestones"
-        />
-        <Timeline events={schoolHistory} />
-      </section>
-
-      <section id="teachers" className="mx-auto mt-16 max-w-7xl scroll-mt-28 px-4 sm:mt-20 sm:px-6 lg:px-8">
-        <SectionHeader
-          title="Meet Our Teachers"
-          subtitle="Confirmed class teachers and teaching team members from Playgroup through Grade 7."
-          badge="Teaching Team"
-        />
-        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-4">
-          {teachers.map((teacher) => <TeacherCard key={teacher.id} teacher={teacher} />)}
-        </div>
-      </section>
-    </div>
-  );
+  const image = getSiteImage('about-mission-board');
+  const team = uniqueTeachers(teachers);
+  return <div className="public-page"><AboutSectionNav /><Breadcrumbs items={[{ name: 'Our school' }]} /><section className="container-shell">
+    <PageIntro eyebrow="Rooted in care. Growing with purpose." title="A small beginning. A shared ambition."><p>Creative All Stars Academy began in Ngata, Nakuru in 2017 with 14 learners, three teachers and one driver. Today, our community supports a continuous journey from Playgroup to Junior School.</p></PageIntro>
+    <div className="about-values"><div><p className="eyebrow">Our mission</p><h2>Every learner’s potential.</h2><p>To provide holistic development and education that enables every learner to realise their full potential.</p></div><div><p className="eyebrow">Our vision</p><h2>Growth in every direction.</h2><p>To be an inclusive education centre that develops learners in all aspects of growth.</p></div><div><p className="eyebrow">Our motto</p><h2>Endeavour to Succeed.</h2><p>A shared purpose that connects our learners, teachers and families.</p></div></div>
+    {image && <div className="about-board"><Image src={image.url} alt={image.alt} width={1400} height={800} className="h-auto w-full object-contain" /></div>}
+    <dl className="about-stats">{schoolStats.map(stat => <div key={stat.label}><dt>{stat.label}</dt><dd>{stat.value}{stat.suffix}</dd></div>)}</dl>
+    <section className="section-space"><p className="eyebrow">Our story so far</p><h2 className="section-title">Growing with our learners.</h2><ol className="school-timeline">{schoolHistory.map(event => <li key={event.year}><span>{event.year}</span><div><h3>{event.title}</h3><p>{event.description}</p></div></li>)}</ol></section>
+    {team.length > 0 && <section id="teachers" className="team-section"><div className="section-heading-row"><div><p className="eyebrow">People who make the difference</p><h2 className="section-title">Meet our teaching team.</h2></div><p>The people supporting our learners from their first school days to their next big step.</p></div><div className="teacher-grid">{team.map(teacher => <TeacherCard key={teacher.id} teacher={teacher} />)}</div></section>}
+    <div className="quiet-callout"><div><h2>Get to know our learning journey.</h2><p>Five connected stages, with space for every learner to develop.</p></div><Link href="/classes" className="button button-primary">Explore learning</Link></div>
+  </section></div>;
 }

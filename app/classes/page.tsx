@@ -1,100 +1,17 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
-import { GraduationCap, ArrowRight, UserCheck } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { AboutSectionNav } from '@/components/AboutSectionNav';
+import { PageIntro } from '@/components/PageIntro';
+import { learningStages } from '@/lib/learning-stages';
 
 export default function Classes() {
-  const { classes, getSiteImage } = useApp();
-
-  return (
-    <div className="pb-24">
-      <AboutSectionNav />
-      <Breadcrumbs items={[{ name: 'About', href: '/about' }, { name: 'Classes' }]} />
-
-      {/* Main classes listing section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-        <SectionHeader
-          as="h1"
-          title="Browse Early Childhood, Primary & Junior School Blocks"
-          subtitle="Select a class to view its current description, assigned class teacher and available learning information."
-          badge={`${classes.length} LEARNING PATHWAYS`}
-        />
-
-        <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-8 lg:grid-cols-3">
-          {classes.map((cls, idx) => {
-            const assignedImage=getSiteImage(`class-${cls.id}`);
-            return (
-            <motion.div
-              key={cls.id}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.05 }}
-              whileHover={{ y: -6, scale: 1.01 }}
-              className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md sm:rounded-3xl"
-            >
-              {/* Card Image */}
-              {assignedImage&&<div className="relative h-32 overflow-hidden bg-gray-100 sm:h-48">
-                <img
-                  src={assignedImage.url}
-                  alt={assignedImage.alt}
-                  className="w-full h-full object-cover"
-                />
-                <span className="absolute bottom-4 left-4 z-10 px-3 py-1 bg-blue-600 text-white font-extrabold text-xs rounded-lg uppercase shadow-sm">
-                  {cls.ageGroup}
-                </span>
-              </div>}
-
-              {/* Card Content */}
-              <div className="flex flex-grow flex-col p-4 sm:p-6">
-                <h3 className="mb-2 text-base font-black leading-tight text-blue-950 sm:text-xl">{cls.name}</h3>
-                <p className="text-gray-500 text-xs leading-relaxed mb-6 flex-grow line-clamp-3">
-                  {cls.description}
-                </p>
-
-                {/* Subject Preview Tags */}
-                <div className="space-y-2 mb-6">
-                  <span className="text-[10px] font-black uppercase text-gray-400 tracking-wider flex items-center gap-1">
-                    <GraduationCap className="w-3.5 h-3.5 text-blue-500" /> Core Subjects
-                  </span>
-                  <div className="flex flex-wrap gap-1">
-                    {cls.subjects.slice(0, 3).map((sub, sidx) => (
-                      <span key={sidx} className="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-bold rounded-md">
-                        {sub}
-                      </span>
-                    ))}
-                    {cls.subjects.length > 3 && (
-                      <span className="text-[10px] text-gray-400 font-bold pl-1">+{cls.subjects.length - 3} more</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Footer link to Dynamic Detail page */}
-                <div className="border-t border-gray-50 pt-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <UserCheck className="w-4 h-4 text-green-500" />
-                    <span className="text-xs font-bold text-gray-500">Assigned class teacher</span>
-                  </div>
-
-                  <Link
-                    href={`/classes/${cls.id}`}
-                    className="text-xs font-extrabold text-blue-600 hover:text-blue-800 flex items-center gap-1 transition-all"
-                  >
-                    View Class Details
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          )})}
-        </div>
-      </section>
-    </div>
-  );
+  return <div className="public-page">
+    <AboutSectionNav /><Breadcrumbs items={[{ name: 'Learning stages' }]} />
+    <section className="container-shell"><PageIntro eyebrow="From first steps to new horizons" title="One school. Five stages of growth."><p>A continuous journey from Playgroup to Grade 7. Explore the learning, people and possibilities at each stage.</p></PageIntro>
+      <div className="stage-directory">{learningStages.map((stage, index) => <article key={stage.id}><span className="stage-number">0{index + 1}</span><div><p className="eyebrow">{stage.levels}</p><h2 className="section-title"><Link href={`/classes/${stage.id}`}>{stage.name}</Link></h2><p>{stage.description}</p></div><Link className="text-link" href={`/classes/${stage.id}`}>Explore {stage.name} </Link></article>)}</div>
+      <div className="quiet-callout"><div><h2>Not sure where to start?</h2><p>Tell us your child’s age and previous learning experience. Our admissions team will guide you on suitable placement.</p></div><Link href="/admissions#enquiry" className="button button-primary">Ask about admission</Link></div>
+    </section>
+  </div>;
 }

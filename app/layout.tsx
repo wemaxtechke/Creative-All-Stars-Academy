@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Manrope } from 'next/font/google';
 import './globals.css';
+import './public.css';
 import { AppProvider } from '@/lib/AppContext';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ChatWidget } from '@/components/ChatWidget';
 import { getPublicContent } from '@/lib/db/content';
 import { defaultPublicContent } from '@/lib/site-content';
+import { officialPhone } from '@/lib/public-content';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap', preload: false });
+const inter = Inter({ subsets: ['latin'], variable: '--font-body', display: 'swap', preload: false });
 const manrope = Manrope({ subsets: ['latin'], variable: '--font-heading', display: 'swap', preload: false });
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://creativeallstarsacademy.sc.ke';
 
@@ -26,13 +28,14 @@ export const metadata: Metadata = {
     siteName: 'Creative All Stars Academy',
     title: 'Creative All Stars Academy — Endeavour to Succeed',
     description: 'Holistic, inclusive competency-based education in Ngata, Nakuru, helping every learner realise their full potential.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Creative All Stars Academy — Endeavour to Succeed' }],
   },
-  twitter: { card: 'summary', title: 'Creative All Stars Academy — Endeavour to Succeed', description: 'Holistic, inclusive competency-based education in Nakuru.' },
+  twitter: { card: 'summary_large_image', title: 'Creative All Stars Academy — Endeavour to Succeed', description: 'Holistic, inclusive competency-based education in Nakuru.', images: ['/opengraph-image'] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 } },
   manifest: '/manifest.webmanifest',
 };
 
-export const viewport: Viewport = { themeColor: '#0739A6', colorScheme: 'light' };
+export const viewport: Viewport = { themeColor: '#19323c', colorScheme: 'light' };
 
 const schoolSchema = {
   '@context': 'https://schema.org', '@type': ['School', 'EducationalOrganization'],
@@ -40,7 +43,7 @@ const schoolSchema = {
   slogan: 'Endeavour to Succeed',
   description: 'An inclusive education centre in Nakuru providing holistic, competency-based education that enables every learner to realise their full potential.',
   address: { '@type': 'PostalAddress', streetAddress: 'Ngata Area', addressLocality: 'Nakuru', addressCountry: 'KE' },
-  email: 'info@creativeallstarsacademy.sc.ke', telephone: '+254724838674',
+  email: 'info@creativeallstarsacademy.sc.ke', telephone: officialPhone,
 };
 
 export const dynamic = 'force-dynamic';
@@ -52,8 +55,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   });
   return <html lang="en-KE">
     <body className={`${inter.variable} ${manrope.variable} antialiased bg-slate-50 text-slate-900`}>
-      <AppProvider initialContent={initialContent}><div className="flex min-h-screen min-w-0 flex-col"><Navbar/><main className="site-main min-w-0 flex-grow">{children}</main><Footer/><ChatWidget/></div></AppProvider>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schoolSchema) }} />
+      <a href="#main-content" className="skip-link">Skip to content</a>
+      <AppProvider initialContent={initialContent}><div className="flex min-h-screen min-w-0 flex-col"><Navbar/><main id="main-content" tabIndex={-1} className="site-main min-w-0 flex-grow">{children}</main><Footer/><ChatWidget/></div></AppProvider>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ ...schoolSchema, name: initialContent.settings.schoolName, email: initialContent.settings.email }).replaceAll('<', '\\u003c') }} />
     </body>
   </html>;
 }

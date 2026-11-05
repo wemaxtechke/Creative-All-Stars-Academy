@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: 'Creative All Stars Academy — Endeavour to Succeed',
     start_url: '/',
     display: 'standalone',
-    background_color: '#ffffff',
-    theme_color: '#0739a6',
+    background_color: '#faf9f6',
+    theme_color: '#19323c',
     icons: [
       {
         src: '/icon.png',

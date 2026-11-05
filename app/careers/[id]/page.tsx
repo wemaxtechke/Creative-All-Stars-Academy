@@ -1,219 +1,53 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
-import { useParams, notFound, useSearchParams } from 'next/navigation';
-import { useApp } from '@/lib/AppContext';
-import { Calendar, MapPin, Send, ArrowLeft, Paperclip } from 'lucide-react';
+import { Suspense, useEffect, useState } from 'react';
+import { notFound, useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useApp } from '@/lib/AppContext';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { PageIntro } from '@/components/PageIntro';
 import { isJobOpen } from '@/lib/jobs';
+import { formatSchoolDate } from '@/lib/display-date';
+import { useHydrated } from '@/lib/use-hydrated';
 
 function CareerDetailsContent() {
+  const hydrated = useHydrated();
   const { id } = useParams() as { id: string };
-  const searchParams = useSearchParams();
+  const params = useSearchParams();
   const { jobs, addJobApplication } = useApp();
-
-  const job = jobs.find((item) => item.id === id && isJobOpen(item));
-
+  const job = jobs.find(item => item.id === id && isJobOpen(item));
   const [applicantName, setApplicantName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
-  const [turnstileToken, setTurnstileToken] = useState('');
   const [resumeFile, setResumeFile] = useState<File | null>(null);
-
-  // If searchParam apply=true is present, scroll down to the form
-  useEffect(() => {
-    if (searchParams.get('apply') === 'true') {
-      const el = document.getElementById('apply-form-block');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [searchParams]);
-
-  if (!job) {
-    notFound();
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!applicantName || !email || !phone || !resumeFile) {
-      setError('Please complete all fields and attach your CV as a PDF.');
-      return;
-    }
-
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  useEffect(() => { if (params.get('apply') === 'true') document.getElementById('apply-form-block')?.scrollIntoView({ behavior: 'smooth' }); }, [params]);
+  if (!job) notFound();
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    if (submitting) return;
+    if (!resumeFile || resumeFile.size > 3 * 1024 * 1024) { setError('Please attach a PDF CV smaller than 3 MB.'); return; }
+    setError(''); setSubmitting(true);
     try {
-      await addJobApplication({ jobId: job.id, jobTitle: job.title, applicantName, email, phone, resumeFile, turnstileToken });
-      setSubmitted(true);
-      setApplicantName('');
-      setEmail('');
-      setPhone('');
-      setResumeFile(null);
-      setTurnstileToken('');
-    } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : 'Your application could not be sent.');
-    }
-  };
-
-  return (
-    <div className="pb-12 sm:pb-24">
-       {/* Breadcrumbs */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-        <Link href="/careers" className="inline-flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-blue-600">
-          <ArrowLeft className="w-4 h-4" /> Back to careers directory
-        </Link>
-      </div>
-
-      {/* Job Details and Application form */}
-      <section className="mx-auto mt-6 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:mt-8 sm:gap-12 sm:px-6 lg:grid-cols-12 lg:px-8">
-
-        {/* Left Column: responsibilities & requirements */}
-        <div className="space-y-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-xs sm:space-y-8 sm:rounded-3xl sm:p-10 lg:col-span-7">
-
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 font-semibold border-b border-gray-50 pb-4">
-            <span className="flex items-center gap-1">
-              <MapPin className="w-4 h-4 text-green-500" /> {job.location}
-            </span>
-            <span className="flex items-center gap-1 text-red-500">
-              <Calendar className="w-4 h-4" /> Deadline: {job.deadline}
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            <h1 className="brand-title text-2xl font-extrabold leading-tight text-blue-950 sm:text-3xl">{job.title}</h1>
-            <p className="text-sm leading-7 text-slate-600">{job.description}</p>
-          </div>
-
-          {/* Responsibilities list */}
-          <div className="space-y-4">
-            <h3 className="text-lg md:text-xl font-extrabold text-blue-950">Key Responsibilities</h3>
-            <ul className="space-y-3">
-              {job.responsibilities.map((resp, idx) => (
-                <li key={idx} className="text-sm text-gray-600 flex items-start gap-2.5 leading-relaxed">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-2 flex-shrink-0" />
-                  <span>{resp}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Requirements list */}
-          <div className="space-y-4 pt-4 border-t border-gray-50">
-            <h3 className="text-lg md:text-xl font-extrabold text-blue-950">Role Requirements & Qualifications</h3>
-            <ul className="space-y-3">
-              {job.requirements.map((req, idx) => (
-                <li key={idx} className="text-sm text-gray-600 flex items-start gap-2.5 leading-relaxed">
-                  <span className="text-green-500 font-bold mt-0.5 flex-shrink-0">✓</span>
-                  <span>{req}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-        </div>
-
-        {/* Right Column: Application form */}
-        <div className="lg:col-span-5" id="apply-form-block">
-          <div className="relative space-y-5 overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:space-y-6 sm:rounded-3xl sm:p-8">
-            <div className="absolute top-0 left-0 w-full h-2 bg-yellow-400" />
-
-            <div className="space-y-2">
-              <span className="inline-block px-3 py-1 bg-green-100 text-green-700 font-extrabold text-[10px] uppercase rounded-full">
-                Interactive Form
-              </span>
-              <h3 className="text-2xl font-black text-blue-950">Submit Your Application</h3>
-              <p className="text-gray-500 text-xs leading-relaxed">
-                Complete this rapid digital form to apply to our Ngata faculty. Our recruitment officer will assess details and call shortlisted candidates.
-              </p>
-            </div>
-
-            {submitted ? (
-              <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center space-y-3">
-                <span className="text-3xl">🚀</span>
-                <h4 className="font-extrabold text-green-800 text-base">Application Logged!</h4>
-                <p className="text-gray-600 text-xs leading-relaxed">
-                  Your candidate profile has been logged in our administrative dashboard candidate panel. Thank you for your interest in joining our star team.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl transition-colors"
-                >
-                  Edit Details / Resubmit
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4 text-xs font-semibold">
-                {error && <p className="text-red-500 font-bold bg-red-50 p-2.5 rounded-lg border border-red-200">{error}</p>}
-
-                <div className="space-y-1">
-                  <label className="text-gray-700 font-bold">Your Full Name *</label>
-                  <input
-                    type="text"
-                    value={applicantName}
-                    onChange={(e) => setApplicantName(e.target.value)}
-                    placeholder="e.g. Sarah Wambui Kamau"
-                    className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium font-semibold text-gray-700"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-gray-700 font-bold">Email Address *</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="e.g. sarah.wambui@yahoo.com"
-                    className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-gray-700 font-bold">Phone Number *</label>
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="e.g. +254 712 345 678"
-                    className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-gray-700 font-bold">Upload CV / TSC Credentials *</label>
-                  <label className="block border-2 border-dashed border-gray-200 rounded-xl p-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
-                    <Paperclip className="w-5 h-5 text-gray-400 mx-auto mb-1" />
-                    <span className="text-[10px] text-gray-500 font-bold">{resumeFile ? resumeFile.name : 'Click to upload credentials PDF (Max 3MB)'}</span>
-                    <input type="file" accept="application/pdf,.pdf" className="sr-only" required onChange={(event) => setResumeFile(event.target.files?.[0] ?? null)} />
-                  </label>
-                </div>
-
-                <TurnstileWidget onToken={setTurnstileToken} />
-
-                <button
-                  type="submit"
-                  disabled={!resumeFile || (process.env.NODE_ENV === 'production' && !turnstileToken)}
-                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400 text-white font-extrabold text-sm rounded-2xl shadow-md transition-all flex items-center justify-center gap-1.5"
-                >
-                  <Send className="w-4 h-4" />
-                  Apply for {job.title}
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-
-      </section>
-    </div>
-  );
+      await addJobApplication({ jobId: job!.id, jobTitle: job!.title, applicantName, email, phone, resumeFile, turnstileToken });
+      setSubmitted(true); setTurnstileToken('');
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Your application could not be sent. Please try again.'); }
+    finally { setSubmitting(false); }
+  }
+  return <div className="public-page"><Breadcrumbs items={[{ name: 'Careers', href: '/careers' }, { name: job.title }]} /><section className="container-shell"><PageIntro eyebrow={`${job.department} · ${job.type}`} title={job.title}><p>{job.description}</p></PageIntro><p className="story-meta">{job.location} · Applications close {formatSchoolDate(job.deadline)}</p>
+    <div className="vacancy-layout"><div className="vacancy-copy"><section><h2>Responsibilities</h2><ul>{job.responsibilities.map(item => <li key={item}>{item}</li>)}</ul></section><section><h2>Requirements & qualifications</h2><ul>{job.requirements.map(item => <li key={item}>{item}</li>)}</ul></section><Link href="/careers" className="text-link">All career opportunities</Link></div>
+      <div id="apply-form-block" className="enquiry-panel">{submitted ? <div role="status" className="submission-success"><p className="eyebrow">Application received</p><h2>Thank you for your interest.</h2><p>The school team will review your application and contact shortlisted candidates.</p><Link href="/careers" className="text-link">Return to careers</Link></div> : <form method="post" onSubmit={submit} aria-labelledby="application-title" aria-busy={submitting}><h2 id="application-title">Apply for this role.</h2><p className="form-note">Fields marked * are required. Attach your CV as a PDF smaller than 3 MB.</p>{error && <p role="alert" className="form-error">{error}</p>}<fieldset disabled={submitting || !hydrated}>
+        <div className="form-field"><label htmlFor="applicant-name">Your name *</label><input id="applicant-name" value={applicantName} onChange={event => setApplicantName(event.target.value)} maxLength={200} autoComplete="name" required /></div>
+        <div className="form-field"><label htmlFor="applicant-email">Email address *</label><input id="applicant-email" type="email" value={email} onChange={event => setEmail(event.target.value)} maxLength={200} autoComplete="email" required /></div>
+        <div className="form-field"><label htmlFor="applicant-phone">Phone number *</label><input id="applicant-phone" type="tel" value={phone} onChange={event => setPhone(event.target.value)} maxLength={30} autoComplete="tel" required /></div>
+        <div className="form-field"><label htmlFor="applicant-cv">Your CV *</label><input id="applicant-cv" type="file" accept="application/pdf,.pdf" aria-describedby="cv-guidance" required onChange={event => setResumeFile(event.target.files?.[0] ?? null)} /><p id="cv-guidance" className="form-note">PDF only, up to 3 MB.</p></div>
+        <p className="form-note">The school uses your details and CV to review this application. <Link href="/privacy">Read our privacy notice.</Link></p><TurnstileWidget onToken={setTurnstileToken} />
+        <button type="submit" className="button button-primary" disabled={submitting || !resumeFile || (process.env.NODE_ENV === 'production' && !turnstileToken)}>{submitting ? 'Sending your application…' : 'Send application'}</button>
+      </fieldset></form>}</div>
+    </div></section></div>;
 }
-
-export default function CareerDetails() {
-  return (
-    <Suspense fallback={<div className="py-24 text-center text-sm font-semibold text-gray-500">Loading careers details...</div>}>
-      <CareerDetailsContent />
-    </Suspense>
-  );
-}
+export default function CareerDetails() { return <Suspense fallback={<div className="container-shell section-space">Loading opportunity…</div>}><CareerDetailsContent /></Suspense>; }

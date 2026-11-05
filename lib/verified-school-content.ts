@@ -26,7 +26,7 @@ export const schoolHistory = [
   {
     year: '2025',
     title: 'First KPSEA Cohort',
-    description: 'The school presented its first KPSEA candidates, who recorded an excellent performance.',
+    description: 'The school presented its first cohort of KPSEA candidates.',
   },
   {
     year: '2026',
@@ -148,7 +148,7 @@ export const schoolFaqs: FAQ[] = [
   {
     id: 'f3',
     question: 'How can I get the current school fees?',
-    answer: 'Please contact the school for the current fee structure or download the latest administrator-uploaded fee document when it is available in the Parents Corner.',
+    answer: 'Fee information is shared directly with families. Please call +254 114 813 030 or send a message through our Contact page to request the current fee structure and payment instructions.',
     category: 'Fees',
   },
   {

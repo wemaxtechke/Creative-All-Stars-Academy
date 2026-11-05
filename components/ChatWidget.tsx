@@ -238,7 +238,7 @@ export function ChatWidget() {
             <label className="ai-chat-admission-consent"><input type="checkbox" name="acceptedPrivacy" value="true" required /> <span>I agree that Creative All Stars Academy may use these details to contact me about admission.</span></label>
             <button type="submit" className="ai-chat-admission-submit">{admissionState === "sending" ? "Sending…" : "Send to admissions"}</button>
           </fieldset>
-          {admissionError && <p className="ai-chat-admission-error" role="alert">{admissionError} You can also call +254 724 838 674.</p>}
+          {admissionError && <p className="ai-chat-admission-error" role="alert">{admissionError} You can also call +254 114 813 030.</p>}
         </form>}
       </div>
       <form className="ai-chat-form" onSubmit={submit}>

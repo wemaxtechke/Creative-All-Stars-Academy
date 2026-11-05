@@ -74,6 +74,6 @@ export async function POST(request: Request) {
     if (error instanceof OpenAIRequestError && error.status === 429) {
       return json({ error: "The assistant is busy right now. Please try again shortly." }, 503);
     }
-    return json({ error: "The assistant is temporarily unavailable. Please call +254 724 838 674 or email info@creativeallstarsacademy.sc.ke." }, 503);
+    return json({ error: "The assistant is temporarily unavailable. Please call +254 114 813 030 or email info@creativeallstarsacademy.sc.ke." }, 503);
   }
 }

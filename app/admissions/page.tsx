@@ -1,289 +1,72 @@
 'use client';
 
-import React, { useState } from 'react';
+import { Suspense, useState } from 'react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { Download, FileText, Send } from 'lucide-react';
+import { PageIntro } from '@/components/PageIntro';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
+import { admissionGradeFromQuery, admissionGrades } from '@/lib/learning-stages';
+import { displayPhone, officialPhone } from '@/lib/public-content';
+import { useHydrated } from '@/lib/use-hydrated';
 
-export default function Admissions() {
+function AdmissionContent() {
+  const hydrated = useHydrated();
   const { addAdmissionApplication, downloads } = useApp();
-  const [formData, setFormData] = useState({
-    studentName: '',
-    dateOfBirth: '',
-    gender: 'Male',
-    gradeApplied: 'Grade 1',
-    parentName: '',
-    parentEmail: '',
-    parentPhone: '',
-    address: ''
-  });
-
+  const params = useSearchParams();
+  const [formData, setFormData] = useState({ studentName: '', gradeApplied: admissionGradeFromQuery(params.get('class')), parentName: '', parentEmail: '', parentPhone: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState('');
+  const admissionDownloads = downloads.filter(item => item.category === 'Admission' || item.category === 'Uniform').sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-  const grades = [
-    'Playgroup', 'PP1', 'PP2',
-    'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6',
-    'Junior School'
-  ];
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.studentName || !formData.dateOfBirth || !formData.parentName || !formData.parentPhone || !acceptedPrivacy) {
-      setError('Please fill in all the required fields correctly.');
-      return;
-    }
+  function change(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    setFormData(current => ({ ...current, [event.target.name]: event.target.value }));
+  }
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    if (submitting) return;
     setError('');
+    setSubmitting(true);
     try {
-      await addAdmissionApplication({ ...formData, acceptedPrivacy, turnstileToken });
+      await addAdmissionApplication({ ...formData, dateOfBirth: '', gender: '', address: '', acceptedPrivacy, turnstileToken });
       setSubmitted(true);
-      setFormData({ studentName: '', dateOfBirth: '', gender: 'Male', gradeApplied: 'Grade 1', parentName: '', parentEmail: '', parentPhone: '', address: '' });
-      setAcceptedPrivacy(false);
       setTurnstileToken('');
-    } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : 'Your admission enquiry could not be sent.');
-    }
-  };
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Your enquiry could not be sent. Please try again or call the school.');
+    } finally { setSubmitting(false); }
+  }
 
-  const steps = [
-    { title: 'Step 1: Send an enquiry', desc: 'Share a few details about your child so our admissions team can guide you personally.' },
-    { title: 'Step 2: Submit Documents', desc: 'Provide the child’s birth certificate, previous progress report and school clearance form for transfers, plus an immunisation booklet for ECDE applicants where applicable.' },
-    { title: 'Step 3: Learner Assessment', desc: 'Schedule a friendly interactive placement interview for the child to evaluate literacy and baseline numeracy.' },
-    { title: 'Step 4: Admission & Fee Payment', desc: 'After a successful assessment, receive an official acceptance letter and pay the term fees to reserve your child’s class placement.' }
-  ];
-
-  const admissionDownloads = downloads
-    .filter((item) => item.category === 'Admission' || item.category === 'Uniform')
-    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-
-  return (
-    <div className="pb-24">
-       <Breadcrumbs items={[{ name: 'Admissions' }]} />
-
-      {/* Grid: Process and PDF downloads */}
-      <section className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-7 px-4 sm:mt-12 sm:gap-12 sm:px-6 lg:grid-cols-12 lg:px-8">
-        {/* Left column: Steps and downloads */}
-        <div className="lg:col-span-7 space-y-10">
-          <div className="space-y-4">
-            <span className="inline-block px-4 py-1.5 bg-blue-100 text-blue-700 font-extrabold text-xs uppercase tracking-widest rounded-full">
-              Admission Steps
-            </span>
-            <h1 className="text-3xl font-extrabold text-blue-950">Simple Step-by-Step Pathway</h1>
-            <p className="text-gray-600 text-sm md:text-base">We welcome parents throughout the academic year. School Secretary Celestin Akinyi and the admissions team can guide you through each step:</p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6">
-            {steps.map((step, idx) => (
-              <div key={idx} className="relative space-y-2 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:space-y-3 sm:rounded-3xl sm:p-6">
-                <span className="absolute -top-3 left-6 px-3 py-1 bg-yellow-400 text-blue-950 font-black text-xs rounded-full shadow-sm">
-                  Step {idx + 1}
-                </span>
-                <h4 className="font-extrabold text-blue-950 pt-2 text-base leading-tight">{step.title}</h4>
-                <p className="text-gray-500 text-xs leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Only administrator-uploaded R2 documents are returned by the CMS. */}
-          {admissionDownloads.length > 0 && <div className="bg-blue-50/50 p-6 md:p-8 rounded-3xl border border-blue-100 space-y-4">
-            <h3 className="text-lg font-extrabold text-blue-950 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-blue-600" /> Printable Documentation (PDFs)
-            </h3>
-            <p className="text-gray-600 text-xs leading-relaxed">
-              Prefer a printed document? Download any current forms or guides uploaded by the school, then contact the admissions team if you need help completing them.
-            </p>
-            <div className="grid grid-cols-1 gap-3 pt-2 min-[520px]:grid-cols-2 sm:gap-4">
-              {admissionDownloads.map((item) => (
-                <div key={item.id} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center justify-between gap-3">
-                  <div>
-                    <h5 className="font-extrabold text-xs text-blue-950 line-clamp-1">{item.title}</h5>
-                    <span className="text-[10px] text-gray-500 font-semibold uppercase">{item.fileType} • {item.fileSize}</span>
-                  </div>
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-xl transition-all flex-shrink-0"
-                    title="Download document"
-                  >
-                    <Download className="w-4 h-4" />
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>}
-        </div>
-
-        {/* Right column: Form */}
-        <div className="lg:col-span-5">
-          <div className="relative space-y-6 overflow-hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:rounded-3xl sm:p-8">
-            <div className="absolute top-0 left-0 w-full h-2 bg-yellow-400" />
-            <div className="space-y-2">
-              <span className="inline-block px-3 py-1 bg-green-100 text-green-700 font-extrabold text-[10px] uppercase tracking-wider rounded-full">
-                Admission enquiry
-              </span>
-              <h3 className="text-2xl font-black text-blue-950">Online Admission Application</h3>
-              <p className="text-gray-500 text-xs leading-relaxed">
-                Tell us about your family and the class you are considering. Our admissions team will contact you to explain availability, visits and the next steps.
-              </p>
-            </div>
-
-            {submitted ? (
-              <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center space-y-3">
-                <span className="text-3xl">🎉</span>
-                <h4 className="font-extrabold text-green-800 text-base">Application Submitted Successfully!</h4>
-                <p className="text-gray-600 text-xs leading-relaxed">
-                  Thank you for enrolling with us. Your application has been logged into our administration system. An officer will call your primary phone shortly.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-bold text-xs rounded-xl transition-colors"
-                >
-                  Apply Another Student
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4 text-xs font-semibold">
-                {error && <p className="text-red-500 font-bold bg-red-50 p-2.5 rounded-lg border border-red-200">{error}</p>}
-
-                <div className="space-y-1">
-                  <label className="text-gray-700 font-bold">Child’s Full Name *</label>
-                  <input
-                    type="text"
-                    name="studentName"
-                    value={formData.studentName}
-                    onChange={handleInputChange}
-                    placeholder="e.g. Liam Kiprono Mwangi"
-                    className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                    required
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2">
-                  <div className="space-y-1">
-                    <label className="text-gray-700 font-bold">Date of Birth *</label>
-                    <input
-                      type="date"
-                      name="dateOfBirth"
-                      value={formData.dateOfBirth}
-                      onChange={handleInputChange}
-                      className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-gray-700 font-bold">Gender *</label>
-                    <select
-                      name="gender"
-                      value={formData.gender}
-                      onChange={handleInputChange}
-                      className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium bg-white"
-                      required
-                    >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-gray-700 font-bold">Grade Applying For *</label>
-                  <select
-                    name="gradeApplied"
-                    value={formData.gradeApplied}
-                    onChange={handleInputChange}
-                    className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium bg-white"
-                    required
-                  >
-                    {grades.map((g, idx) => (
-                      <option key={idx} value={g}>{g}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="border-t border-gray-100 my-4" />
-
-                <div className="space-y-1">
-                  <label className="text-gray-700 font-bold">Parent / Guardian Name *</label>
-                  <input
-                    type="text"
-                    name="parentName"
-                    value={formData.parentName}
-                    onChange={handleInputChange}
-                    placeholder="e.g. Grace Wanjiku"
-                    className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                    required
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2">
-                  <div className="space-y-1">
-                    <label className="text-gray-700 font-bold">Email Address <span className="font-medium text-gray-400">(optional)</span></label>
-                    <input
-                      type="email"
-                      name="parentEmail"
-                      value={formData.parentEmail}
-                      onChange={handleInputChange}
-                      placeholder="e.g. parent@gmail.com"
-                      className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-gray-700 font-bold">Phone Number *</label>
-                    <input
-                      type="tel"
-                      name="parentPhone"
-                      value={formData.parentPhone}
-                      onChange={handleInputChange}
-                      placeholder="e.g. +254 712..."
-                      className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-gray-700 font-bold">Residential Address / Area</label>
-                  <input
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    placeholder="e.g. Kiamunyi, Nakuru"
-                    className="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:border-blue-600 font-medium"
-                  />
-                </div>
-
-                <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs leading-5 text-slate-600">
-                  <input type="checkbox" checked={acceptedPrivacy} onChange={(event) => setAcceptedPrivacy(event.target.checked)} className="mt-0.5" required />
-                  <span>I agree that the school may use these details to respond to this admission enquiry.</span>
-                </label>
-                <TurnstileWidget onToken={setTurnstileToken} />
-
-                <button
-                  type="submit"
-                  disabled={!acceptedPrivacy || (process.env.NODE_ENV === 'production' && !turnstileToken)}
-                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400 text-white font-extrabold text-sm rounded-2xl shadow-md transition-all flex items-center justify-center gap-1.5"
-                >
-                  <Send className="w-4 h-4" />
-                  Submit Application Online
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      </section>
-
+  return <div className="public-page"><Breadcrumbs items={[{ name: 'Admissions' }]} /><section className="container-shell">
+    <PageIntro eyebrow="A thoughtful next step" title="Their next chapter begins with a conversation."><p>Tell us a little about your family. Our admissions team will help you understand class availability, placement and what comes next.</p></PageIntro>
+    <div className="admissions-layout">
+      <div id="enquiry" className="enquiry-panel">
+        {submitted ? <div role="status" className="submission-success"><p className="eyebrow">Enquiry received</p><h2>Thank you for getting in touch.</h2><p>Our admissions team will contact you using the details you provided during school office hours. Sending an enquiry does not reserve a place.</p><button type="button" className="button button-primary" onClick={() => { setSubmitted(false); setAcceptedPrivacy(false); setFormData({ studentName: '', gradeApplied: '', parentName: '', parentEmail: '', parentPhone: '' }); }}>Send another enquiry</button></div> : <form method="post" onSubmit={submit} aria-labelledby="enquiry-title" aria-busy={submitting}>
+          <p className="eyebrow">Admission enquiry</p><h2 id="enquiry-title">Let’s get to know you.</h2><p className="form-note">Fields marked * are required. No documents or payment are needed to send this enquiry.</p>
+          {error && <p role="alert" className="form-error">{error}</p>}
+          <fieldset disabled={submitting || !hydrated}>
+            <div className="form-field"><label htmlFor="studentName">Child’s name *</label><input id="studentName" name="studentName" value={formData.studentName} onChange={change} maxLength={200} required autoComplete="off" /></div>
+            <div className="form-field"><label htmlFor="gradeApplied">Class you are considering *</label><select id="gradeApplied" name="gradeApplied" value={formData.gradeApplied} onChange={change} required><option value="" disabled>Select a class</option>{admissionGrades.map(grade => <option key={grade.id} value={grade.name}>{grade.name}</option>)}</select></div>
+            <div className="form-field"><label htmlFor="parentName">Parent or guardian’s name *</label><input id="parentName" name="parentName" value={formData.parentName} onChange={change} maxLength={200} autoComplete="name" required /></div>
+            <div className="form-field"><label htmlFor="parentPhone">Phone number *</label><input id="parentPhone" type="tel" name="parentPhone" value={formData.parentPhone} onChange={change} maxLength={30} autoComplete="tel" inputMode="tel" required /></div>
+            <div className="form-field"><label htmlFor="parentEmail">Email address <span>(optional)</span></label><input id="parentEmail" type="email" name="parentEmail" value={formData.parentEmail} onChange={change} maxLength={200} autoComplete="email" /></div>
+            <label className="consent-field"><input type="checkbox" checked={acceptedPrivacy} onChange={event => setAcceptedPrivacy(event.target.checked)} required /><span>I agree that the school may use these details to respond to my enquiry. <Link href="/privacy">Read our privacy notice.</Link></span></label>
+            <TurnstileWidget onToken={setTurnstileToken} />
+            <p className="form-note">If the security check does not load, call <a href={`tel:${officialPhone}`}>{displayPhone}</a>.</p>
+            <button type="submit" className="button button-primary" disabled={submitting || !acceptedPrivacy || (process.env.NODE_ENV === 'production' && !turnstileToken)}>{submitting ? 'Sending your enquiry…' : 'Send admission enquiry'}</button>
+          </fieldset>
+        </form>}
+      </div>
+      <aside className="admission-guide"><p className="eyebrow">How it works</p><h2>A clear path, with support at every step.</h2><ol className="admission-steps"><li><h3>Start a conversation</h3><p>Share your contact details and the class you have in mind. We will guide you on availability and suitable placement.</p></li><li><h3>Prepare the documents</h3><p>Our team will explain what is needed, including a birth certificate, previous progress report and transfer clearance where applicable. ECDE applicants may also need an immunisation booklet.</p></li><li><h3>Meet the admissions team</h3><p>The school will guide you through an age-appropriate placement interaction and answer your questions.</p></li><li><h3>Confirm the next step</h3><p>Following assessment, the school will explain the admission decision and any instructions for securing a place.</p></li></ol>
+        <div className="fees-note"><h3>Fees & practical arrangements</h3><p>Fee information is shared directly with families. Contact the school for the current fee structure, payment instructions, transport arrangements and other questions.</p><Link href="/contact?subject=Fee%20structure%20enquiry#contact-form" className="text-link">Request fee information </Link></div>
+        {admissionDownloads.length > 0 && <div className="admission-downloads"><h3>Useful documents</h3>{admissionDownloads.map(item => <a key={item.id} href={item.url} target="_blank" rel="noreferrer">{item.title} <span>{item.fileType} · {item.fileSize}</span></a>)}</div>}
+      </aside>
     </div>
-  );
+  </section></div>;
+}
+export default function Admissions() {
+  return <Suspense fallback={<div className="container-shell section-space">Loading admissions…</div>}><AdmissionContent /></Suspense>;
 }

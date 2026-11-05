@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import sanitizeHtml from "sanitize-html";
 
 const ORIGIN = "https://creativeallstarsacademy.sc.ke";
+const FETCH_ORIGIN = process.env.KNOWLEDGE_FETCH_ORIGIN || ORIGIN;
 const OUTPUT = new URL("../knowledge/live-site.json", import.meta.url);
 const SITEMAP = `${ORIGIN}/sitemap.xml`;
 const MAX_PAGE_CHARACTERS = 50_000;
@@ -23,9 +24,10 @@ function normalizeText(value) {
 }
 
 async function fetchText(url, attempt = 1) {
-  const response = await fetch(url, {
+  const fetchUrl = url.startsWith(ORIGIN) ? `${FETCH_ORIGIN}${url.slice(ORIGIN.length)}` : url;
+  const response = await fetch(fetchUrl, {
     headers: { "user-agent": "CASAKnowledgeBuilder/1.0 (+https://creativeallstarsacademy.sc.ke)" },
-    signal: AbortSignal.timeout(30_000),
+    signal: AbortSignal.timeout(FETCH_ORIGIN === ORIGIN ? 30_000 : 60_000),
   });
   if (!response.ok) {
     if (attempt < 3 && response.status >= 500) return fetchText(url, attempt + 1);
@@ -97,7 +99,7 @@ async function mapWithConcurrency(items, concurrency, mapper) {
 }
 
 const urls = await discoverPages();
-const sources = await mapWithConcurrency(urls, 4, async (url) => {
+const sources = await mapWithConcurrency(urls, FETCH_ORIGIN === ORIGIN ? 4 : 2, async (url) => {
   const html = await fetchText(url);
   const title = pageTitle(html, url);
   const description = pageDescription(html);

@@ -1,89 +1,21 @@
 'use client';
 
-import { Download, Shirt } from 'lucide-react';
+import Link from 'next/link';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
+import { PageIntro } from '@/components/PageIntro';
 import { FAQAccordion } from '@/components/FAQAccordion';
 import { uniformSections } from '@/lib/verified-school-content';
 
 export default function ParentsCorner() {
   const { downloads, faqs } = useApp();
   const orderedDownloads = [...downloads].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-
-  return (
-    <div className="pb-24">
-       <Breadcrumbs items={[{ name: 'Parents Corner' }]} />
-
-      {orderedDownloads.length > 0 && (
-        <section className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            as="h1"
-            title="School Documents and Parent Resources"
-            subtitle="Download the current files published by the school administration."
-            badge="Downloads Centre"
-          />
-          <div className="grid grid-cols-1 gap-4 min-[520px]:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {orderedDownloads.map((item) => (
-              <div key={item.id} className="flex flex-col justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:rounded-3xl sm:p-6">
-                <div className="space-y-4">
-                  <span className="inline-block rounded-lg bg-blue-50 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-blue-600">{item.category}</span>
-                  <h3 className="text-sm font-extrabold leading-snug text-blue-950 md:text-base">{item.title}</h3>
-                </div>
-                <div className="mt-6 flex items-center justify-between border-t border-gray-50 pt-4">
-                  <span className="text-[10px] font-bold uppercase text-gray-400">{item.fileType} · {item.fileSize}</span>
-                  <a href={item.url} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 rounded-xl bg-blue-600 px-4 py-2 text-xs font-extrabold text-white transition-colors hover:bg-blue-700">
-                    <Download className="h-3.5 w-3.5" /> Download
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section className={`border-y border-gray-100 bg-gray-100/50 ${orderedDownloads.length > 0 ? 'mt-16 py-16 sm:mt-20' : 'mt-6 py-8 sm:mt-8 sm:py-12'}`}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeader
-            as={orderedDownloads.length > 0 ? 'h2' : 'h1'}
-            title="Official School Uniform"
-            subtitle="Use this guide when purchasing ECDE, Primary and Junior School uniform."
-            badge="Uniform Guide"
-          />
-
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {uniformSections.map((section) => (
-              <article key={section.title} className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm sm:rounded-3xl sm:p-6">
-                <div className="flex items-center gap-2">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-blue-700"><Shirt className="h-5 w-5" /></span>
-                  <h3 className="text-base font-black text-blue-950">{section.title}</h3>
-                </div>
-                <ul className="mt-5 space-y-2">
-                  {section.items.map((item) => (
-                    <li key={item} className="flex items-start gap-2 text-sm leading-5 text-gray-600">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#d50b12]" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-6 rounded-2xl border border-yellow-200 bg-yellow-50 p-5 text-center">
-            <p className="text-sm font-extrabold text-blue-950">All official school uniforms are available from Woolshop.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto mt-16 max-w-7xl px-4 sm:mt-20 sm:px-6 lg:px-8">
-        <SectionHeader
-          title="Frequently Asked Questions"
-          subtitle="Quick answers about admissions, learning, activities and parent support."
-          badge="Parent Information"
-        />
-        <FAQAccordion items={faqs} />
-      </section>
-    </div>
-  );
+  return <div className="public-page"><Breadcrumbs items={[{ name: 'For parents' }]} /><section className="container-shell">
+    <PageIntro eyebrow="Our school, together" title="The everyday details, all in one place."><p>Uniform guidance, school documents and answers to common questions, to make the school day a little easier.</p></PageIntro>
+    <nav className="parent-jump-links" aria-label="Parent resources"><a href="#uniform">Uniform guide</a><a href="#questions">Common questions</a>{orderedDownloads.length > 0 && <a href="#documents">School documents</a>}</nav>
+    {orderedDownloads.length > 0 && <section id="documents" className="parent-resource-section"><p className="eyebrow">From the school office</p><h2 className="section-title">Documents & resources.</h2><div className="document-list">{orderedDownloads.map(item => <a key={item.id} href={item.url} target="_blank" rel="noreferrer"><div><span>{item.category}</span><h3>{item.title}</h3></div><span>Download {item.fileType} · {item.fileSize} </span></a>)}</div></section>}
+    <section id="uniform" className="parent-resource-section"><p className="eyebrow">Ready for the school day</p><h2 className="section-title">The school uniform guide.</h2><p className="resource-copy">Choose your child’s school section below. All official uniforms are available from Woolshop; confirm sizing, stock and supplier directions with our school team.</p><div className="uniform-list">{uniformSections.map(section => <details key={section.title}><summary>{section.title}</summary><ul>{section.items.map(item => <li key={item}>{item}</li>)}</ul></details>)}</div></section>
+    <section id="questions" className="parent-resource-section"><p className="eyebrow">A little guidance</p><h2 className="section-title">Common questions.</h2><FAQAccordion items={faqs} /></section>
+    <div className="quiet-callout"><div><h2>Need a little more information?</h2><p>For current fees, transport, meals, collection arrangements or learning support, our team can explain the details directly.</p></div><Link href="/contact#contact-form" className="button button-primary">Contact our team</Link></div>
+  </section></div>;
 }

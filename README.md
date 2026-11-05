@@ -106,6 +106,14 @@ npm run check:cloudflare
 
 ## Operational boundaries
 
+The public learning directory has five stages defined in `lib/learning-stages.ts`: Playgroup, Pre-primary, Lower Primary, Upper Primary and Junior School. The ten individual class records stay in the CMS for teacher assignments and class-specific learning content. Old class URLs permanently redirect to the appropriate stage and class anchor. Class enquiry links preselect the exact grade.
+
+Fee structures are shared directly with families. Do not publish fee documents or payment instructions in public downloads. Public contact links and search data use the director-confirmed number `+254114813030`. Generic social platform homepages are hidden until real school profile URLs are supplied.
+
+Large JPEG, PNG and WebP images are reduced to a maximum dimension of 1920px and compressed to WebP before new administrator uploads, when the browser supports it and the result is smaller. Existing media is preserved. Public photographs continue to come from the CMS; the homepage does not present external stock gallery records as school photographs.
+
+For a knowledge snapshot of a local preview, set `KNOWLEDGE_FETCH_ORIGIN` to its local origin before `npm run knowledge:build`. Source URLs in the generated file remain canonical production URLs. Regenerate this snapshot after changes to public pages or routes.
+
 The dashboard manages website stories, events, staff profiles, website visuals, downloads, vacancies and incoming enquiries. It deliberately does not manage learners, attendance, grades, fees, payroll or academic records.
 
 The Website analytics section remains safely unconfigured until both `CLOUDFLARE_ZONE_ID` and the `CLOUDFLARE_ANALYTICS_TOKEN` Worker secret are set. Analytics are queried server-side and the token is never sent to the browser.

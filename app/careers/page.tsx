@@ -1,63 +1,16 @@
 'use client';
 
-import React from 'react';
 import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { SectionHeader } from '@/components/SectionHeader';
+import { PageIntro } from '@/components/PageIntro';
 import { JobCard } from '@/components/JobCard';
-import { Mail } from 'lucide-react';
 import { isJobOpen } from '@/lib/jobs';
 
 export default function Careers() {
-  const { jobs } = useApp();
-  const activeJobs = jobs.filter((job) => isJobOpen(job));
-
-  return (
-    <div className="pb-24">
-       <Breadcrumbs items={[{ name: 'Careers' }]} />
-
-      {/* Main jobs listing section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-10">
-        <SectionHeader
-          as="h1"
-          title="Explore Our Active Openings & Support Positions"
-          subtitle="Review the requirements listed for each current vacancy and submit the requested application documents."
-          badge="VETTED CAREERS"
-        />
-
-        <div className="space-y-6">
-          {activeJobs.map((job) => (
-            <JobCard key={job.id} job={job} />
-          ))}
-        </div>
-
-        {activeJobs.length === 0 && (
-          <div className="text-center py-20 bg-white border border-gray-100 rounded-3xl max-w-xl mx-auto space-y-4">
-            <span className="text-4xl">💼</span>
-            <h4 className="font-black text-blue-950 text-lg">No openings right now</h4>
-            <p className="text-gray-500 text-sm leading-relaxed">Our faculty block is currently full. Stay updated by bookmarking this page or dropping your CV at our Ngata office.</p>
-          </div>
-        )}
-      </section>
-
-      {/* General career notice */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-        <div className="bg-blue-50/50 p-6 md:p-8 rounded-3xl border border-blue-100 flex flex-col md:flex-row md:items-center justify-between gap-6 text-xs font-semibold">
-          <div className="space-y-2 max-w-xl">
-            <h4 className="font-extrabold text-blue-950 text-base">Spontaneous Applications</h4>
-            <p className="text-gray-600 leading-relaxed">
-              Don&apos;t see a position that matches your exact profile? Send your resume, cover letter, and copies of your TSC credentials spontaneously to our recruitment email. We evaluate top performers termly.
-            </p>
-          </div>
-          <a
-            href="mailto:info@creativeallstarsacademy.sc.ke"
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-center flex items-center justify-center gap-1.5 transition-all"
-          >
-            <Mail className="w-4 h-4" />
-            Email Recruitment Desk
-          </a>
-        </div>
-      </section>
-    </div>
-  );
+  const { jobs, settings } = useApp();
+  const activeJobs = jobs.filter(job => isJobOpen(job));
+  return <div className="public-page"><Breadcrumbs items={[{ name: 'Careers' }]} /><section className="container-shell"><PageIntro eyebrow="Grow with our community" title="Help shape their next chapter."><p>Explore opportunities to join the teaching and support team at Creative All Stars Academy.</p></PageIntro>
+    <div className="space-y-6">{activeJobs.map(job => <JobCard key={job.id} job={job} />)}</div>{activeJobs.length === 0 && <div className="empty-state"><h2>No openings at the moment.</h2><p>Current vacancies will be published here when available.</p></div>}
+    <div className="quiet-callout"><div><h2>Interested in working with us?</h2><p>Contact our school team to ask about future opportunities and the documents required for your role.</p></div><a href={`mailto:${settings.email}?subject=Career%20enquiry`} className="button button-primary">Email the school</a></div>
+  </section></div>;
 }
