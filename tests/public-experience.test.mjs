@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { learningStages, findLearningStage, admissionGradeFromQuery } from '../lib/learning-stages.ts';
-import { uniqueTeachers, schoolSocialLinks, officialPhone } from '../lib/public-content.ts';
+import { uniqueTeachers, schoolSocialLinks, officialPhone, schoolPhone, safeWebsiteHref } from '../lib/public-content.ts';
 
 test('five learning stages cover all ten existing classes exactly once', () => {
   assert.equal(learningStages.length, 5);
@@ -41,4 +41,15 @@ test('generic platform homepages are hidden while actual school profile links re
   const links = schoolSocialLinks({ facebook: 'https://facebook.com/creativeallstars', twitter: '', instagram: '', youtube: 'https://youtube.com/@creativeallstars' });
   assert.deepEqual(links.map(link => link.name), ['Facebook', 'YouTube']);
   assert.equal(officialPhone, '+254114813030');
+});
+
+test('administrator contact changes stay usable while the official number remains the default', () => {
+  assert.deepEqual(schoolPhone(''), { href: '+254114813030', display: '+254 114 813 030' });
+  assert.deepEqual(schoolPhone('254-1148-13-030'), { href: '+254114813030', display: '+254 114 813 030' });
+  assert.deepEqual(schoolPhone('+254 700 000 000'), { href: '+254700000000', display: '+254 700 000 000' });
+});
+
+test('hero button links accept real destinations and reject executable schemes', () => {
+  for (const href of ['/admissions#enquiry', '/classes/pre-primary', 'https://example.com/school', 'mailto:office@example.com', 'tel:+254114813030']) assert.equal(safeWebsiteHref(href), href);
+  for (const href of ['javascript:alert(1)', 'data:text/html,test', '//example.com', '', 'not a link']) assert.equal(safeWebsiteHref(href), undefined);
 });

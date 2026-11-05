@@ -106,9 +106,11 @@ npm run check:cloudflare
 
 ## Operational boundaries
 
+Administrator-to-public content connections are documented in [docs/cms-controls.md](docs/cms-controls.md). The background hero carousel uses every published CMS slide and its own image, headings, description and button; the homepage event announcement follows the event’s popup setting. Preserve these connections when styling the public pages.
+
 The public learning directory has five stages defined in `lib/learning-stages.ts`: Playgroup, Pre-primary, Lower Primary, Upper Primary and Junior School. The ten individual class records stay in the CMS for teacher assignments and class-specific learning content. Old class URLs permanently redirect to the appropriate stage and class anchor. Class enquiry links preselect the exact grade.
 
-Fee structures are shared directly with families. Do not publish fee documents or payment instructions in public downloads. Public contact links and search data use the director-confirmed number `+254114813030`. Generic social platform homepages are hidden until real school profile URLs are supplied.
+Fee structures are shared directly with families. Do not publish fee documents or payment instructions in public downloads. The default telephone is the director-confirmed `+254114813030`; public contact links, the motto and search contact data read the current CMS settings. Generic social platform homepages are hidden until real school profile URLs are supplied.
 
 Large JPEG, PNG and WebP images are reduced to a maximum dimension of 1920px and compressed to WebP before new administrator uploads, when the browser supports it and the result is smaller. Existing media is preserved. Public photographs continue to come from the CMS; the homepage does not present external stock gallery records as school photographs.
 

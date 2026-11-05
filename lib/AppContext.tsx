@@ -9,6 +9,7 @@ import type {
 } from '@/types';
 import { schoolFaqs as initialFaqs } from '@/lib/verified-school-content';
 import { prepareImageForUpload } from '@/lib/prepare-image';
+import { schoolPhone } from '@/lib/public-content';
 import {
   defaultPublicContent,
   type ContentCollection,
@@ -107,7 +108,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode; initialContent?:
   const [admissions, setAdmissions] = useState<AdmissionApplication[]>([]);
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [settings, setSettings] = useState<SchoolSettings>(initialContent.settings);
-  const [faqs] = useState<FAQ[]>(initialFaqs);
+  const faqs: FAQ[] = initialFaqs.map(item => item.id === 'f3' ? {
+    ...item,
+    answer: `Fee information is shared directly with families. Please call ${schoolPhone(settings.phone).display} or send a message through our Contact page to request the current fee structure and payment instructions.`,
+  } : item);
 
   useEffect(() => {
     let active = true;

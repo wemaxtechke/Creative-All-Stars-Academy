@@ -3,6 +3,22 @@ import type { Teacher } from '@/types';
 export const officialPhone = '+254114813030';
 export const displayPhone = '+254 114 813 030';
 
+export function schoolPhone(value?: string) {
+  const phone = value?.trim() || officialPhone;
+  const digits = phone.replace(/[^\d+]/g, '');
+  const href = digits.startsWith('254') ? `+${digits}` : digits;
+  return { href: href || officialPhone, display: href === officialPhone ? displayPhone : phone };
+}
+
+export function safeWebsiteHref(value: string): string | undefined {
+  const href = value.trim();
+  if (/^\/(?!\/)/.test(href) || /^#[\w-]+$/.test(href)) return href;
+  try {
+    const url = new URL(href);
+    return ['https:', 'http:', 'mailto:', 'tel:'].includes(url.protocol) ? href : undefined;
+  } catch { return undefined; }
+}
+
 const teacherAliases: Record<string, string> = { viola: 'viola minayo' };
 
 export function teacherIdentity(name: string): string {

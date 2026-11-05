@@ -21,8 +21,8 @@ export function Navbar() {
   return <header className="public-header sticky top-0 z-[100] isolate border-slate-200 bg-white">
     <div className="container-shell public-header-inner">
       <Link href="/" className="school-brand" onClick={() => setOpen(false)} aria-label={`${settings.schoolName} home`}>
-        {logo && <Image src={logo.url} alt="" width={52} height={52} priority className="school-logo" />}
-        <span><strong>{settings.schoolName}</strong><small>Endeavour to Succeed</small></span>
+        {logo ? <Image src={logo.url} alt="" width={52} height={52} priority className="school-logo" /> : <span className="school-logo-text" aria-hidden="true">{settings.logoText}</span>}
+        <span><strong>{settings.schoolName}</strong><small>{settings.tagline}</small></span>
       </Link>
       <nav aria-label="Main navigation" className="desktop-navigation">
         {links.map(link => <Link key={link.href} href={link.href} aria-current={pathname === link.href || pathname.startsWith(`${link.href}/`) ? 'page' : undefined}>{link.name}</Link>)}

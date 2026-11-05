@@ -227,13 +227,16 @@ test('contact page embeds the administrator-controlled Google Maps location', as
 });
 
 test('homepage hero has no bottom wave and remains below the sticky public navigation', async () => {
+  const home = await read('app/page.tsx');
   const navbar = await read('components/Navbar.tsx');
-  const showcase = await read('components/ActivityShowcase.tsx');
+  const showcase = await read('components/HomeHeroSlider.tsx');
 
   assert.match(navbar, /sticky top-0 z-\[100\] isolate/);
   assert.match(navbar, /border-slate-200 bg-white/);
   assert.match(showcase, /relative isolate overflow-hidden/);
   assert.doesNotMatch(showcase, /HeroThemeWaves|hero-theme-waves/);
+  assert.match(home, /<HomeHeroSlider\s*\/>/);
+  assert.match(home, /<EventPopup\s*\/>/);
 });
 
 test('past events are hidden publicly and surfaced to administrators for deletion', async () => {

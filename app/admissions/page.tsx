@@ -8,12 +8,13 @@ import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { PageIntro } from '@/components/PageIntro';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
 import { admissionGradeFromQuery, admissionGrades } from '@/lib/learning-stages';
-import { displayPhone, officialPhone } from '@/lib/public-content';
+import { schoolPhone } from '@/lib/public-content';
 import { useHydrated } from '@/lib/use-hydrated';
 
 function AdmissionContent() {
   const hydrated = useHydrated();
-  const { addAdmissionApplication, downloads } = useApp();
+  const { addAdmissionApplication, downloads, settings } = useApp();
+  const phone = schoolPhone(settings.phone);
   const params = useSearchParams();
   const [formData, setFormData] = useState({ studentName: '', gradeApplied: admissionGradeFromQuery(params.get('class')), parentName: '', parentEmail: '', parentPhone: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -55,7 +56,7 @@ function AdmissionContent() {
             <div className="form-field"><label htmlFor="parentEmail">Email address <span>(optional)</span></label><input id="parentEmail" type="email" name="parentEmail" value={formData.parentEmail} onChange={change} maxLength={200} autoComplete="email" /></div>
             <label className="consent-field"><input type="checkbox" checked={acceptedPrivacy} onChange={event => setAcceptedPrivacy(event.target.checked)} required /><span>I agree that the school may use these details to respond to my enquiry. <Link href="/privacy">Read our privacy notice.</Link></span></label>
             <TurnstileWidget onToken={setTurnstileToken} />
-            <p className="form-note">If the security check does not load, call <a href={`tel:${officialPhone}`}>{displayPhone}</a>.</p>
+            <p className="form-note">If the security check does not load, call <a href={`tel:${phone.href}`}>{phone.display}</a>.</p>
             <button type="submit" className="button button-primary" disabled={submitting || !acceptedPrivacy || (process.env.NODE_ENV === 'production' && !turnstileToken)}>{submitting ? 'Sending your enquiry…' : 'Send admission enquiry'}</button>
           </fieldset>
         </form>}

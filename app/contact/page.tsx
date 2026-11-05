@@ -7,12 +7,13 @@ import { useApp } from '@/lib/AppContext';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { PageIntro } from '@/components/PageIntro';
 import { TurnstileWidget } from '@/components/TurnstileWidget';
-import { displayPhone, officialPhone } from '@/lib/public-content';
+import { schoolPhone } from '@/lib/public-content';
 import { useHydrated } from '@/lib/use-hydrated';
 
 function ContactContent() {
   const hydrated = useHydrated();
   const { addContactMessage, settings } = useApp();
+  const phone = schoolPhone(settings.phone);
   const params = useSearchParams();
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: (params.get('subject') || '').slice(0, 200), message: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -30,9 +31,9 @@ function ContactContent() {
     finally { setSubmitting(false); }
   }
   return <div className="public-page"><Breadcrumbs items={[{ name: 'Contact' }]} /><section className="container-shell">
-    <PageIntro eyebrow="Here to help" title="A conversation is a good place to start."><p>Questions about learning, admissions or school life? Get in touch with our team in Ngata, Nakuru.</p><div className="button-row mt-5"><a href={`tel:${officialPhone}`} className="text-link">Call {displayPhone}</a><a href={`mailto:${settings.email}`} className="text-link">Email our team</a></div></PageIntro>
+    <PageIntro eyebrow="Here to help" title="A conversation is a good place to start."><p>Questions about learning, admissions or school life? Get in touch with our team in Ngata, Nakuru.</p><div className="button-row mt-5"><a href={`tel:${phone.href}`} className="text-link">Call {phone.display}</a><a href={`mailto:${settings.email}`} className="text-link">Email our team</a></div></PageIntro>
     <div className="contact-layout">
-      <div className="contact-details"><div><p className="eyebrow">Call our school</p><a className="contact-number" href={`tel:${officialPhone}`}>{displayPhone}</a></div><div><p className="eyebrow">Email us</p><a href={`mailto:${settings.email}`}>{settings.email}</a></div><div><p className="eyebrow">Find us</p><p>{settings.address}</p><a className="text-link" href={settings.mapUrl} target="_blank" rel="noreferrer">Open in Google Maps </a></div><div><p className="eyebrow">Office hours</p><p>{settings.officeHours}</p></div><p className="contact-response-note">Messages are reviewed during office hours. For a time-sensitive question, please call us.</p></div>
+      <div className="contact-details"><div><p className="eyebrow">Call our school</p><a className="contact-number" href={`tel:${phone.href}`}>{phone.display}</a></div><div><p className="eyebrow">Email us</p><a href={`mailto:${settings.email}`}>{settings.email}</a></div><div><p className="eyebrow">Find us</p><p>{settings.address}</p><a className="text-link" href={settings.mapUrl} target="_blank" rel="noreferrer">Open in Google Maps </a></div><div><p className="eyebrow">Office hours</p><p>{settings.officeHours}</p></div><p className="contact-response-note">Messages are reviewed during office hours. For a time-sensitive question, please call us.</p></div>
       <div id="contact-form" className="enquiry-panel">{submitted ? <div role="status" className="submission-success"><p className="eyebrow">Message received</p><h2>Thank you for getting in touch.</h2><p>Our school team will review your message and respond using the details you provided during office hours.</p><button type="button" className="button button-primary" onClick={() => { setSubmitted(false); setFormData({ name: '', email: '', phone: '', subject: '', message: '' }); }}>Send another message</button></div> : <form method="post" onSubmit={submit} aria-labelledby="contact-title" aria-busy={submitting}><h2 id="contact-title">Send us a message.</h2><p className="form-note">Fields marked * are required.</p>{error && <p role="alert" className="form-error">{error}</p>}<fieldset disabled={submitting || !hydrated}>
         <div className="form-field"><label htmlFor="contact-name">Your name *</label><input id="contact-name" name="name" value={formData.name} onChange={change} maxLength={200} autoComplete="name" required /></div>
         <div className="form-field"><label htmlFor="contact-email">Email address *</label><input id="contact-email" name="email" type="email" value={formData.email} onChange={change} maxLength={200} autoComplete="email" required /></div>
