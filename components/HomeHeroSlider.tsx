@@ -8,10 +8,16 @@ import { useApp } from '@/lib/AppContext';
 import { safeWebsiteHref } from '@/lib/public-content';
 
 const SLIDE_DURATION = 9000;
+const slideAnimation = {
+  enter: (direction: number) => ({ opacity: 0, x: direction * 40, scale: 1.02 }),
+  visible: { opacity: 1, x: 0, scale: 1 },
+  exit: (direction: number) => ({ opacity: 0, x: direction * -40, scale: 1.02 }),
+};
 
 export function HomeHeroSlider() {
   const { heroSlides, settings } = useApp();
   const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [playback, setPlayback] = useState<'auto' | 'playing' | 'paused'>('auto');
   const [keyboardFocused, setKeyboardFocused] = useState(false);
   const reduceMotion = useReducedMotion();
@@ -23,11 +29,15 @@ export function HomeHeroSlider() {
 
   useEffect(() => {
     if (!shouldRotate) return;
-    const timer = window.setTimeout(() => setActive(value => (value + 1) % heroSlides.length), SLIDE_DURATION);
+    const timer = window.setTimeout(() => {
+      setDirection(1);
+      setActive(value => (value + 1) % heroSlides.length);
+    }, SLIDE_DURATION);
     return () => window.clearTimeout(timer);
   }, [active, heroSlides.length, shouldRotate]);
 
   function move(step: number) {
+    setDirection(step < 0 ? -1 : 1);
     setActive(value => (value + step + heroSlides.length) % heroSlides.length);
   }
 
@@ -35,8 +45,8 @@ export function HomeHeroSlider() {
     onPointerDownCapture={() => setKeyboardFocused(false)}
     onFocusCapture={event => setKeyboardFocused(event.target.matches(':focus-visible'))}
     onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardFocused(false); }}>
-    <AnimatePresence initial={false}>
-      {slide?.image && <motion.div key={slide.id} className="cms-hero-background" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .9 }}>
+    <AnimatePresence initial={false} custom={direction}>
+      {slide?.image && <motion.div key={slide.id} custom={direction} variants={slideAnimation} className="cms-hero-background" initial={reduceMotion ? false : 'enter'} animate="visible" exit={reduceMotion ? { opacity: 0 } : 'exit'} transition={{ duration: reduceMotion ? 0 : .75, ease: 'easeInOut' }}>
         <Image src={slide.image} alt={slide.alt} fill priority={index === 0} sizes="100vw" className="object-cover" />
       </motion.div>}
     </AnimatePresence>
@@ -55,7 +65,7 @@ export function HomeHeroSlider() {
     <div className="container-shell cms-hero-footer"><p>{settings.address}<span>{settings.tagline}</span></p>
       {heroSlides.length > 1 && <div className="hero-controls" aria-label="School highlights controls">
         <button type="button" onClick={() => move(-1)} aria-label="Previous school highlight">Previous</button>
-        <div className="hero-slide-buttons">{heroSlides.map((item, itemIndex) => <button type="button" key={item.id} onClick={() => setActive(itemIndex)} aria-label={`Show slide ${itemIndex + 1}: ${item.title || item.alt}`} aria-pressed={index === itemIndex}>{String(itemIndex + 1).padStart(2, '0')}</button>)}</div>
+        <div className="hero-slide-buttons">{heroSlides.map((item, itemIndex) => <button type="button" key={item.id} onClick={() => { setDirection(itemIndex < index ? -1 : 1); setActive(itemIndex); }} aria-label={`Show slide ${itemIndex + 1}: ${item.title || item.alt}`} aria-pressed={index === itemIndex}>{String(itemIndex + 1).padStart(2, '0')}</button>)}</div>
         <button type="button" onClick={() => move(1)} aria-label="Next school highlight">Next</button>
         <button type="button" className="hero-playback" onClick={() => { setPlayback(rotationEnabled ? 'paused' : 'playing'); setKeyboardFocused(false); }} aria-label={rotationEnabled ? 'Pause slideshow' : 'Play slideshow'}>{rotationEnabled ? 'Pause' : 'Play'}</button>
       </div>}

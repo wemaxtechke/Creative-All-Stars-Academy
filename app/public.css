@@ -417,7 +417,7 @@ body { background: var(--paper); }
   .learning-stage-card > p:not(.stage-levels) { margin-top: 12px; font-size: .85rem; }
   .stage-link { margin-top: 20px; padding-top: 16px; font-size: .75rem; }
   .mobile-stage-hint { display: block; margin-bottom: 14px; color: var(--muted); font-size: .75rem; }
-  .home-learning-stage-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 86%; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding-bottom: 12px; border: 0; border-radius: 0; scrollbar-width: thin; scrollbar-color: var(--gold) var(--line); }
+  .home-learning-stage-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 86%; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; padding-bottom: 12px; border: 0; border-radius: 0; scrollbar-width: thin; scrollbar-color: var(--gold) var(--line); }
   .home-learning-stage-grid > .learning-stage-card { border: 1px solid var(--line); border-radius: 5px; scroll-snap-align: start; }
   .purpose-section { padding-block: 55px; }
   .purpose-layout { grid-template-columns: 1fr; gap: 30px; }
@@ -471,4 +471,7 @@ body { background: var(--paper); }
   .school-brand small { font-size: .38rem; }
   .school-logo { width: 32px; }
   .button { padding-inline: 18px; font-size: .75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-learning-stage-grid { scroll-behavior: auto; }
 }
