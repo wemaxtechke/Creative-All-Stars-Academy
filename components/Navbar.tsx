@@ -28,7 +28,7 @@ export function Navbar() {
         {links.map(link => <Link key={link.href} href={link.href} aria-current={pathname === link.href || pathname.startsWith(`${link.href}/`) ? 'page' : undefined}>{link.name}</Link>)}
       </nav>
       <Link href="/admissions#enquiry" className="button button-primary header-enquiry">Enquire now</Link>
-      <button type="button" className="menu-toggle" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Menu'}<span aria-hidden="true">{open ? '−' : '+'}</span></button>
+      <button type="button" className="menu-toggle" aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(value => !value)}>{open ? 'Close' : 'Menu'}<span className="menu-toggle-icon" aria-hidden="true"><span /><span /><span /></span></button>
     </div>
     {open && <nav id="mobile-navigation" className="mobile-navigation container-shell" aria-label="Mobile navigation" onKeyDown={event => { if (event.key === 'Escape') setOpen(false); }}>
       {[...links, { name: 'Activities', href: '/co-curricular' }, { name: 'News & stories', href: '/blog' }, { name: 'Events', href: '/events' }].map(link => <Link key={link.href} href={link.href} onClick={() => setOpen(false)} aria-current={pathname === link.href ? 'page' : undefined}>{link.name}</Link>)}
