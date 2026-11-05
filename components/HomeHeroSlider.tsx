@@ -13,11 +13,10 @@ export function HomeHeroSlider() {
   const { heroSlides, settings } = useApp();
   const [active, setActive] = useState(0);
   const [playback, setPlayback] = useState<'auto' | 'playing' | 'paused'>('auto');
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
+  const [keyboardFocused, setKeyboardFocused] = useState(false);
   const reduceMotion = useReducedMotion();
   const rotationEnabled = playback === 'playing' || (playback === 'auto' && !reduceMotion);
-  const shouldRotate = rotationEnabled && !hovered && !focused && heroSlides.length > 1;
+  const shouldRotate = rotationEnabled && !keyboardFocused && heroSlides.length > 1;
   const index = active % Math.max(1, heroSlides.length);
   const slide = heroSlides[index];
   const primaryHref = slide?.primaryHref && safeWebsiteHref(slide.primaryHref);
@@ -33,8 +32,9 @@ export function HomeHeroSlider() {
   }
 
   return <section className="cms-hero relative isolate overflow-hidden" aria-label="Creative All Stars Academy highlights" aria-roledescription={heroSlides.length > 1 ? 'carousel' : undefined}
-    onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-    onFocusCapture={() => setFocused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
+    onPointerDownCapture={() => setKeyboardFocused(false)}
+    onFocusCapture={event => setKeyboardFocused(event.target.matches(':focus-visible'))}
+    onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardFocused(false); }}>
     <AnimatePresence initial={false}>
       {slide?.image && <motion.div key={slide.id} className="cms-hero-background" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduceMotion ? 0 : .9 }}>
         <Image src={slide.image} alt={slide.alt} fill priority={index === 0} sizes="100vw" className="object-cover" />
@@ -57,7 +57,7 @@ export function HomeHeroSlider() {
         <button type="button" onClick={() => move(-1)} aria-label="Previous school highlight">Previous</button>
         <div className="hero-slide-buttons">{heroSlides.map((item, itemIndex) => <button type="button" key={item.id} onClick={() => setActive(itemIndex)} aria-label={`Show slide ${itemIndex + 1}: ${item.title || item.alt}`} aria-pressed={index === itemIndex}>{String(itemIndex + 1).padStart(2, '0')}</button>)}</div>
         <button type="button" onClick={() => move(1)} aria-label="Next school highlight">Next</button>
-        <button type="button" className="hero-playback" onClick={() => setPlayback(rotationEnabled ? 'paused' : 'playing')} aria-label={rotationEnabled ? 'Pause slideshow' : 'Play slideshow'}>{rotationEnabled ? 'Pause' : 'Play'}</button>
+        <button type="button" className="hero-playback" onClick={() => { setPlayback(rotationEnabled ? 'paused' : 'playing'); setKeyboardFocused(false); }} aria-label={rotationEnabled ? 'Pause slideshow' : 'Play slideshow'}>{rotationEnabled ? 'Pause' : 'Play'}</button>
       </div>}
     </div>
   </section>;

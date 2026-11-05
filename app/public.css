@@ -86,6 +86,7 @@ body { background: var(--paper); }
 .section-heading-row { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 38px; }
 .section-heading-row > p { max-width: 340px; color: var(--muted); font-size: .86rem; line-height: 1.8; }
 .learning-stage-grid { display: grid; grid-template-columns: repeat(5,1fr); border: 1px solid var(--line); border-radius: 5px; }
+.mobile-stage-hint { display: none; }
 .learning-stage-card { display: flex; min-width: 0; flex-direction: column; padding: 26px 21px; border-left: 1px solid var(--line); transition: background .2s; }
 .learning-stage-card:first-child { border-left: 0; }
 .learning-stage-card:hover { background: #f0f1eb; }
@@ -408,6 +409,9 @@ body { background: var(--paper); }
   .learning-stage-card h3 { font-size: 1.3rem; }
   .learning-stage-card > p:not(.stage-levels) { margin-top: 12px; font-size: .85rem; }
   .stage-link { margin-top: 20px; padding-top: 16px; font-size: .75rem; }
+  .mobile-stage-hint { display: block; margin-bottom: 14px; color: var(--muted); font-size: .75rem; }
+  .home-learning-stage-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 86%; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding-bottom: 12px; border: 0; border-radius: 0; scrollbar-width: thin; scrollbar-color: var(--gold) var(--line); }
+  .home-learning-stage-grid > .learning-stage-card { border: 1px solid var(--line); border-radius: 5px; scroll-snap-align: start; }
   .purpose-section { padding-block: 55px; }
   .purpose-layout { grid-template-columns: 1fr; gap: 30px; }
   .purpose-layout h2 { font-size: 2.7rem; }
