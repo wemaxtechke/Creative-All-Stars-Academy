@@ -15,6 +15,7 @@ body { background: var(--paper); }
 .site-splash img {
   width: clamp(11rem, 46vw, 14rem);
   height: auto;
+  transform: scale(.76);
   /* Follow the crest's gold edge and the three ribbons to expose the teal around it. */
   clip-path: polygon(
     49.36% 2.31%, 42.42% 3.03%, 35.01% 5.02%, 29.35% 7.58%, 23.84% 11.16%,
@@ -29,11 +30,17 @@ body { background: var(--paper); }
     80.54% 14.67%, 74.88% 9.81%, 70.18% 6.94%, 64.04% 4.39%, 58.53% 3.03%, 51.67% 2.31%
   );
 }
+.site-splash img[data-ready="true"] { animation: site-splash-zoom .36s cubic-bezier(.2,.7,.3,1) both; }
 .site-splash[data-loaded="true"] { opacity: 0; pointer-events: none; }
 body:has(:focus-visible) .site-splash { display: none; }
+@keyframes site-splash-zoom { to { transform: scale(1); } }
 @keyframes site-splash-timeout { to { visibility: hidden; } }
 @media (scripting: none) { .site-splash { display: none; } }
-@media (prefers-reduced-motion: reduce) { .site-splash { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .site-splash { transition: none; }
+  .site-splash img { transform: none; }
+  .site-splash img[data-ready="true"] { animation-duration: 0s; }
+}
 
 .editorial-title { color: var(--ink); font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.4rem, 4.7vw, 4.9rem); font-weight: 400; letter-spacing: -.045em; line-height: 1.08; text-wrap: balance; }
 .editorial-title em { color: #6c7868; font-weight: 400; }
