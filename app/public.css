@@ -1,6 +1,25 @@
 /* Public website: quiet surfaces, generous spacing and a restrained school identity. */
 :root { --paper: #faf9f6; --ink: #19323c; --muted: #626d70; --gold: #a58654; --line: #e4e3dc; }
 body { background: var(--paper); }
+
+.site-splash {
+  position: fixed;
+  z-index: 1500;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  animation: site-splash-timeout 5s step-end forwards;
+  transition: opacity .18s ease-out;
+}
+.site-splash img { width: clamp(8rem, 30vw, 12rem); height: auto; }
+.site-splash .school-logo-text { width: 8rem; height: 8rem; font-size: 1.5rem; }
+.site-splash[data-loaded="true"] { opacity: 0; pointer-events: none; }
+body:has(:focus-visible) .site-splash { display: none; }
+@keyframes site-splash-timeout { to { visibility: hidden; } }
+@media (scripting: none) { .site-splash { display: none; } }
+@media (prefers-reduced-motion: reduce) { .site-splash { transition: none; } }
+
 .editorial-title { color: var(--ink); font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.4rem, 4.7vw, 4.9rem); font-weight: 400; letter-spacing: -.045em; line-height: 1.08; text-wrap: balance; }
 .editorial-title em { color: #6c7868; font-weight: 400; }
 .section-title { margin-top: 15px; color: var(--ink); font-family: var(--font-heading), sans-serif; font-size: clamp(1.7rem, 3vw, 2.7rem); font-weight: 600; letter-spacing: -.045em; line-height: 1.2; }

@@ -6,6 +6,7 @@ import { AppProvider } from '@/lib/AppContext';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ChatWidget } from '@/components/ChatWidget';
+import { SiteSplash } from '@/components/SiteSplash';
 import { getPublicContent } from '@/lib/db/content';
 import { defaultPublicContent } from '@/lib/site-content';
 import { officialPhone, schoolPhone } from '@/lib/public-content';
@@ -56,7 +57,10 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return <html lang="en-KE">
     <body className={`${inter.variable} ${manrope.variable} antialiased bg-slate-50 text-slate-900`}>
       <a href="#main-content" className="skip-link">Skip to content</a>
-      <AppProvider initialContent={initialContent}><div className="flex min-h-screen min-w-0 flex-col"><Navbar/><main id="main-content" tabIndex={-1} className="site-main min-w-0 flex-grow">{children}</main><Footer/><ChatWidget/></div></AppProvider>
+      <AppProvider initialContent={initialContent}>
+        <SiteSplash />
+        <div className="flex min-h-screen min-w-0 flex-col"><Navbar/><main id="main-content" tabIndex={-1} className="site-main min-w-0 flex-grow">{children}</main><Footer/><ChatWidget/></div>
+      </AppProvider>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ ...schoolSchema, name: initialContent.settings.schoolName, email: initialContent.settings.email, telephone: schoolPhone(initialContent.settings.phone).href, slogan: initialContent.settings.tagline, address: { ...schoolSchema.address, streetAddress: initialContent.settings.address } }).replaceAll('<', '\\u003c') }} />
     </body>
   </html>;
