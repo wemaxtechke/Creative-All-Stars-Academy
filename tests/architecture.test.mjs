@@ -117,7 +117,7 @@ test('public website content images come only from CMS media records', async () 
   for (const path of paths) {
     let source = await read(path);
     if (path === 'components/SiteSplash.tsx') {
-      source = source.replace('src="/brand/creative-all-stars-academy-splash.webp"', '');
+      source = source.replace('src="/brand/creative-all-stars-academy-splash-full.webp"', '');
     }
     assert.doesNotMatch(source, /images\.unsplash\.com|["']\/images\/|["']\/brand\//, `${path} contains a static public image`);
   }

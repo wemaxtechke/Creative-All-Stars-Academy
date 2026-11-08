@@ -3,7 +3,6 @@
 body { background: var(--paper); }
 
 .site-splash {
-  --splash-logo-size: clamp(8rem, 30vw, 12rem);
   position: fixed;
   z-index: 1500;
   inset: 0;
@@ -13,15 +12,23 @@ body { background: var(--paper); }
   animation: site-splash-timeout 5s step-end forwards;
   transition: opacity .18s ease-out;
 }
-.site-splash::before, .site-splash img { grid-area: 1 / 1; width: var(--splash-logo-size); }
-.site-splash::before {
-  content: "";
-  aspect-ratio: 1;
-  /* Fill the oval inside the gold rim and stop at the ribbon. */
-  background: radial-gradient(ellipse 42.5% 44% at 50% 48%, #fff 99.5%, transparent 100%);
-  clip-path: inset(0 0 26%);
+.site-splash img {
+  width: clamp(11rem, 46vw, 14rem);
+  height: auto;
+  /* Follow the crest's gold edge and the three ribbons to expose the teal around it. */
+  clip-path: polygon(
+    49.36% 2.31%, 42.42% 3.03%, 35.01% 5.02%, 29.35% 7.58%, 23.84% 11.16%,
+    18.74% 15.71%, 14.04% 21.53%, 10.29% 28.07%, 8.21% 33.25%, 6.38% 40.51%,
+    5.66% 46.89%, 5.82% 53.59%, 6.94% 60.05%, 2.87% 61.08%, 4.23% 62.84%,
+    5.02% 64.83%, 4.94% 66.91%, 4.07% 69.30%, 9.89% 69.38%, 13.40% 76.24%,
+    4.55% 76.48%, 11.24% 82.93%, 4.55% 89.47%, 17.46% 89.71%, 17.46% 91.47%,
+    18.34% 92.26%, 81.90% 92.26%, 82.78% 91.47%, 82.78% 89.71%, 95.69% 89.47%,
+    88.92% 83.01%, 95.69% 76.48%, 86.76% 76.24%, 90.35% 68.98%, 96.25% 68.90%,
+    95.61% 64.91%, 96.09% 62.68%, 97.05% 60.93%, 92.98% 60.13%, 94.10% 53.43%,
+    94.18% 45.61%, 93.14% 38.36%, 91.31% 31.90%, 88.60% 25.76%, 85.09% 20.10%,
+    80.54% 14.67%, 74.88% 9.81%, 70.18% 6.94%, 64.04% 4.39%, 58.53% 3.03%, 51.67% 2.31%
+  );
 }
-.site-splash img { z-index: 1; height: auto; }
 .site-splash[data-loaded="true"] { opacity: 0; pointer-events: none; }
 body:has(:focus-visible) .site-splash { display: none; }
 @keyframes site-splash-timeout { to { visibility: hidden; } }

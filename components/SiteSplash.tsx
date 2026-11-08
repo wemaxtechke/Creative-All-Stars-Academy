@@ -29,7 +29,7 @@ export function SiteSplash() {
 
   return (
     <div className="site-splash" data-loaded={loaded} aria-hidden="true">
-      <Image src="/brand/creative-all-stars-academy-splash.webp" alt="" width={192} height={192} loading="eager" fetchPriority="high" />
+      <Image src="/brand/creative-all-stars-academy-splash-full.webp" alt="" width={224} height={224} loading="eager" fetchPriority="high" />
     </div>
   );
 }
