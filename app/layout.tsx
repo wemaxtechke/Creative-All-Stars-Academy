@@ -58,8 +58,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     <body className={`${inter.variable} ${manrope.variable} antialiased bg-slate-50 text-slate-900`}>
       <a href="#main-content" className="skip-link">Skip to content</a>
       <AppProvider initialContent={initialContent}>
-        <SiteSplash />
-        <div className="flex min-h-screen min-w-0 flex-col"><Navbar/><main id="main-content" tabIndex={-1} className="site-main min-w-0 flex-grow">{children}</main><Footer/><ChatWidget/></div>
+        <SiteSplash schoolName={initialContent.settings.schoolName} />
+        <div className="site-shell flex min-h-screen min-w-0 flex-col"><Navbar/><main id="main-content" tabIndex={-1} className="site-main min-w-0 flex-grow">{children}</main><Footer/><ChatWidget/></div>
       </AppProvider>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ ...schoolSchema, name: initialContent.settings.schoolName, email: initialContent.settings.email, telephone: schoolPhone(initialContent.settings.phone).href, slogan: initialContent.settings.tagline, address: { ...schoolSchema.address, streetAddress: initialContent.settings.address } }).replaceAll('<', '\\u003c') }} />
     </body>
