@@ -21,7 +21,7 @@ body { background: var(--paper); }
   background: radial-gradient(ellipse 42.5% 44% at 50% 48%, #fff 99.5%, transparent 100%);
   clip-path: inset(0 0 26%);
 }
-.site-splash img { height: auto; }
+.site-splash img { z-index: 1; height: auto; }
 .site-splash[data-loaded="true"] { opacity: 0; pointer-events: none; }
 body:has(:focus-visible) .site-splash { display: none; }
 @keyframes site-splash-timeout { to { visibility: hidden; } }
