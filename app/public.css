@@ -13,7 +13,6 @@ body { background: var(--paper); }
   transition: opacity .18s ease-out;
 }
 .site-splash img { width: clamp(8rem, 30vw, 12rem); height: auto; }
-.site-splash .school-logo-text { width: 8rem; height: 8rem; color: var(--paper); font-size: 1.5rem; }
 .site-splash[data-loaded="true"] { opacity: 0; pointer-events: none; }
 body:has(:focus-visible) .site-splash { display: none; }
 @keyframes site-splash-timeout { to { visibility: hidden; } }

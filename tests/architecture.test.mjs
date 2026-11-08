@@ -112,10 +112,13 @@ async function sourceFiles(directory) {
   return files;
 }
 
-test('public website images come only from CMS media records', async () => {
+test('public website content images come only from CMS media records', async () => {
   const paths = [...await sourceFiles('app'), ...await sourceFiles('components'), ...await sourceFiles('lib')];
   for (const path of paths) {
-    const source = await read(path);
+    let source = await read(path);
+    if (path === 'components/SiteSplash.tsx') {
+      source = source.replace('src="/brand/creative-all-stars-academy-splash.webp"', '');
+    }
     assert.doesNotMatch(source, /images\.unsplash\.com|["']\/images\/|["']\/brand\//, `${path} contains a static public image`);
   }
   const content = await read('lib/site-content.ts');

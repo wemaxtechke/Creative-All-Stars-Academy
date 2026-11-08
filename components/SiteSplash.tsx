@@ -3,12 +3,9 @@
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useApp } from '@/lib/AppContext';
 
 export function SiteSplash() {
   const pathname = usePathname();
-  const { getSiteImage, settings } = useApp();
-  const logo = getSiteImage('brand-logo');
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -32,7 +29,7 @@ export function SiteSplash() {
 
   return (
     <div className="site-splash" data-loaded={loaded} aria-hidden="true">
-      {logo ? <Image src={logo.url} alt="" width={192} height={192} loading="eager" fetchPriority="high" /> : <span className="school-logo-text">{settings.logoText}</span>}
+      <Image src="/brand/creative-all-stars-academy-splash.webp" alt="" width={192} height={192} loading="eager" fetchPriority="high" />
     </div>
   );
 }
